@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace ASample.NetCore.HttpClients
+namespace ASample.NetCore.Http
 {
     public class HttpRequestResult
     {

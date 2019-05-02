@@ -1,9 +1,36 @@
-﻿wx.config({
+﻿var wxconfig = "";
+var shareParam = {
+    shareConfig: {},
+    successCallback: null,
+
+};
+var paydata = { total_fee: "1", ProductName:"test", OrderCode: "210904301036", Openid: "" };
+
+$.ajax({
+    type:"get",
+    url: "http://localhost:37431/api/WeiXin/GetJsApiConfig",//"http://generalaviation.yntravelsky.net.cn/weixin/api/WeiXin/GetJsApiConfig",
+    dataType: "json",
+    async: false,
+    success: function (res) {
+        if (res)
+            wxconfig = JSON.parse(res);
+        else {
+            alert("返回结果为空");
+            return;
+        }
+
+    },
+    error: function (err) {
+        return err.responseJSON;
+    }
+});
+debugger
+wx.config({
     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    appId: 'wx7d12181144f041a7', // 必填，公众号的唯一标识
-    timestamp: '', // 必填，生成签名的时间戳
-    nonceStr: '', // 必填，生成签名的随机串
-    signature: '',// 必填，签名
+    appId: wxconfig.appId, // 必填，公众号的唯一标识
+    timestamp: wxconfig.timestamp, // 必填，生成签名的时间戳
+    nonceStr: wxconfig.nonceStr, // 必填，生成签名的随机串
+    signature: wxconfig.signature,// 必填，签名
     jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
 });
 
@@ -15,6 +42,14 @@ wx.checkJsApi({
     }
 });
 
+function weChatShare(jsonStr, successFunc) {
+    var json = JSON.parse(jsonStr);
+    shareParam.shareConfig["Title"] = json.Title;
+    shareParam.shareConfig["Desc"] = json.Desc;
+    shareParam.shareConfig["Link"] = json.Link;
+    shareParam.shareConfig["ImgUrl"] = json.ImgUrl;
+    shareParam.successCallback = successFunc;
+}
 /*
  * 注意：
  * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
@@ -42,7 +77,26 @@ wx.ready(function () {
 
     // 2. 分享接口
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-    document.getElementById('onMenuShareAppMessage').click(function () {
+    wx.onMenuShareAppMessage({
+        title: shareParam.shareConfig.Title,
+        desc: shareParam.shareConfig.Desc,
+        link: shareParam.shareConfig.Link,
+        imgUrl: shareParam.shareConfig.ImgUrl,
+        trigger: function (res) {
+            alert('开始分享给朋友');
+        },
+        success: function (res) {
+            shareParam.successCallback();
+        },
+        cancel: function (res) {
+            alert('已取消分享');
+        },
+        fail: function (res) {
+            alert(JSON.stringify(res));
+        }
+    });
+
+    document.getElementById('onMenuShareAppMessage').onclick(function () {
         debugger
         wx.onMenuShareAppMessage({
             title: '互联网之子',

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ASample.NetCore.HttpClients
+namespace ASample.NetCore.Http
 {
     public class HttpClientService
     {
@@ -25,7 +25,7 @@ namespace ASample.NetCore.HttpClients
                 return HttpRequestResult.Error(result, response.StatusCode);
         }
 
-        public static async Task<HttpRequestResult> GetAsync<T>(string url)
+        public static async Task<HttpRequestResult> GetAsync(string url)
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync(url);
@@ -35,5 +35,9 @@ namespace ASample.NetCore.HttpClients
             else
                 return HttpRequestResult.Error(result, response.StatusCode);
         }
+
+
+
+       
     }
 }
