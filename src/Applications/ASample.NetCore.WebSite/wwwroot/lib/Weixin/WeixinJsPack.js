@@ -1,39 +1,56 @@
-﻿var wxconfig = "";
-var shareParam = {
+﻿var shareParam = {
     shareConfig: {},
     successCallback: null,
-
+    wxconfig: null,
+    url: location.href.split("#")[0]
 };
-var paydata = { total_fee: "1", ProductName:"test", OrderCode: "210904301036", Openid: "" };
 
-$.ajax({
-    type:"get",
-    url: "http://localhost:37431/api/WeiXin/GetJsApiConfig",//"http://generalaviation.yntravelsky.net.cn/weixin/api/WeiXin/GetJsApiConfig",
-    dataType: "json",
-    async: false,
-    success: function (res) {
-        if (res)
-            wxconfig = JSON.parse(res);
-        else {
-            alert("返回结果为空");
-            return;
-        }
+var shareMethod = {
+    getJsApiConfig:function () {
+        $.ajax({
+            type: "get",
+            url: "http://generalaviation.yntravelsky.net.cn/weixin/api/WeiXin/GetJsApiConfig",
+            dataType: "json",
+            data: { "url": shareParam.url },
+            async: false,
+            success: function (res) {
+                if (res) {
+                    shareParam.wxconfig = JSON.parse(res);
+                }
+                else {
+                    alert("返回结果为空");
+                    return;
+                }
 
+            },
+            error: function (err) {
+                return err.responseJSON;
+            }
+        });
     },
-    error: function (err) {
-        return err.responseJSON;
-    }
+};
+
+//微信分享
+$.extend({
+    weChatShare: function (json, successFunc) {
+        shareParam.shareConfig["Title"] = json.title;
+        shareParam.shareConfig["Desc"] = json.desc;
+        shareParam.shareConfig["Link"] = json.link;
+        shareParam.shareConfig["ImgUrl"] = json.imgUrl;
+        shareParam.successCallback = successFunc;
+    },
 });
-debugger
+
+shareMethod.getJsApiConfig();
+
 wx.config({
     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    appId: wxconfig.appId, // 必填，公众号的唯一标识
-    timestamp: wxconfig.timestamp, // 必填，生成签名的时间戳
-    nonceStr: wxconfig.nonceStr, // 必填，生成签名的随机串
-    signature: wxconfig.signature,// 必填，签名
-    jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+    appId: shareParam.wxconfig.appid, // 必填，公众号的唯一标识
+    timestamp: shareParam.wxconfig.timestamp, // 必填，生成签名的时间戳
+    nonceStr: shareParam.wxconfig.nonceStr, // 必填，生成签名的随机串
+    signature: shareParam.wxconfig.signature,// 必填，签名
+    jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表
 });
-
 wx.checkJsApi({
     jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
     success: function (res) {
@@ -41,15 +58,6 @@ wx.checkJsApi({
         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
     }
 });
-
-function weChatShare(jsonStr, successFunc) {
-    var json = JSON.parse(jsonStr);
-    shareParam.shareConfig["Title"] = json.Title;
-    shareParam.shareConfig["Desc"] = json.Desc;
-    shareParam.shareConfig["Link"] = json.Link;
-    shareParam.shareConfig["ImgUrl"] = json.ImgUrl;
-    shareParam.successCallback = successFunc;
-}
 /*
  * 注意：
  * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
@@ -63,20 +71,20 @@ function weChatShare(jsonStr, successFunc) {
  */
 wx.ready(function () {
     // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
-    $('#checkJsApi').on("click",function () {
+    $('#checkJsApi').on("click", function () {
         wx.checkJsApi({
             jsApiList: [
                 'getNetworkType',
                 'previewImage'
             ],
             success: function (res) {
-                alert(JSON.stringify(res));
+                //alert(JSON.stringify(res));
             }
         });
     });
 
     // 2. 分享接口
-    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+    // 2.1 “分享给朋友”，按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareAppMessage({
         title: shareParam.shareConfig.Title,
         desc: shareParam.shareConfig.Desc,
@@ -86,7 +94,7 @@ wx.ready(function () {
             alert('开始分享给朋友');
         },
         success: function (res) {
-            shareParam.successCallback();
+            shareParam.successCallback(res);
         },
         cancel: function (res) {
             alert('已取消分享');
@@ -96,53 +104,28 @@ wx.ready(function () {
         }
     });
 
-    document.getElementById('onMenuShareAppMessage').onclick(function () {
-        debugger
-        wx.onMenuShareAppMessage({
-            title: '互联网之子',
-            desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-            link: 'http://movie.douban.com/subject/25785114/',
-            imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-            trigger: function (res) {
-                alert('用户点击发送给朋友');
-            },
-            success: function (res) {
-                alert('已分享');
-            },
-            cancel: function (res) {
-                alert('已取消');
-            },
-            fail: function (res) {
-                alert(JSON.stringify(res));
-            }
-        });
-        alert('已注册获取“发送给朋友”状态事件');
+    // 2.2 “分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+        title: shareParam.shareConfig.Title,
+        desc: shareParam.shareConfig.Desc,
+        link: shareParam.shareConfig.Link,
+        imgUrl: shareParam.shareConfig.ImgUrl,
+        trigger: function (res) {
+            alert('用户点击分享到朋友圈');
+        },
+        success: function (res) {
+            shareParam.successCallback(res);
+        },
+        cancel: function (res) {
+            alert('已取消');
+        },
+        fail: function (res) {
+            //alert(JSON.stringify(res));
+        }
     });
 
-    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareTimeline').onclick = function () {
-        wx.onMenuShareTimeline({
-            title: '互联网之子',
-            link: 'http://movie.douban.com/subject/25785114/',
-            imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-            trigger: function (res) {
-                alert('用户点击分享到朋友圈');
-            },
-            success: function (res) {
-                alert('已分享');
-            },
-            cancel: function (res) {
-                alert('已取消');
-            },
-            fail: function (res) {
-                alert(JSON.stringify(res));
-            }
-        });
-        alert('已注册获取“分享到朋友圈”状态事件');
-    };
-
     // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareQQ').onclick = function () {
+    $('#onMenuShareQQ').click = function () {
         wx.onMenuShareQQ({
             title: '互联网之子',
             desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
@@ -168,7 +151,7 @@ wx.ready(function () {
     };
 
     // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareWeibo').onclick = function () {
+    $('#onMenuShareWeibo').click = function () {
         wx.onMenuShareWeibo({
             title: '互联网之子',
             desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
@@ -200,7 +183,7 @@ wx.ready(function () {
         serverId: ''
     };
     // 3.1 识别音频并返回识别结果
-    document.querySelector('#translateVoice').onclick = function () {
+    $('#translateVoice').click = function () {
         if (voice.localId == '') {
             alert('请先使用 startRecord 接口录制一段声音');
             return;
@@ -219,7 +202,7 @@ wx.ready(function () {
 
     // 4 音频接口
     // 4.2 开始录音
-    document.querySelector('#startRecord').onclick = function () {
+    $('#startRecord').click = function () {
         wx.startRecord({
             cancel: function () {
                 alert('用户拒绝授权录音');
@@ -228,7 +211,7 @@ wx.ready(function () {
     };
 
     // 4.3 停止录音
-    document.querySelector('#stopRecord').onclick = function () {
+    $('#stopRecord').click = function () {
         wx.stopRecord({
             success: function (res) {
                 voice.localId = res.localId;
@@ -248,7 +231,7 @@ wx.ready(function () {
     });
 
     // 4.5 播放音频
-    document.querySelector('#playVoice').onclick = function () {
+    $('#playVoice').click = function () {
         if (voice.localId == '') {
             alert('请先使用 startRecord 接口录制一段声音');
             return;
@@ -259,14 +242,14 @@ wx.ready(function () {
     };
 
     // 4.6 暂停播放音频
-    document.querySelector('#pauseVoice').onclick = function () {
+    $('#pauseVoice').click = function () {
         wx.pauseVoice({
             localId: voice.localId
         });
     };
 
     // 4.7 停止播放音频
-    document.querySelector('#stopVoice').onclick = function () {
+    $('#stopVoice').click = function () {
         wx.stopVoice({
             localId: voice.localId
         });
@@ -280,7 +263,7 @@ wx.ready(function () {
     });
 
     // 4.8 上传语音
-    document.querySelector('#uploadVoice').onclick = function () {
+    $('#uploadVoice').click = function () {
         if (voice.localId == '') {
             alert('请先使用 startRecord 接口录制一段声音');
             return;
@@ -295,7 +278,7 @@ wx.ready(function () {
     };
 
     // 4.9 下载语音
-    document.querySelector('#downloadVoice').onclick = function () {
+    $('#downloadVoice').click = function () {
         if (voice.serverId == '') {
             alert('请先使用 uploadVoice 上传声音');
             return;
@@ -315,7 +298,7 @@ wx.ready(function () {
         localId: [],
         serverId: []
     };
-    document.querySelector('#chooseImage').onclick = function () {
+    $('#chooseImage').click = function () {
         wx.chooseImage({
             success: function (res) {
                 images.localId = res.localIds;
@@ -325,7 +308,7 @@ wx.ready(function () {
     };
 
     // 5.2 图片预览
-    document.querySelector('#previewImage').onclick = function () {
+    $('#previewImage').click = function () {
         wx.previewImage({
             current: 'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
             urls: [
@@ -337,7 +320,7 @@ wx.ready(function () {
     };
 
     // 5.3 上传图片
-    document.querySelector('#uploadImage').onclick = function () {
+    $('#uploadImage').click = function () {
         if (images.localId.length == 0) {
             alert('请先使用 chooseImage 接口选择图片');
             return;
@@ -364,7 +347,7 @@ wx.ready(function () {
     };
 
     // 5.4 下载图片
-    document.querySelector('#downloadImage').onclick = function () {
+    $('#downloadImage').click = function () {
         if (images.serverId.length === 0) {
             alert('请先使用 uploadImage 上传图片');
             return;
@@ -389,7 +372,7 @@ wx.ready(function () {
 
     // 6 设备信息接口
     // 6.1 获取当前网络状态
-    document.querySelector('#getNetworkType').onclick = function () {
+    $('#getNetworkType').click = function () {
         wx.getNetworkType({
             success: function (res) {
                 alert(res.networkType);
@@ -402,7 +385,7 @@ wx.ready(function () {
 
     // 7 地理位置接口
     // 7.1 查看地理位置
-    document.querySelector('#openLocation').onclick = function () {
+    $('#openLocation').click = function () {
         wx.openLocation({
             latitude: 23.099994,
             longitude: 113.324520,
@@ -414,7 +397,7 @@ wx.ready(function () {
     };
 
     // 7.2 获取当前地理位置
-    document.querySelector('#getLocation').onclick = function () {
+    $('#getLocation').click = function () {
         wx.getLocation({
             success: function (res) {
                 alert(JSON.stringify(res));
@@ -427,17 +410,17 @@ wx.ready(function () {
 
     // 8 界面操作接口
     // 8.1 隐藏右上角菜单
-    document.querySelector('#hideOptionMenu').onclick = function () {
+    $('#hideOptionMenu').click = function () {
         wx.hideOptionMenu();
     };
 
     // 8.2 显示右上角菜单
-    document.querySelector('#showOptionMenu').onclick = function () {
+    $('#showOptionMenu').click = function () {
         wx.showOptionMenu();
     };
 
     // 8.3 批量隐藏菜单项
-    document.querySelector('#hideMenuItems').onclick = function () {
+    $('#hideMenuItems').click = function () {
         wx.hideMenuItems({
             menuList: [
                 'menuItem:readMode', // 阅读模式
@@ -454,7 +437,7 @@ wx.ready(function () {
     };
 
     // 8.4 批量显示菜单项
-    document.querySelector('#showMenuItems').onclick = function () {
+    $('#showMenuItems').click = function () {
         wx.showMenuItems({
             menuList: [
                 'menuItem:readMode', // 阅读模式
@@ -471,7 +454,7 @@ wx.ready(function () {
     };
 
     // 8.5 隐藏所有非基本菜单项
-    document.querySelector('#hideAllNonBaseMenuItem').onclick = function () {
+    $('#hideAllNonBaseMenuItem').click = function () {
         wx.hideAllNonBaseMenuItem({
             success: function () {
                 alert('已隐藏所有非基本菜单项');
@@ -480,7 +463,7 @@ wx.ready(function () {
     };
 
     // 8.6 显示所有被隐藏的非基本菜单项
-    document.querySelector('#showAllNonBaseMenuItem').onclick = function () {
+    $('#showAllNonBaseMenuItem').click = function () {
         wx.showAllNonBaseMenuItem({
             success: function () {
                 alert('已显示所有非基本菜单项');
@@ -489,19 +472,19 @@ wx.ready(function () {
     };
 
     // 8.7 关闭当前窗口
-    document.querySelector('#closeWindow').onclick = function () {
+    $('#closeWindow').click = function () {
         wx.closeWindow();
     };
 
     // 9 微信原生接口
     // 9.1.1 扫描二维码并返回结果
-    document.querySelector('#scanQRCode0').onclick = function () {
+    $('#scanQRCode0').click = function () {
         wx.scanQRCode({
             desc: 'scanQRCode desc'
         });
     };
     // 9.1.2 扫描二维码并返回结果
-    document.querySelector('#scanQRCode1').onclick = function () {
+    $('#scanQRCode1').click = function () {
         wx.scanQRCode({
             needResult: 1,
             desc: 'scanQRCode desc',
@@ -513,7 +496,7 @@ wx.ready(function () {
 
     // 10 微信支付接口
     // 10.1 发起一个支付请求
-    document.querySelector('#chooseWXPay').onclick = function () {
+    $('#chooseWXPay').click = function () {
         wx.chooseWXPay({
             timestamp: 1414723227,
             nonceStr: 'noncestr',
@@ -523,7 +506,7 @@ wx.ready(function () {
     };
 
     // 11.3  跳转微信商品页
-    document.querySelector('#openProductSpecificView').onclick = function () {
+    $('#openProductSpecificView').click = function () {
         wx.openProductSpecificView({
             productId: 'pDF3iY_m2M7EQ5EKKKWd95kAxfNw'
         });
@@ -531,7 +514,7 @@ wx.ready(function () {
 
     // 12 微信卡券接口
     // 12.1 添加卡券
-    document.querySelector('#addCard').onclick = function () {
+    $('#addCard').click = function () {
         wx.addCard({
             cardList: [
                 {
@@ -550,7 +533,7 @@ wx.ready(function () {
     };
 
     // 12.2 选择卡券
-    document.querySelector('#chooseCard').onclick = function () {
+    $('#chooseCard').click = function () {
         wx.chooseCard({
             cardSign: '97e9c5e58aab3bdf6fd6150e599d7e5806e5cb91',
             timestamp: 1417504553,
@@ -562,7 +545,7 @@ wx.ready(function () {
     };
 
     // 12.3 查看卡券
-    document.querySelector('#openCard').onclick = function () {
+    $('#openCard').click = function () {
         alert('您没有该公众号的卡券无法打开卡券。');
         wx.openCard({
             cardList: [
@@ -570,14 +553,14 @@ wx.ready(function () {
         });
     };
 
-    var shareData = {
-        title: '微信JS-SDK Demo',
-        desc: '微信JS-SDK,帮助第三方为用户提供更优质的移动web服务',
-        link: 'http://demo.open.weixin.qq.com/jssdk/',
-        imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0'
-    };
-    wx.onMenuShareAppMessage(shareData);
-    wx.onMenuShareTimeline(shareData);
+    // var shareData = {
+    //     title: '微信JS-SDK Demo',
+    //     desc: '微信JS-SDK,帮助第三方为用户提供更优质的移动web服务',
+    //     link: 'http://demo.open.weixin.qq.com/jssdk/',
+    //     imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0'
+    // };
+    // wx.onMenuShareAppMessage(shareData);
+    // wx.onMenuShareTimeline(shareData);
 });
 
 wx.error(function (res) {
