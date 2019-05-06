@@ -1,4 +1,5 @@
 using ASample.NetCore.Startup;
+using ASample.NetCore.WeChat.WeChatAuth;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -23,10 +24,10 @@ namespace ASample.NetCore.WeChat.Test
         [TestMethod]
         public void GetAccessToken()
         {
-            IServiceCollection services = new ServiceCollection();
-            services.AddHttpClient();
-            var result = AccessTokenService.GetAccessToken().GetAwaiter().GetResult();
-            Assert.IsTrue(result.AccessToken != null);
+            //IServiceCollection services = new ServiceCollection();
+            //services.AddHttpClient();
+            var result = WeChatAuthService.Current.GetAccessTokenAsync().GetAwaiter().GetResult();
+            Assert.IsTrue(result != null);
                 
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.WeChat;
 using ASample.NetCore.WeChat.Models;
+using ASample.NetCore.WeChat.WeChatAuth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +14,9 @@ namespace ASample.NetCore.WebApi.Controllers
     [ApiController]
     public class WeChatController : ControllerBase
     {
-        public async Task<AccessTokenResult> GetAccessToken()
+        public async Task<string> GetAccessToken()
         {
-            var result = await AccessTokenService.GetAccessToken();
+            var result = await WeChatAuthService.Current.GetAccessTokenAsync();
             return result;
         }
     }

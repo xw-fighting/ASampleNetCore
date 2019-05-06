@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ASample.NetCore.WeChat.Models.JsApi
+namespace ASample.NetCore.WeChat.Models
 {
     public class JsApiResult
     {

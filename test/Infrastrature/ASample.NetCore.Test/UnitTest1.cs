@@ -1,4 +1,4 @@
-using ASample.NetCore.ConfigReaders;
+using ASample.NetCore.Configuration;
 using ASample.NetCore.Test.Model.ConfigReaders;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,8 +21,7 @@ namespace ASample.NetCore.Test
         public void GetGetValue()
         {
             //var config = new ConfigTestModel();
-            ConfigReader.FileName = "config.json";
-            var result = ConfigReader.GetValue<ConfigTestModel>("test");
+            var result = ConfigurationReader.GetValue<ConfigTestModel>("test");
             Assert.IsNotNull(result);
         }
 
@@ -30,8 +29,7 @@ namespace ASample.NetCore.Test
         public void GetSection()
         {
             //var config = new ConfigTestModel();
-            ConfigReader.FileName = "config.json";
-            var result = ConfigReader.GetSection("test:name");
+            var result = ConfigurationReader.GetSection("test:name");
             Assert.IsNotNull(result);
         }
 
@@ -39,8 +37,7 @@ namespace ASample.NetCore.Test
         public void GetValue()
         {
             //var config = new ConfigTestModel();
-            ConfigReader.FileName = "config.json";
-            var result = ConfigReader.GetValue("test:name");
+            var result = ConfigurationReader.GetValue("test:name");
             Assert.IsNotNull(result);
         }
     }
