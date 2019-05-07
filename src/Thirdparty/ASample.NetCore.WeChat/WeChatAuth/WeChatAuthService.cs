@@ -1,13 +1,10 @@
 ﻿using ASample.NetCore.Configuration;
-using ASample.NetCore.Serialize;
-using ASample.NetCore.WeChat.Config;
+using ASample.NetCore.WeChat;
 using ASample.NetCore.WeChat.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Caching;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.WeChat.WeChatAuth
@@ -48,7 +45,9 @@ namespace ASample.NetCore.WeChat.WeChatAuth
             _cache.Remove(_wechatKey);
             if (string.IsNullOrWhiteSpace(result.AccessToken))
                 return result.AccessToken;
-            _cache.Add(new CacheItem(_wechatKey, result.AccessToken), new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(result.ExpireTime - 10) }); //在过期时间(秒) 减去10秒，冗余
+            _cache.Add(new CacheItem(_wechatKey, result.AccessToken), 
+                new CacheItemPolicy() {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(result.ExpireTime - 10) }); //在过期时间(秒) 减去10秒，冗余
             return result.AccessToken;
         }
 
@@ -103,6 +102,43 @@ namespace ASample.NetCore.WeChat.WeChatAuth
                 return result.Ticket;
             return string.Empty;
         }
+
+        /// <summary>
+        /// 创建菜单按钮
+        /// </summary>
+        /// <param name="menuJsonStr"></param>
+        /// <returns></returns>
+        public  async Task<string> CreateMenuAsync(string menuJsonStr)
+        {
+            //获取微信令牌
+            var accessToken = await GetAccessTokenAsync();
+
+            //创建菜单
+            var createMenuUrl = $"https://api.weixin.qq.com/cgi-bin/menu/create?access_token={accessToken}";
+            var result = await PostRequestAsync<CreateMenuResult>(createMenuUrl, menuJsonStr);
+            if (result.ErrorCode == "0")
+                return result.ErrorMsg;
+            return null;
+        }
+
+        /// <summary>
+        /// post方法访问
+        /// </summary>
+        /// <param name="postUrl"></param>
+        /// <param name="postData"></param>
+        /// <returns></returns>
+        public static async Task<T> PostRequestAsync<T>(string postUrl, string postData)
+        {
+            // 设置参数
+            var httpClient = new HttpClient();
+            var content = new StringContent(postData);
+            var response = await httpClient.PostAsync(postUrl, content);
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<T>(jsonResult);
+            return result;
+        }
+
+
 
         public void Dispose()
         {

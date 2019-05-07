@@ -14,6 +14,6 @@ namespace ASample.NetCore.WeChat.Models
         /// 过期时间
         /// </summary>
         [JsonProperty("expires_in")]
-        public string ExpiresIn { get; set; }
+        public int ExpireTime { get; set; }
     }
 }

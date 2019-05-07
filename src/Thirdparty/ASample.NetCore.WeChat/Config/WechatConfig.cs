@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.WeChat.Config
+namespace ASample.NetCore.WeChat
 {
     public class WeChatConfig
     {
@@ -12,6 +12,7 @@ namespace ASample.NetCore.WeChat.Config
         /// 第三方用户唯一凭证密钥，即appsecret
         /// </summary>
         public string WxSecret { get; set; }
+        public string WxMechId { get; set; }
 
         /// <summary>
         /// 微信模板编号缩写

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ASample.NetCore.WeChat.WeChatAuth
+namespace ASample.NetCore.WeChat.Models
 {
     public class WxUserInfoResult
     {
