@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.Http
 {
-    public class HttpClientService
+    public class ASampleHttpClient
     {
         private  static IHttpClientFactory _httpClientFactory;
-        public HttpClientService(IHttpClientFactory httpClientFactory)
+        public ASampleHttpClient(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        public static async Task<HttpRequestResult> PostAsync<T>(string url,string content)
+        public static async Task<HttpRequestResult> PostAsync(string url,string content)
         {
             var client = _httpClientFactory.CreateClient();
             var httpContent = new StringContent(content);
@@ -35,9 +35,5 @@ namespace ASample.NetCore.Http
             else
                 return HttpRequestResult.Error(result, response.StatusCode);
         }
-
-
-
-       
     }
 }
