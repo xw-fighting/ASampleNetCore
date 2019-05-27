@@ -4,7 +4,7 @@ namespace ASample.NetCore.Extension
 {
     public static class DictionaryExtension
     {
-        public static List<EnumDto> ToList(this Dictionary<int,string> dic)
+        public static List<EnumDto> ToList(this Dictionary<string,string> dic)
         {
             var keys = dic.Keys;
             var dicList = new List<EnumDto>();
@@ -15,7 +15,7 @@ namespace ASample.NetCore.Extension
                 {
                     var enumDto = new EnumDto
                     {
-                        Key = key,
+                        Key = key.ToString(),
                         Value = value
                     };
                     dicList.Add(enumDto);
