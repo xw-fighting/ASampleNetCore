@@ -1,8 +1,10 @@
 ﻿using ASample.NetCore.Configuration;
-using ASample.NetCore.WeChat;
+using ASample.NetCore.WeChat.Core;
 using ASample.NetCore.WeChat.Models;
+using ASample.NetCore.WeChat.Models.JsApi;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
@@ -69,20 +71,34 @@ namespace ASample.NetCore.WeChat.WeChatAuth
         }
 
         /// <summary>
-        /// 请求微信服务器，以获取accesstoken信息
-        /// 文档地址 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
+        /// 微信分享时获取配置参数
         /// </summary>
+        /// <param name="url"></param>
         /// <returns></returns>
-        private async Task<AccessTokenResult> RequestAccessTokenAsync()
+        public async Task<JsApiConfigResult> GetJsApiConfigAsync(string url)
         {
-            var config = ConfigurationReader.GetValue<WeChatConfig>("wechatconfig");
-            var wxAppId = config.WxAppId;
-            var wxSecert = config.WxSecret;
-            var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={wxAppId}&secret={wxSecert}";
-            var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync(url, null);
-            var respStr = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<AccessTokenResult>(respStr);
+            var jsApiTicket = await GetJsApiTicketAsync();
+            if (string.IsNullOrEmpty(jsApiTicket))
+                return null;
+
+            var dic = new SortedDictionary<string, object>();
+            var noncestr = WeChatPayUtility.GeneratorNonceStr();
+            var timestamp = WeChatPayUtility.GenerateTimeStamp();
+
+            dic.SetValue("noncestr", noncestr);
+            dic.SetValue("timestamp", timestamp);
+            dic.SetValue("url", url);
+            dic.SetValue("jsapi_ticket", jsApiTicket);
+
+            var shaStr = dic.ToUrlString();
+            var signature = WeChatPayUtility.MakeSign(shaStr);
+            var result = new JsApiConfigResult
+            {
+                AppId = "",
+                TimeStamp = timestamp,
+                NonceStr = noncestr,
+                Signature = signature,
+            };
             return result;
         }
 
@@ -90,7 +106,7 @@ namespace ASample.NetCore.WeChat.WeChatAuth
         /// 获取 JS_Ticket
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetJsApiTicket()
+        public async Task<string> GetJsApiTicketAsync()
         {
             var accessTokenResult = await GetAccessTokenAsync();
             var url = $"https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token={accessTokenResult}";
@@ -138,7 +154,23 @@ namespace ASample.NetCore.WeChat.WeChatAuth
             return result;
         }
 
-
+        /// <summary>
+        /// 请求微信服务器，以获取accesstoken信息
+        /// 文档地址 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
+        /// </summary>
+        /// <returns></returns>
+        private async Task<AccessTokenResult> RequestAccessTokenAsync()
+        {
+            var config = ConfigurationReader.GetValue<WeChatConfig>("wechatconfig");
+            var wxAppId = config.WxAppId;
+            var wxSecert = config.WxSecret;
+            var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={wxAppId}&secret={wxSecert}";
+            var httpClient = new HttpClient();
+            var response = await httpClient.PostAsync(url, null);
+            var respStr = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<AccessTokenResult>(respStr);
+            return result;
+        }
 
         public void Dispose()
         {
