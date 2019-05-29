@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.MongoDb.Model;
 using ASample.NetCore.MongoDb.Repository;
+using ASample.NetCore.WebApi.Domain;
+using ASample.NetCore.WebApi.Messages.Command;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.WebApi.Controllers
@@ -13,29 +16,38 @@ namespace ASample.NetCore.WebApi.Controllers
     [ApiController]
     public class MongoDbController : ControllerBase
     {
-        private readonly IMongoRepository<User> _repository;
+        private readonly IMongoRepository<UserInfo> _repository;
+        private readonly IDispatcher _dispatcher;
 
-        public MongoDbController(IMongoRepository<User> repository)
+        public MongoDbController(IDispatcher dispatcher)
         {
-            _repository = repository;
+            _dispatcher = dispatcher;
         }
 
         [HttpPost]
         public async Task AddAsync()
         {
-            var user = new User
+            //var user = new UserInfo
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Name = "test2",
+            //    Address = "云南昆明",
+            //    Age = 21,
+            //};
+            //await _repository.AddAsync(user.BindId(c => c.Id));
+            var userCommand = new UserInfoCreateCommand
             {
                 Id = Guid.NewGuid(),
                 Name = "test2",
                 Address = "云南昆明",
                 Age = 21,
-                CreateTime = DateTime.Now
             };
-            await _repository.AddAsync(user.BindId(c => c.Id));
+            var command = userCommand.BindId(c => c.Id);
+            await _dispatcher.SendAsync(command);
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<User> Get([FromRoute] User query)
+        public async Task<UserInfo> Get([FromRoute] UserInfo query)
         {
 
             var guid = query.Id;//.ToCSUUid();
@@ -53,9 +65,9 @@ namespace ASample.NetCore.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task UpdateAsync([FromBody]User param)
+        public async Task UpdateAsync([FromBody]UserInfo param)
         {
-            var user = new User
+            var user = new UserInfo
             {
                 Id = param.Id,
                 Name = "test22",
@@ -67,10 +79,11 @@ namespace ASample.NetCore.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<User>> SelectAsync()
+        public async Task<List<UserInfo>> SelectAsync()
         {
             var result = await _repository.SelectAsync(c => true);
             return result.ToList();
         }
+
     }
 }

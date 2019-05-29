@@ -28,4 +28,9 @@
     <ProjectReference Include="..\..\Thirdparty\ASample.NetCore.WeChat\ASample.NetCore.WeChat.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

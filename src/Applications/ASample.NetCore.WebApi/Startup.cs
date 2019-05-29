@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.MongoDb.Model;
+using ASample.NetCore.WebApi.Domain;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +38,8 @@ namespace ASample.NetCore.WebApi
             builder.Populate(services);
             //builder.AddRabbitMq();
             builder.AddMongo();
-            builder.AddMongoRepository<User>("User");
+            builder.AddDispatchers();
+            builder.AddMongoRepository<UserInfo>("User");
             //builder.AddMongoRepository<Product>("Products");
             //builder.AddMongoRepository<Order>("Orders");
             //builder.RegisterServiceForwarder<ICustomersService>("customers-service");
