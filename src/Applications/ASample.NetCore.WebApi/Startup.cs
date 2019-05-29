@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
+using ASample.NetCore.MongoDb;
+using ASample.NetCore.MongoDb.Model;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ASample.NetCore.WebApi
 {
@@ -21,12 +20,31 @@ namespace ASample.NetCore.WebApi
         }
 
         public IConfiguration Configuration { get; }
+        public Autofac.IContainer Container { get; private set; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var builder = new ContainerBuilder();
+            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
+                    .AsImplementedInterfaces();
+
+            builder.Populate(services);
+            //builder.AddRabbitMq();
+            builder.AddMongo();
+            builder.AddMongoRepository<User>("User");
+            //builder.AddMongoRepository<Product>("Products");
+            //builder.AddMongoRepository<Order>("Orders");
+            //builder.RegisterServiceForwarder<ICustomersService>("customers-service");
+            //builder.RegisterServiceForwarder<IProductsService>("products-service");
+            //builder.RegisterServiceForwarder<IOrdersService>("orders-service");
+
+            Container = builder.Build();
+            return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,16 +9,10 @@ using MongoDB.Driver.Linq;
 
 namespace ASample.NetCore.MongoDb.Repository
 {
-    public class MongoRepository<TEntity> : ASampleRepository<TEntity> 
+    public class MongoRepository<TEntity> : ASampleRepository<TEntity> , IMongoRepository<TEntity>
         where TEntity:AggregateRoot
     {
         protected IMongoCollection<TEntity> Collection { get; }
-
-        //MongoContext database { get { return typeof(MongoContext); } }
-        //public MongoRepository()
-        //{
-        //    Collection = database.GetCollection<TEntity>(typeof(TEntity).Name);
-        //}
 
         public MongoRepository(IMongoDatabase database,string collectionName = null)
         {
