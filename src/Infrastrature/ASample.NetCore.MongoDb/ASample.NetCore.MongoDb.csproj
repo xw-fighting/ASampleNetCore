@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Se\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="mongocsharpdriver" Version="2.9.0-beta1" />
   </ItemGroup>
 
