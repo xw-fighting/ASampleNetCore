@@ -5,16 +5,12 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Driver.Linq;
 
 namespace ASample.NetCore.MongoDb.Repository
 {
-    public class MongoRepository<MongoContext, TEntity> : ASampleRepository<TEntity> 
+    public class MongoRepository<TEntity> : ASampleRepository<TEntity> 
         where TEntity:AggregateRoot
-        where MongoContext:IMongoDatabase
     {
         protected IMongoCollection<TEntity> Collection { get; }
 
