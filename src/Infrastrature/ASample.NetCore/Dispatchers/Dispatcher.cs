@@ -17,9 +17,14 @@ namespace ASample.NetCore.Dispatchers
             _queryDispatcher = queryDispatcher;
         }
         public async Task<TResult> QueryAsync<TResult>(IQuery<TResult> query)
-            => await _queryDispatcher.QueryAsync<TResult>(query);
+        {
+            var result = await _queryDispatcher.QueryAsync<TResult>(query);
+            return result;
+        }
 
         public async Task SendAsync<TCommand>(TCommand command) where TCommand : ICommand
-        => await _commandDispatcher.SendAsync(command);
+        {
+            await _commandDispatcher.SendAsync(command);
+        }
     }
 }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -25,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
+    <ProjectReference Include="..\..\Thirdparty\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj" />
     <ProjectReference Include="..\..\Thirdparty\ASample.NetCore.WeChat\ASample.NetCore.WeChat.csproj" />
   </ItemGroup>
 

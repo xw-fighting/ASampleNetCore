@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using ASample.NetCore.Dispatchers;
+using ASample.NetCore.Jaeger;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.MongoDb.Model;
+using ASample.NetCore.RabbitMq;
 using ASample.NetCore.WebApi.Domain;
+using ASample.NetCore.WebApi.Messages.Command;
+using ASample.NetCore.WebApi.Messages.Events;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +34,7 @@ namespace ASample.NetCore.WebApi
         {
             services.AddHttpClient();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddJaeger();
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                     .AsImplementedInterfaces();
@@ -40,6 +44,8 @@ namespace ASample.NetCore.WebApi
             builder.AddMongo();
             builder.AddDispatchers();
             builder.AddMongoRepository<UserInfo>("User");
+            builder.AddRabbitMq();
+
             //builder.AddMongoRepository<Product>("Products");
             //builder.AddMongoRepository<Order>("Orders");
             //builder.RegisterServiceForwarder<ICustomersService>("customers-service");
@@ -62,7 +68,11 @@ namespace ASample.NetCore.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseRabbitMq()
+                .SubscribeCommand<UserInfoCreateCommand>(onError: (cmd, ex)
+                    => new CreateUserInfoRejected(cmd.Id, ex.Message, "customer_not_found"))
+                .SubscribeEvent<UserInfoCreateEvent>(@namespace: "userinfo");
+                //.SubscribeEvent<OrderCompleted>(@namespace: "orders");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

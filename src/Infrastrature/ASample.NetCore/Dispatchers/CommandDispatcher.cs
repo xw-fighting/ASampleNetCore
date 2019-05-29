@@ -15,6 +15,9 @@ namespace ASample.NetCore.Dispatchers
             _context = context;
         }
         public async Task SendAsync<T>(T command) where T : ICommand
-         => await _context.Resolve<ICommandHandler<T>>().HandleAsync(command, CorrelationContext.Empty);
+        {
+            var handler = _context.Resolve<ICommandHandler<T>>();
+            await handler.HandleAsync(command, CorrelationContext.Empty);
+        }
     }
 }

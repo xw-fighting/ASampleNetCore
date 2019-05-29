@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RawRabbit.Configuration;
 
 namespace ASample.NetCore.RabbitMq.Options
 {
-    public class RabbitMqOptions//: RawRabbitConfiguration
+    public class RabbitMqOptions: RawRabbitConfiguration
     {
         public string Namespace { get; set; }
         public int Retries { get; set; }
