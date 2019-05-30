@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.WebApi.Handlers.User
 {
-    public class UserInfoCreateHandler : IEventHandler<UserInfoCreateEvent>
+    public class UserInfoCreateEventHandler : IEventHandler<UserInfoCreateEvent>
     {
         private readonly IUserInfoRepository _repository;
-        private readonly ILogger _logger;
-        public UserInfoCreateHandler(IUserInfoRepository repository, ILogger logger)
+        private readonly ILogger<UserInfoCreateEventHandler> _logger;
+        public UserInfoCreateEventHandler(IUserInfoRepository repository, ILogger<UserInfoCreateEventHandler> logger)
         {
             _repository = repository;
             _logger = logger;

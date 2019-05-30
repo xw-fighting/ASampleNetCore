@@ -30,7 +30,7 @@ namespace ASample.NetCore.WebApi.Handlers.User
                 Address = command.Address,
                 Age = command.Age
             };
-            //await _repository.AddAsync(discount);
+            await _repository.AddAsync(discount);
             await _busPublisher.PublishAsync(new UserInfoCreateEvent(command.Id,
                 command.Name, command.Address, command.Age), context);
         }

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ASample.NetCore.Authentication.Dto;
+using ASample.NetCore.Authentication.Options;
+using ASample.NetCore.Extension;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using ASample.NetCore.Authentication.Dto;
-using ASample.NetCore.Authentication.Options;
-using ASample.NetCore.Extension;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ASample.NetCore.Authentication.Handlers
 {

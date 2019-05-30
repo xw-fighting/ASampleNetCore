@@ -59,7 +59,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Log.Test", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.MongoDb.Test", "test\Infrastrature\ASample.NetCore.MongoDb.Test\ASample.NetCore.MongoDb.Test.csproj", "{D537531F-C012-41B4-89E1-3A0F698DB3BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.Authentication", "src\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentication.csproj", "{5080A55B-B978-4BA5-A56F-192348349934}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Authentications", "src\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj", "{5080A55B-B978-4BA5-A56F-192348349934}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
