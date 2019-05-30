@@ -3,7 +3,6 @@ using System.Reflection;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.Jaeger;
 using ASample.NetCore.MongoDb;
-using ASample.NetCore.MongoDb.Model;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.WebApi.Domain;
 using ASample.NetCore.WebApi.Messages.Command;
@@ -72,7 +71,7 @@ namespace ASample.NetCore.WebApi
                 .SubscribeCommand<UserInfoCreateCommand>(onError: (cmd, ex)
                     => new CreateUserInfoRejected(cmd.Id, ex.Message, "customer_not_found"))
                 .SubscribeEvent<UserInfoCreateEvent>(@namespace: "userinfo");
-                //.SubscribeEvent<OrderCompleted>(@namespace: "orders");
+            //.SubscribeEvent<OrderCompleted>(@namespace: "orders");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

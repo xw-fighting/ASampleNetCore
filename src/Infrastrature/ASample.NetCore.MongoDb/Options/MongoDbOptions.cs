@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.MongoDb.Model
+namespace ASample.NetCore.MongoDb.Options
 {
     public class MongoDbOptions
     {

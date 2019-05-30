@@ -1,9 +1,7 @@
 ﻿using ASample.NetCore.Domain.Models;
 using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.EntityFramwork.Models;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver.Linq;
 
@@ -18,7 +16,8 @@ namespace ASample.NetCore.MongoDb.Repository
         {
             if(!string.IsNullOrEmpty(collectionName))
                 Collection = database.GetCollection<TEntity>(collectionName);
-            Collection = database.GetCollection<TEntity>(typeof(TEntity).Name);
+            else
+                Collection = database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
 
        
@@ -55,7 +54,7 @@ namespace ASample.NetCore.MongoDb.Repository
 
         public override TEntity Insert(TEntity entity)
         {
-            Collection.InsertOneAsync(entity);
+            Collection.InsertOne(entity);
             return entity;
         }
 

@@ -1,5 +1,5 @@
 ﻿using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.MongoDb.Model;
+using ASample.NetCore.MongoDb.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;

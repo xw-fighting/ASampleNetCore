@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
-using ASample.NetCore.MongoDb.Model;
+using ASample.NetCore.MongoDb.Options;
 using ASample.NetCore.MongoDb.Repository;
 using ASample.NetCore.WebApi.Domain;
 using ASample.NetCore.WebApi.Messages.Command;

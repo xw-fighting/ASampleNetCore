@@ -1,11 +1,5 @@
 ﻿using ASample.NetCore.Domain.Models;
 using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.EntityFramwork.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ASample.NetCore.MongoDb.Repository
 {

@@ -1,6 +1,6 @@
 ﻿using ASample.NetCore.Domain.Models;
 using ASample.NetCore.Extension;
-using ASample.NetCore.MongoDb.Model;
+using ASample.NetCore.MongoDb.Options;
 using ASample.NetCore.MongoDb.Repository;
 using Autofac;
 using Microsoft.Extensions.Configuration;
