@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Linq;
 
-namespace ASample.NetCore.EntityFramwork.Models
+namespace ASample.NetCore.EntityFramwork.Domain
 {
     public class PagedResult<T> : PagedResultBase
     {

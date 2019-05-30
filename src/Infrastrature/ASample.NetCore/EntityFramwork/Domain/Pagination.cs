@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASample.NetCore.EntityFramwork.Models
+namespace ASample.NetCore.EntityFramwork.Domain
 {
     public static class Pagination
     {

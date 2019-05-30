@@ -1,5 +1,5 @@
 ﻿using ASample.NetCore.Domain.Models;
-using ASample.NetCore.EntityFramwork.Models;
+using ASample.NetCore.EntityFramwork.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

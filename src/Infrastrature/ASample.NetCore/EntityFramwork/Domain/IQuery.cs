@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.EntityFramwork.Models
+namespace ASample.NetCore.EntityFramwork.Domain
 {
     //Marker
     public interface IQuery
