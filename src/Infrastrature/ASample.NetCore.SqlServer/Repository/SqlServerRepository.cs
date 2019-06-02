@@ -10,7 +10,7 @@ namespace ASample.NetCore.SqlServer.Repository
 {
     public class SqlServerRepository<TEntity> : ASampleRepository<TEntity> where TEntity : AggregateRoot,ISqlServerRepository<TEntity>
     {
-
+        //DbContext
         //protected DbContext _dbContext;
 
         //public SqlServerRepository(DbContext dbContext, string collectionName = null)

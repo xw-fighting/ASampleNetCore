@@ -6,9 +6,15 @@ using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.MongoDb.Options;
 using ASample.NetCore.MongoDb.Repository;
+using ASample.NetCore.Redis;
 using ASample.NetCore.WebApi.Domain;
+using ASample.NetCore.WebApi.Dto.Users;
 using ASample.NetCore.WebApi.Messages.Command;
+using ASample.NetCore.WebApi.Queries;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace ASample.NetCore.WebApi.Controllers
 {
@@ -18,10 +24,13 @@ namespace ASample.NetCore.WebApi.Controllers
     {
         private readonly IMongoRepository<UserInfo> _repository;
         private readonly IDispatcher _dispatcher;
+        private readonly IDistributedCache _cache;
 
-        public MongoDbController(IDispatcher dispatcher)
+
+        public MongoDbController(IDispatcher dispatcher, IDistributedCache cache)
         {
             _dispatcher = dispatcher;
+            _cache = cache;
         }
 
         [HttpPost]
@@ -42,7 +51,9 @@ namespace ASample.NetCore.WebApi.Controllers
                 Address = "云南昆明",
                 Age = 21,
             };
+
             var command = userCommand.BindId(c => c.Id);
+            //await _cache.SetAsync("userInfo", bytes);
             await _dispatcher.SendAsync(command);
         }
 
@@ -79,9 +90,9 @@ namespace ASample.NetCore.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<UserInfo>> SelectAsync()
+        public async Task<List<UserInfoDto>> SelectAsync([FromQuery]SelectUserInfo query)
         {
-            var result = await _repository.SelectAsync(c => true);
+            var result = await _dispatcher.QueryAsync(query);
             return result.ToList();
         }
 

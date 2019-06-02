@@ -4,6 +4,7 @@ using ASample.NetCore.Dispatchers;
 using ASample.NetCore.Jaeger;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.RabbitMq;
+using ASample.NetCore.Redis;
 using ASample.NetCore.WebApi.Domain;
 using ASample.NetCore.WebApi.Messages.Command;
 using ASample.NetCore.WebApi.Messages.Events;
@@ -40,12 +41,12 @@ namespace ASample.NetCore.WebApi
                     .AsImplementedInterfaces();
 
             builder.Populate(services);
-            //builder.AddRabbitMq();
             builder.AddMongo();
             builder.AddDispatchers();
             builder.AddMongoRepository<UserInfo>("User");
             builder.AddRabbitMq();
-
+            builder.AddRedis(services);
+           
             //builder.AddMongoRepository<Product>("Products");
             //builder.AddMongoRepository<Order>("Orders");
             //builder.RegisterServiceForwarder<ICustomersService>("customers-service");
