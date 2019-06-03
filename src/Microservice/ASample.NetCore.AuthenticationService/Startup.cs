@@ -1,23 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using ASample.NetCore.Authentications;
+using ASample.NetCore.AuthenticationService.Domain;
 using ASample.NetCore.Dispatchers;
-using ASample.NetCore.Jaeger;
 using ASample.NetCore.MongoDb;
-using ASample.NetCore.RabbitMq;
-using ASample.NetCore.Redis;
-using ASample.NetCore.WebApi.Domain;
-using ASample.NetCore.WebApi.Messages.Command;
-using ASample.NetCore.WebApi.Messages.Events;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace ASample.NetCore.WebApi
+namespace ASample.NetCore.AuthenticationService
 {
     public class Startup
     {
@@ -25,19 +26,25 @@ namespace ASample.NetCore.WebApi
         {
             Configuration = configuration;
         }
-
+        private static readonly string[] Headers = new[] { "X-Operation", "X-Resource", "X-Total-Count" };
         public IConfiguration Configuration { get; }
-        public Autofac.IContainer Container { get; private set; }
-
+        public Autofac.IContainer Container { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkSqlServer();
-            services.AddHttpClient();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddJaeger();
-            services.AddSignalR();
+            services.AddJwt();
+            //services.AddInitializers(typeof(IMongoDbInitializer));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", cors =>
+                        cors.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials()
+                            .WithExposedHeaders(Headers));
+            });
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                     .AsImplementedInterfaces();
@@ -45,18 +52,7 @@ namespace ASample.NetCore.WebApi
             builder.Populate(services);
             builder.AddMongo();
             builder.AddDispatchers();
-            builder.AddMongoRepository<UserInfo>("User");
-            builder.AddRabbitMq();
-            builder.AddRedis(services);
-           
-            //builder.AddMongoRepository<Product>("Products");
-            //builder.AddMongoRepository<Order>("Orders");
-            //builder.RegisterServiceForwarder<ICustomersService>("customers-service");
-            //builder.RegisterServiceForwarder<IProductsService>("products-service");
-            //builder.RegisterServiceForwarder<IOrdersService>("orders-service");
-
-            Container = builder.Build();
-            return new AutofacServiceProvider(Container);
+            builder.AddMongoRepository<User>("Users");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,15 +67,7 @@ namespace ASample.NetCore.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseCors("CorsPolicy");
-            //app.UseAllForwardedHeaders();
-            app.UseAuthentication();
-            app.UseAccessTokenValidator();
-            //app.UseRabbitMq()
-            //    .SubscribeCommand<UserInfoCreateCommand>(onError: (cmd, ex)
-            //        => new CreateUserInfoRejected(cmd.Id, ex.Message, "customer_not_found"))
-            //    .SubscribeEvent<UserInfoCreateEvent>(@namespace: "userinfo");
-            //.SubscribeEvent<OrderCompleted>(@namespace: "orders");
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

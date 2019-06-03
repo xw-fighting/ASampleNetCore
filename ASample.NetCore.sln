@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.MongoDb.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Authentications", "src\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj", "{5080A55B-B978-4BA5-A56F-192348349934}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.AuthenticationService", "src\Microservice\ASample.NetCore.AuthenticationService\ASample.NetCore.AuthenticationService.csproj", "{D789FC06-D509-4A1F-814F-0A367A258C6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{5080A55B-B978-4BA5-A56F-192348349934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5080A55B-B978-4BA5-A56F-192348349934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5080A55B-B978-4BA5-A56F-192348349934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D789FC06-D509-4A1F-814F-0A367A258C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D789FC06-D509-4A1F-814F-0A367A258C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D789FC06-D509-4A1F-814F-0A367A258C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D789FC06-D509-4A1F-814F-0A367A258C6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +193,7 @@ Global
 		{D6F1D039-0491-4229-939C-DFD22535DC20} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 		{D537531F-C012-41B4-89E1-3A0F698DB3BC} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 		{5080A55B-B978-4BA5-A56F-192348349934} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
+		{D789FC06-D509-4A1F-814F-0A367A258C6A} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3C1D5E7-3D29-43DF-AEB9-6241110E2A0B}
