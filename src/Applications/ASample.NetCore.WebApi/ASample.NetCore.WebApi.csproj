@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Redis\ASample.NetCore.Redis.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
     <ProjectReference Include="..\..\Thirdparty\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj" />
     <ProjectReference Include="..\..\Thirdparty\ASample.NetCore.WeChat\ASample.NetCore.WeChat.csproj" />

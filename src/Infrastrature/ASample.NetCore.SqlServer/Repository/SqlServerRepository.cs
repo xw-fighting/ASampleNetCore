@@ -2,47 +2,48 @@
 using ASample.NetCore.EntityFramwork;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ASample.NetCore.SqlServer.Repository
 {
-    public class SqlServerRepository<TEntity> : ASampleRepository<TEntity> where TEntity : AggregateRoot,ISqlServerRepository<TEntity>
-    {
-        //DbContext
-        //protected DbContext _dbContext;
+    public class SqlServerRepository<TDbContext,TEntity> : ASampleRepository<TEntity> ,ISqlServerRepository<TEntity>
+        where TDbContext : DbContext,IEFDbContext
+        where TEntity : AggregateRoot
 
-        //public SqlServerRepository(DbContext dbContext, string collectionName = null)
-        //{
-        //    if (!string.IsNullOrEmpty(collectionName))
-        //        Collection = database.GetCollection<TEntity>(collectionName);
-        //    else
-        //        Collection = database.GetCollection<TEntity>(typeof(TEntity).Name);
-        //}
+    {
+        protected IEFDbContext _dbContext;
+        protected DbSet<TEntity> _dbSet; 
+        public SqlServerRepository(TDbContext dbContext)
+        {
+            _dbSet = dbContext.Set<TEntity>();
+        }
         public override void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(entity);
         }
 
         public override void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = _dbSet.Find(id);
+            _dbSet.Remove(entity);
         }
 
         public override IQueryable<TEntity> GetAll()
         {
-            throw new NotImplementedException();
+            var result = _dbSet.AsQueryable();
+            return result;
         }
 
         public override TEntity Insert(TEntity entity)
         {
-            throw new NotImplementedException();
+             var result = _dbSet.Add(entity);
+            return result.Entity;
         }
 
         public override TEntity Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            var result = _dbSet.Update(entity);
+            return result.Entity;
         }
     }
 }
