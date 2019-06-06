@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Redis", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SqlServer", "src\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServer.csproj", "{13935BC3-551F-456C-B284-0517A521BDC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.RabbitMq", "src\Thirdparty\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj", "{E7A1D7E8-4736-417A-9202-2F93E719E139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.RabbitMq", "src\Infrastrature\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj", "{E7A1D7E8-4736-417A-9202-2F93E719E139}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SignalR", "src\Thirdparty\ASample.NetCore.SignalR\ASample.NetCore.SignalR.csproj", "{BB5A5748-50C4-4E3E-A4C6-781A40DF2950}"
 EndProject
@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Authenticat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.AuthenticationService", "src\Microservice\ASample.NetCore.AuthenticationService\ASample.NetCore.AuthenticationService.csproj", "{D789FC06-D509-4A1F-814F-0A367A258C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.SqlServerWebSite", "src\Applications\ASample.NetCore.SqlServerWebSite\ASample.NetCore.SqlServerWebSite.csproj", "{73786D1C-17BA-4623-8D48-AA5A7BBC1D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SqlServerWebSite", "src\Applications\ASample.NetCore.SqlServerWebSite\ASample.NetCore.SqlServerWebSite.csproj", "{73786D1C-17BA-4623-8D48-AA5A7BBC1D38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -194,7 +194,7 @@ Global
 		{2531DF8A-D6C8-4D70-B92E-B10685B38435} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{487F0E2A-D86C-4980-A272-4D8BC5674FEC} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
 		{13935BC3-551F-456C-B284-0517A521BDC2} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
-		{E7A1D7E8-4736-417A-9202-2F93E719E139} = {28D78B61-F2FB-43ED-8955-961F5D2D2E78}
+		{E7A1D7E8-4736-417A-9202-2F93E719E139} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
 		{BB5A5748-50C4-4E3E-A4C6-781A40DF2950} = {28D78B61-F2FB-43ED-8955-961F5D2D2E78}
 		{D6F1D039-0491-4229-939C-DFD22535DC20} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 		{D537531F-C012-41B4-89E1-3A0F698DB3BC} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
