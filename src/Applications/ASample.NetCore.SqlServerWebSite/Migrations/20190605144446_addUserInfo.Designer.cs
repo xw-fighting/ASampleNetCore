@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASample.NetCore.SqlServerWebSite.Migrations
 {
-    [DbContext(typeof(ASampleDbContext))]
+    [DbContext(typeof(ASampleSqlServerDbContext))]
     [Migration("20190605144446_addUserInfo")]
     partial class addUserInfo
     {

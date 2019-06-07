@@ -1,16 +1,11 @@
 ﻿using ASample.NetCore.Domain.Models;
-using ASample.NetCore.Extension;
-using ASample.NetCore.SqlServer.Options;
-using ASample.NetCore.SqlServer.Repository;
+using ASample.NetCore.EntityFramwork;
+using ASample.NetCore.SqlServerDb.Repository;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ASample.NetCore.SqlServer
+namespace ASample.NetCore.SqlServerDb
 {
     public static class Extension
     {
@@ -19,6 +14,7 @@ namespace ASample.NetCore.SqlServer
         {
             services.AddEntityFrameworkSqlServer()
                .AddDbContext<TDbContext>();
+            services.AddUnitOfWork<TDbContext>();
         }
 
         public static void AddSqlServerRepository<TDbContext,TEntity>(this ContainerBuilder builder)

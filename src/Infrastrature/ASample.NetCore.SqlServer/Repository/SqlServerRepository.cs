@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace ASample.NetCore.SqlServer.Repository
+namespace ASample.NetCore.SqlServerDb.Repository
 {
     public class SqlServerRepository<TDbContext,TEntity> : ASampleRepository<TEntity> ,ISqlServerRepository<TEntity>
         where TDbContext : DbContext
@@ -21,7 +21,7 @@ namespace ASample.NetCore.SqlServer.Repository
         public override void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
-            _db.SaveChanges();
+            //_db.SaveChanges();
         }
 
         public override void Delete(Guid id)
@@ -39,14 +39,14 @@ namespace ASample.NetCore.SqlServer.Repository
         public override TEntity Insert(TEntity entity)
         {
              var result = _dbSet.Add(entity);
-            _db.SaveChanges();
+            //_db.SaveChanges();
             return result.Entity;
         }
 
         public override TEntity Update(TEntity entity)
         {
             var result = _dbSet.Update(entity);
-            _db.SaveChanges();
+            //_db.SaveChanges();
             return result.Entity;
         }
     }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASample.NetCore.SqlServerWebSite.Migrations
 {
-    [DbContext(typeof(ASampleDbContext))]
+    [DbContext(typeof(ASampleSqlServerDbContext))]
     partial class ASampleDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

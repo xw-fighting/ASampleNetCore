@@ -1,6 +1,7 @@
 ﻿using ASample.NetCore.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace ASample.NetCore.SqlServerWebSite.Domain
 {
     public class UserInfo:AggregateRoot
     {
+        [Column("Id",TypeName ="varchar(36)")]
+        public override Guid Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Birthday { get; set; }

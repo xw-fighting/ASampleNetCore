@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ASample.NetCore.MongoDb.Repository;
-using ASample.NetCore.SqlServer.Repository;
+using ASample.NetCore.SqlServerDb.Repository;
 using ASample.NetCore.WebApi.Domain;
 
 namespace ASample.NetCore.WebApi.Repositories.User

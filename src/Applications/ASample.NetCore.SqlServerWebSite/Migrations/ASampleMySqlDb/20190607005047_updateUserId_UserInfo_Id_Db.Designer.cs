@@ -3,23 +3,21 @@ using System;
 using ASample.NetCore.SqlServerWebSite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASample.NetCore.SqlServerWebSite.Migrations
+namespace ASample.NetCore.SqlServerWebSite.Migrations.ASampleMySqlDb
 {
-    [DbContext(typeof(ASampleSqlServerDbContext))]
-    [Migration("20190605144702_addUserInfo1")]
-    partial class addUserInfo1
+    [DbContext(typeof(ASampleMySqlDbContext))]
+    [Migration("20190607005047_updateUserId_UserInfo_Id_Db")]
+    partial class updateUserId_UserInfo_Id_Db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ASample.NetCore.SqlServerWebSite.Domain.User", b =>
                 {
@@ -51,8 +49,11 @@ namespace ASample.NetCore.SqlServerWebSite.Migrations
 
             modelBuilder.Entity("ASample.NetCore.SqlServerWebSite.Domain.UserInfo", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 36)))
+                        .HasColumnName("Id")
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("Address");
 

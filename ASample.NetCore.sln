@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.WebApi", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore", "src\Infrastrature\ASample.NetCore\ASample.NetCore.csproj", "{F9FE3B1C-0B95-4439-B5EA-778D3DE7E695}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.MySql", "src\Infrastrature\ASample.NetCore.MySql\ASample.NetCore.MySql.csproj", "{A16C7447-7A98-4C62-B36D-23C428535D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.MySqlDb", "src\Infrastrature\ASample.NetCore.MySql\ASample.NetCore.MySqlDb.csproj", "{A16C7447-7A98-4C62-B36D-23C428535D2E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.MongoDb", "src\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj", "{8079CE0B-443C-43A3-8795-98DAA77840FF}"
 EndProject
@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.ManageUser"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Redis", "src\Infrastrature\ASample.NetCore.Redis\ASample.NetCore.Redis.csproj", "{487F0E2A-D86C-4980-A272-4D8BC5674FEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SqlServer", "src\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServer.csproj", "{13935BC3-551F-456C-B284-0517A521BDC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SqlServerDb", "src\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServerDb.csproj", "{13935BC3-551F-456C-B284-0517A521BDC2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.RabbitMq", "src\Infrastrature\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj", "{E7A1D7E8-4736-417A-9202-2F93E719E139}"
 EndProject

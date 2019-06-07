@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.SqlServer.Options
+namespace ASample.NetCore.SqlServerDb.Options
 {
     public class SqlServerOptions
     {

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ASample.NetCore.MySql.Options
+﻿
+namespace ASample.NetCore.MySqlDb.Options
 {
-    class MySqlOptions
+    public class MySqlOptions
     {
+        public string ConnectionString { get; set; }
+        public string Database { get; set; }
+        public bool InMemory { get; set; }
     }
 }

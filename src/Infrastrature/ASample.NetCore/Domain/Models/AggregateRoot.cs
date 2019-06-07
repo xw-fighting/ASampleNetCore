@@ -13,6 +13,7 @@ namespace ASample.NetCore.Domain.Models
             CreateTime = DateTime.Now;
         }
     }
+        
     public abstract class AggregateRoot<TKey> : ISoftDelete, IPrimaryKey<TKey>
     {
         /// <summary>

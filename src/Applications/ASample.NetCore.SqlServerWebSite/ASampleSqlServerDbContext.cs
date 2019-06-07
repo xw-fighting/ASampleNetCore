@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.SqlServer.Options;
+﻿using ASample.NetCore.SqlServerDb.Options;
 using ASample.NetCore.SqlServerWebSite.Domain;
 using ASample.NetCore.SqlServerWebSite.EntityMap;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.SqlServerWebSite
 {
-    public class ASampleDbContext:DbContext
+    public class ASampleSqlServerDbContext:DbContext
     {
         private readonly IOptions<SqlServerOptions> _sqlOptions;
 
-        public ASampleDbContext(IOptions<SqlServerOptions> sqlOptions):base()
+        public ASampleSqlServerDbContext(IOptions<SqlServerOptions> sqlOptions):base()
         {
             _sqlOptions = sqlOptions;
         }

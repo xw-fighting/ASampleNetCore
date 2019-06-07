@@ -3,28 +3,26 @@ using System;
 using ASample.NetCore.SqlServerWebSite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASample.NetCore.SqlServerWebSite.Migrations
+namespace ASample.NetCore.SqlServerWebSite.Migrations.ASampleMySqlDb
 {
-    [DbContext(typeof(ASampleSqlServerDbContext))]
-    [Migration("20190605144702_addUserInfo1")]
-    partial class addUserInfo1
+    [DbContext(typeof(ASampleMySqlDbContext))]
+    [Migration("20190606134225_initDb")]
+    partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity("ASample.NetCore.SqlServerWebSite.Domain.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -51,8 +49,9 @@ namespace ASample.NetCore.SqlServerWebSite.Migrations
 
             modelBuilder.Entity("ASample.NetCore.SqlServerWebSite.Domain.UserInfo", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
                     b.Property<string>("Address");
 

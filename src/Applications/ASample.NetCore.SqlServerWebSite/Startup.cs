@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ASample.NetCore.SqlServer.Options;
+using ASample.NetCore.SqlServerDb.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,11 +11,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ASample.NetCore.SqlServer;
+using ASample.NetCore.SqlServerDb;
 using Autofac;
 using ASample.NetCore.Dispatchers;
 using Autofac.Extensions.DependencyInjection;
 using ASample.NetCore.SqlServerWebSite.Domain;
+using ASample.NetCore.MySqlDb.Options;
+using ASample.NetCore.MySqlDb;
 
 namespace ASample.NetCore.SqlServerWebSite
 {
@@ -31,10 +33,13 @@ namespace ASample.NetCore.SqlServerWebSite
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
-        {
+      {
             services.Configure<SqlServerOptions>(Configuration.GetSection("sql"));
             services.AddEntityFrameworkSqlServer()
-               .AddSqlServer<ASampleDbContext>();
+               .AddSqlServer<ASampleSqlServerDbContext>();
+
+            services.Configure<MySqlOptions>(Configuration.GetSection("mysql"));
+            services.AddMySql<ASampleMySqlDbContext>();
             //services.AddSqlServer<ASampleDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -45,11 +50,12 @@ namespace ASample.NetCore.SqlServerWebSite
                 .AsImplementedInterfaces();
             builder.Populate(services);
             builder.AddDispatchers();
-            //builder.AddMongo();
-            //builder.AddMongoRepository<Customer>("Customers");
-            //builder.AddMongoRepository<Discount>("Discounts");
-            builder.AddSqlServerRepository<ASampleDbContext, User>();
-            builder.AddSqlServerRepository<ASampleDbContext, UserInfo>();
+
+            builder.AddSqlServerRepository<ASampleSqlServerDbContext, User>();
+            builder.AddSqlServerRepository<ASampleSqlServerDbContext, UserInfo>();
+
+            builder.AddMySqlRepository<ASampleMySqlDbContext, User>();
+            builder.AddSqlServerRepository<ASampleMySqlDbContext, UserInfo>();
             //builder.AddRabbitMq();
 
             Container = builder.Build();

@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASample.NetCore.MySqlDb;
 using ASample.NetCore.SqlServerWebSite.Domain;
 using ASample.NetCore.SqlServerWebSite.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ASample.NetCore.EntityFramwork;
 
 namespace ASample.NetCore.SqlServerWebSite.Controllers
 {
     [Route("api/[controller]/")]
     [ApiController]
-    public class SqlServerController : ControllerBase
+    public class MySqlController : ControllerBase
     {
-        private ISqlServerUserRepository _userRepository;
-        public SqlServerController(ISqlServerUserRepository userRepository)
+        private IMySqlUserRepository _userRepository;
+        public MySqlController(IMySqlUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -29,7 +29,20 @@ namespace ASample.NetCore.SqlServerWebSite.Controllers
         [HttpPost]
         public async Task AddAsync([FromBody]User user)
         {
-            await _userRepository.AddAsync(user);
+            var user1 = user.BindId<User>(c => c.Id);
+            await _userRepository.AddAsync(user1);
+        }
+
+        [HttpPut]
+        public async Task UpdateAsync([FromBody] User use)
+        {
+            await _userRepository.UpdateAsync(use);
+        }
+
+        [HttpDelete]
+        public async Task DeleteAsync(Guid id)
+        {
+            await _userRepository.DeleteAsync(id);
         }
     }
 }
