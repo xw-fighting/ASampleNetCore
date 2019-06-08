@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.AuthenticationService.Domain
+namespace ASample.NetCore.Services.Identitys.Domain
 {
     public class Role
     {

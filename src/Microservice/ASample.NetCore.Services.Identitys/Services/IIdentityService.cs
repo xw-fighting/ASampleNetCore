@@ -1,8 +1,8 @@
-﻿using ASample.NetCore.AuthenticationService.Domain;
+﻿using ASample.NetCore.Services.Identitys.Domain;
 using System;
 using System.Threading.Tasks;
 
-namespace ASample.NetCore.AuthenticationService.Services
+namespace ASample.NetCore.Services.Identitys.Services
 {
     public interface IIdentityService
     {

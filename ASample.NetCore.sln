@@ -37,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.WeChat.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservice", "Microservice", "{12A6D346-528A-42B3-9B55-76DDA7B09E33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.LogService", "src\Microservice\ASample.NetCore.LogService\ASample.NetCore.LogService.csproj", "{F48E8FCA-255E-42F0-B455-2BC14EF110B2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.AppUser", "src\Microservice\ASample.NetCore.AppUser\ASample.NetCore.AppUser.csproj", "{2068665E-2FE5-4E53-A1E5-4E3D3447F5FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.ManageUser", "src\Microservice\ASample.NetCore.ManageUser\ASample.NetCore.ManageUser.csproj", "{2531DF8A-D6C8-4D70-B92E-B10685B38435}"
@@ -57,17 +55,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Authenticat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SqlServerWebSite", "src\Applications\ASample.NetCore.SqlServerWebSite\ASample.NetCore.SqlServerWebSite.csproj", "{73786D1C-17BA-4623-8D48-AA5A7BBC1D38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.SignalR", "src\Infrastrature\ASample.NetCore.SignalR\ASample.NetCore.SignalR.csproj", "{F12DB760-524D-4D80-9AEA-DBA2155449E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SignalR", "src\Infrastrature\ASample.NetCore.SignalR\ASample.NetCore.SignalR.csproj", "{F12DB760-524D-4D80-9AEA-DBA2155449E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Identitys", "src\Microservice\ASample.NetCore.Services.Identitys\ASample.NetCore.Services.Identitys.csproj", "{438C8322-0975-410C-9A29-A6650C4D1FC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Wechats", "src\Microservice\ASample.NetCore.Services.Wechat\ASample.NetCore.Services.Wechats.csproj", "{0AEE419A-24A2-4F08-8928-B55A6C264B96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.Services.Products", "src\Microservice\ASample.NetCore.Services.Products\ASample.NetCore.Services.Products.csproj", "{FB800DCF-1374-40DB-922D-F838F48D4935}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Products", "src\Microservice\ASample.NetCore.Services.Products\ASample.NetCore.Services.Products.csproj", "{FB800DCF-1374-40DB-922D-F838F48D4935}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Customers", "src\Microservice\ASample.NetCore.Services.Customers\ASample.NetCore.Services.Customers.csproj", "{C12E108B-BD7E-4B46-BE9A-28D23F66236D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Orders", "src\Microservice\ASample.NetCore.Services.Orders\ASample.NetCore.Services.Orders.csproj", "{FEB2B1AB-CEF6-4AFF-86BE-5868EF313EAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Logs", "src\Microservice\ASample.NetCore.Services.Logs\ASample.NetCore.Services.Logs.csproj", "{9DE47119-1808-4A8C-9A22-37138CE166AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.Services.Apis", "src\Microservice\ASample.NetCore.Services.Apis\ASample.NetCore.Services.Apis.csproj", "{01B10F0B-ADD7-4790-BC97-65B0DE5D3BB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,10 +117,6 @@ Global
 		{B7222E99-D99D-451C-8104-58EE455E1D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7222E99-D99D-451C-8104-58EE455E1D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7222E99-D99D-451C-8104-58EE455E1D5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F48E8FCA-255E-42F0-B455-2BC14EF110B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F48E8FCA-255E-42F0-B455-2BC14EF110B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F48E8FCA-255E-42F0-B455-2BC14EF110B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F48E8FCA-255E-42F0-B455-2BC14EF110B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2068665E-2FE5-4E53-A1E5-4E3D3447F5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2068665E-2FE5-4E53-A1E5-4E3D3447F5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2068665E-2FE5-4E53-A1E5-4E3D3447F5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -179,6 +177,14 @@ Global
 		{FEB2B1AB-CEF6-4AFF-86BE-5868EF313EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEB2B1AB-CEF6-4AFF-86BE-5868EF313EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEB2B1AB-CEF6-4AFF-86BE-5868EF313EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE47119-1808-4A8C-9A22-37138CE166AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE47119-1808-4A8C-9A22-37138CE166AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE47119-1808-4A8C-9A22-37138CE166AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE47119-1808-4A8C-9A22-37138CE166AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B10F0B-ADD7-4790-BC97-65B0DE5D3BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B10F0B-ADD7-4790-BC97-65B0DE5D3BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B10F0B-ADD7-4790-BC97-65B0DE5D3BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B10F0B-ADD7-4790-BC97-65B0DE5D3BB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,7 +205,6 @@ Global
 		{1F6A4A8A-5A8E-42FF-9546-2937BD371FBA} = {28D78B61-F2FB-43ED-8955-961F5D2D2E78}
 		{B7222E99-D99D-451C-8104-58EE455E1D5D} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 		{12A6D346-528A-42B3-9B55-76DDA7B09E33} = {2BC59777-923A-4F93-A55B-BF767ACA6C0C}
-		{F48E8FCA-255E-42F0-B455-2BC14EF110B2} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{2068665E-2FE5-4E53-A1E5-4E3D3447F5FD} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{2531DF8A-D6C8-4D70-B92E-B10685B38435} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{487F0E2A-D86C-4980-A272-4D8BC5674FEC} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
@@ -215,6 +220,8 @@ Global
 		{FB800DCF-1374-40DB-922D-F838F48D4935} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{C12E108B-BD7E-4B46-BE9A-28D23F66236D} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{FEB2B1AB-CEF6-4AFF-86BE-5868EF313EAE} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
+		{9DE47119-1808-4A8C-9A22-37138CE166AD} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
+		{01B10F0B-ADD7-4790-BC97-65B0DE5D3BB6} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3C1D5E7-3D29-43DF-AEB9-6241110E2A0B}

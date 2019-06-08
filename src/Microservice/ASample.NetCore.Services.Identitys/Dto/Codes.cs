@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.AuthenticationService.Dto
+namespace ASample.NetCore.Services.Identitys.Dto
 {
     public static class Codes
     {

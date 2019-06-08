@@ -18,7 +18,7 @@ namespace ASample.NetCore.WebApi.Handlers.User
         }
         public async Task<IEnumerable<UserInfoDto>> HandleAsync(SelectUserInfo query)
         {
-            var userInfos = await _repository.SelectAsync(c => true);
+            var userInfos = await _repository.QueryAsync(c => true);
             var result = userInfos.Select(c => new UserInfoDto
             {
                 Id = c.Id,

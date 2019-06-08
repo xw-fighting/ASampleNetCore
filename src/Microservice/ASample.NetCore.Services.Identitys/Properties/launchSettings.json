@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ASample.NetCore.AuthenticationService": {
+    "ASample.NetCore.Services.Identitys": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",

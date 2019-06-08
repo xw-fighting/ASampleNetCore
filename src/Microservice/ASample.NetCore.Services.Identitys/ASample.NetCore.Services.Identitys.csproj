@@ -18,8 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

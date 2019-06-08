@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using ASample.NetCore.Authentications;
-using ASample.NetCore.AuthenticationService.Domain;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
+using ASample.NetCore.Services.Identitys.Domain;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace ASample.NetCore.AuthenticationService
+namespace ASample.NetCore.Services.Identitys
 {
     public class Startup
     {

@@ -1,5 +1,5 @@
 ﻿
-using ASample.NetCore.Domain.Models;
+using ASample.NetCore.Domain.AggregateRoots;
 using ASample.NetCore.EntityFramwork.Domain;
 using System;
 using System.Linq;
@@ -21,9 +21,9 @@ namespace ASample.NetCore.EntityFramwork
         Task<PagedResult<TEntity>> BrowseAsync<TQuery>(Expression<Func<TEntity, bool>> predicate,
                TQuery query) where TQuery : PagedQueryBase;
 
-        Task<IQueryable<TEntity>> SelectAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<PagedResult<TEntity>> SelectPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate,
+        Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate,
              TQuery query) where TQuery : PagedQueryBase;
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);

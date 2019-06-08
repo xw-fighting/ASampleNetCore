@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.Models;
+﻿using ASample.NetCore.Domain.AggregateRoots;
 
 namespace ASample.NetCore.SqlServerWebSite.Domain
 {

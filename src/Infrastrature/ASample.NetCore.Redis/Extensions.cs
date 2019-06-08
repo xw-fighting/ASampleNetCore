@@ -40,7 +40,7 @@ namespace ASample.NetCore.Redis
 
         }
 
-        public static IServiceCollection AddRedis(this ContainerBuilder builder ,IServiceCollection services)
+        public static void AddRedis(this ContainerBuilder builder)
         {
             IOptions<RedisCacheOptions> redisCacheOption = null;
             builder.Register(context =>
@@ -78,8 +78,6 @@ namespace ASample.NetCore.Redis
             builder.RegisterType<ASampleRedisCache>()
                .As<IASampleRedisCache>()
                .SingleInstance();
-
-            return services;
         }
 
 

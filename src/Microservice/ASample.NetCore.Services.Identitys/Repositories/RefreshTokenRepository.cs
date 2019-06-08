@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using ASample.NetCore.AuthenticationService.Domain;
+using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.MongoDb.Repository;
 
-namespace ASample.NetCore.AuthenticationService.Repositories
+namespace ASample.NetCore.Services.Identitys.Repositories
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {

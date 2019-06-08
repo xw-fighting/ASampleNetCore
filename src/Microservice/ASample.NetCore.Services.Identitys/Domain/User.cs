@@ -1,11 +1,11 @@
-﻿using ASample.NetCore.AuthenticationService.Dto;
+﻿using ASample.NetCore.Services.Identitys.Dto;
 using ASample.NetCore.Domain.Exceptions;
-using ASample.NetCore.Domain.Models;
+using ASample.NetCore.Domain.AggregateRoots;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Text.RegularExpressions;
 
-namespace ASample.NetCore.AuthenticationService.Domain
+namespace ASample.NetCore.Services.Identitys.Domain
 {
     public class User:AggregateRoot
     {

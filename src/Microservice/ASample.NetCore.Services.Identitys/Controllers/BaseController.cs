@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ASample.NetCore.AuthenticationService.Controllers
+namespace ASample.NetCore.Services.Identitys.Controllers
 {
     [Route("")]
     [ApiController]

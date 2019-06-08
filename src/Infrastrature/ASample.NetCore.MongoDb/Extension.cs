@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.Models;
+﻿using ASample.NetCore.Domain.AggregateRoots;
 using ASample.NetCore.Extension;
 using ASample.NetCore.MongoDb.Options;
 using ASample.NetCore.MongoDb.Repository;

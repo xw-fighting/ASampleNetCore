@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.Models;
+﻿using ASample.NetCore.Domain.AggregateRoots;
 using ASample.NetCore.EntityFramwork.Domain;
 using System;
 using System.Collections.Generic;
@@ -18,12 +18,12 @@ namespace ASample.NetCore.EntityFramwork
     {
         public abstract IQueryable<TEntity> GetAll();
 
-        public virtual Task<IQueryable<TEntity>> SelectAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return Task.FromResult(GetAll());
         }
 
-        public virtual Task<PagedResult<TEntity>> SelectPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
+        public virtual Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
         {
             return GetAll().PaginateAsync();
         }

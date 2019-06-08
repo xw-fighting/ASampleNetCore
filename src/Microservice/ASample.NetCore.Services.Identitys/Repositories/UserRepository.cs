@@ -1,9 +1,9 @@
-﻿using ASample.NetCore.AuthenticationService.Domain;
+﻿using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.MongoDb.Repository;
 using System;
 using System.Threading.Tasks;
 
-namespace ASample.NetCore.AuthenticationService.Repositories
+namespace ASample.NetCore.Services.Identitys.Repositories
 {
     public class UserRepository :IUserRepository
     {

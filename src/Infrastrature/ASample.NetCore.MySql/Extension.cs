@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.Models;
+﻿using ASample.NetCore.Domain.AggregateRoots;
 using ASample.NetCore.EntityFramwork;
 using ASample.NetCore.MySqlDb.Repositories;
 using Autofac;

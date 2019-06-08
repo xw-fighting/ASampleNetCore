@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ASample.NetCore.AuthenticationService
+namespace ASample.NetCore.Services.Identitys
 {
     public class Program
     {

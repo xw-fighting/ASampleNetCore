@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ASample.NetCore.Domain.Models
+namespace ASample.NetCore.Domain.AggregateRoots
 {
     public abstract class Entity : Entity<Guid>,IPrimaryKey//--->为什么要继承IPrimaryKey
     {

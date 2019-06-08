@@ -1,4 +1,6 @@
 ﻿
+using ASample.NetCore.Domain;
+
 namespace ASample.NetCore.EntityFramwork.Domain
 {
     public interface IPagedQuery : IQuery

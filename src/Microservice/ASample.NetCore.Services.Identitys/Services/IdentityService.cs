@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ASample.NetCore.AuthenticationService.Domain;
-using ASample.NetCore.AuthenticationService.Dto;
-using ASample.NetCore.AuthenticationService.Messages.Commands;
-using ASample.NetCore.AuthenticationService.Repositories;
+using ASample.NetCore.Services.Identitys.Domain;
+using ASample.NetCore.Services.Identitys.Dto;
+using ASample.NetCore.Services.Identitys.Messages.Commands;
+using ASample.NetCore.Services.Identitys.Repositories;
 using ASample.NetCore.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 
-namespace ASample.NetCore.AuthenticationService.Services
+namespace ASample.NetCore.Services.Identitys.Services
 {
     public class IdentityService : IIdentityService
     {

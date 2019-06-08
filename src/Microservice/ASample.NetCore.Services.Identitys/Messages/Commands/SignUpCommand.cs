@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace ASample.NetCore.AuthenticationService.Messages.Commands
+namespace ASample.NetCore.Services.Identitys.Messages.Commands
 {
     public class SignUpCommand:ICommand
     {

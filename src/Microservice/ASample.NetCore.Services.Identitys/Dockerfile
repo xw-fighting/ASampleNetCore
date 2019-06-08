@@ -8,16 +8,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1803 AS build
 WORKDIR /src
-COPY ["src/Microservice/ASample.NetCore.AuthenticationService/ASample.NetCore.AuthenticationService.csproj", "src/Microservice/ASample.NetCore.AuthenticationService/"]
-RUN dotnet restore "src/Microservice/ASample.NetCore.AuthenticationService/ASample.NetCore.AuthenticationService.csproj"
+COPY ["src/Microservice/ASample.NetCore.Services.Identitys/ASample.NetCore.Services.Identitys.csproj", "src/Microservice/ASample.NetCore.Services.Identitys/"]
+RUN dotnet restore "src/Microservice/ASample.NetCore.Services.Identitys/ASample.NetCore.Services.Identitys.csproj"
 COPY . .
-WORKDIR "/src/src/Microservice/ASample.NetCore.AuthenticationService"
-RUN dotnet build "ASample.NetCore.AuthenticationService.csproj" -c Release -o /app
+WORKDIR "/src/src/Microservice/ASample.NetCore.Services.Identitys"
+RUN dotnet build "ASample.NetCore.Services.Identitys.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "ASample.NetCore.AuthenticationService.csproj" -c Release -o /app
+RUN dotnet publish "ASample.NetCore.Services.Identitys.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "ASample.NetCore.AuthenticationService.dll"]
+ENTRYPOINT ["dotnet", "ASample.NetCore.Services.Identitys.dll"]

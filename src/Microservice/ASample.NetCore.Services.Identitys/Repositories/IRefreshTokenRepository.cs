@@ -1,7 +1,7 @@
-﻿using ASample.NetCore.AuthenticationService.Domain;
+﻿using ASample.NetCore.Services.Identitys.Domain;
 using System.Threading.Tasks;
 
-namespace ASample.NetCore.AuthenticationService.Repositories
+namespace ASample.NetCore.Services.Identitys.Repositories
 {
     public interface IRefreshTokenRepository
     {

@@ -1,12 +1,7 @@
 ﻿using ASample.NetCore.SqlServerDb.Options;
-using ASample.NetCore.SqlServerWebSite.Domain;
 using ASample.NetCore.SqlServerWebSite.EntityMap;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ASample.NetCore.SqlServerWebSite
 {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ASample.NetCore.AuthenticationService.Messages.Commands
+namespace ASample.NetCore.Services.Identitys.Messages.Commands
 {
     public class SignInCommand
     {
