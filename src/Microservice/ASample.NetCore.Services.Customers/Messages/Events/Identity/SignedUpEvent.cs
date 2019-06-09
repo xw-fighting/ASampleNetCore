@@ -4,7 +4,7 @@ using System;
 
 namespace ASample.NetCore.Services.Customers.Messages.Events
 {
-    [MessageNamespace("identity")]
+    [MessageNamespace("identitys")]
     public class SignedUpEvent:IEvent
     {
         public Guid UserId { get; set; }
