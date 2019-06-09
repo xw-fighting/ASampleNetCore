@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ASample.NetCore.Services.Customer
+namespace ASample.NetCore.Services.Customers
 {
     public class Program
     {

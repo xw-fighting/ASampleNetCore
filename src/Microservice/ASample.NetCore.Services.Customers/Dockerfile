@@ -8,16 +8,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1803 AS build
 WORKDIR /src
-COPY ["src/Microservice/ASample.NetCore.Services.Customer/ASample.NetCore.Services.Customer.csproj", "src/Microservice/ASample.NetCore.Services.Customer/"]
-RUN dotnet restore "src/Microservice/ASample.NetCore.Services.Customer/ASample.NetCore.Services.Customer.csproj"
+COPY ["src/Microservice/ASample.NetCore.Services.Customers/ASample.NetCore.Services.Customers.csproj", "src/Microservice/ASample.NetCore.Services.Customers/"]
+RUN dotnet restore "src/Microservice/ASample.NetCore.Services.Customers/ASample.NetCore.Services.Customers.csproj"
 COPY . .
-WORKDIR "/src/src/Microservice/ASample.NetCore.Services.Customer"
-RUN dotnet build "ASample.NetCore.Services.Customer.csproj" -c Release -o /app
+WORKDIR "/src/src/Microservice/ASample.NetCore.Services.Customers"
+RUN dotnet build "ASample.NetCore.Services.Customers.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "ASample.NetCore.Services.Customer.csproj" -c Release -o /app
+RUN dotnet publish "ASample.NetCore.Services.Customers.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "ASample.NetCore.Services.Customer.dll"]
+ENTRYPOINT ["dotnet", "ASample.NetCore.Services.Customers.dll"]
