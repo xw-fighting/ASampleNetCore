@@ -12,7 +12,7 @@ namespace ASample.NetCore.Services.Orders.Repositories
 
         Task<Order> GetAsync(Guid id);
 
-        Task<PagedResult<Order>> QueryPagedAsync(QueryOrders query);
+        Task<PagedResult<Order>> QueryPagedAsync(BrowseOrders query);
 
         Task AddAsync(Order order);
 

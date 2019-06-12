@@ -8,16 +8,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1803 AS build
 WORKDIR /src
-COPY ["src/Microservice/ASample.NetCore.Orders/ASample.NetCore.Orders.csproj", "src/Microservice/ASample.NetCore.Orders/"]
-RUN dotnet restore "src/Microservice/ASample.NetCore.Orders/ASample.NetCore.Orders.csproj"
+COPY ["src/Microservice/ASample.NetCore.Services.Orders/ASample.NetCore.Services.Orders.csproj", "src/Microservice/ASample.NetCore.Services.Orders/"]
+RUN dotnet restore "src/Microservice/ASample.NetCore.Services.Orders/ASample.NetCore.Services.Orders.csproj"
 COPY . .
-WORKDIR "/src/src/Microservice/ASample.NetCore.Orders"
-RUN dotnet build "ASample.NetCore.Orders.csproj" -c Release -o /app
+WORKDIR "/src/src/Microservice/ASample.NetCore.Services.Orders"
+RUN dotnet build "ASample.NetCore.Services.Orders.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "ASample.NetCore.Orders.csproj" -c Release -o /app
+RUN dotnet publish "ASample.NetCore.Services.Orders.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "ASample.NetCore.Orders.dll"]
+ENTRYPOINT ["dotnet", "ASample.NetCore.Services.Orders.dll"]

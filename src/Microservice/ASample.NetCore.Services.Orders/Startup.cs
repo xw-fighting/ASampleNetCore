@@ -3,7 +3,9 @@ using System.Reflection;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.RabbitMq;
+using ASample.NetCore.Redis;
 using ASample.NetCore.Services.Orders.Messages.Commands;
+using ASample.NetCore.Services.Orders.Messages.Events;
 using ASample.NetCore.Services.Orders.Messages.Events.Rejected;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -36,7 +38,7 @@ namespace ASample.NetCore.Orders
             builder.AddMongo();
             builder.AddRabbitMq();
             builder.AddDispatchers();
-            //builder.AddRedis();
+            builder.AddRedis();
             Container = builder.Build();
             return new AutofacServiceProvider(Container);
         }
@@ -58,15 +60,15 @@ namespace ASample.NetCore.Orders
                .SubscribeCommand<CreateOrderCommand>(onError: (c, e) =>
                    new CreateOrderRejectedEvent(c.Id, c.CustomerId, e.Message, e.Code))
                .SubscribeCommand<ApproveOrderCommand>(onError: (c, e) =>
-                   new ApproveOrderRejectedEvent(c.Id, e.Message, e.Code));
-               //.SubscribeCommand<CancelOrder>(onError: (c, e) =>
-               //    new CancelOrderRejected(c.Id, c.CustomerId, e.Message, e.Code))
-               //.SubscribeCommand<RevokeOrder>(onError: (c, e) =>
-               //    new RevokeOrderRejected(c.Id, c.CustomerId, e.Message, e.Code))
-               //.SubscribeCommand<CompleteOrder>(onError: (c, e) =>
-               //    new CompleteOrderRejected(c.Id, c.CustomerId, e.Message, e.Code))
-               //.SubscribeCommand<CreateOrderDiscount>()
-               //.SubscribeEvent<CustomerCreated>(@namespace: "customers");
+                   new ApproveOrderRejectedEvent(c.Id, e.Message, e.Code))
+               .SubscribeCommand<CancelOrderCommand>(onError: (c, e) =>
+                   new CancelOrderRejectedEvent(c.Id, c.CustomerId, e.Message, e.Code))
+               .SubscribeCommand<RevokeOrderCommand>(onError: (c, e) =>
+                   new RevokeOrderRejectedEvent(c.Id, c.CustomerId, e.Message, e.Code))
+               .SubscribeCommand<CompleteOrderCommand>(onError: (c, e) =>
+                   new CompleteOrderRejectedEvent(c.Id, c.CustomerId, e.Message, e.Code))
+               .SubscribeCommand<CreateOrderDiscountCommand>()
+               .SubscribeEvent<CustomerCreatedEvent>(@namespace: "customers");
 
             app.UseHttpsRedirection();
             app.UseMvc();

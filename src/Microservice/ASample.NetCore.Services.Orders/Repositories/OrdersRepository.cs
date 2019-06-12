@@ -32,7 +32,7 @@ namespace ASample.NetCore.Services.Orders.Repositories
             return order;
         }
 
-        public async Task<PagedResult<Order>> QueryPagedAsync(QueryOrders query)
+        public async Task<PagedResult<Order>> QueryPagedAsync(BrowseOrders query)
         {
             var pagedResult = await _orderRepository.QueryPagedAsync(o => o.CustomerId == query.CustomerId, query);
             return pagedResult;

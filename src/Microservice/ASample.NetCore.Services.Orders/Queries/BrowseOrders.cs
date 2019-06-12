@@ -5,7 +5,7 @@ using System;
 
 namespace ASample.NetCore.Services.Orders.Queries
 {
-    public class QueryOrders : PagedQueryBase, IQuery<PagedResult<OrderDto>>
+    public class BrowseOrders : PagedQueryBase, IQuery<PagedResult<OrderDto>>
     {
         public Guid CustomerId { get; set; }
     }
