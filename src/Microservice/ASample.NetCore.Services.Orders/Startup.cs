@@ -4,6 +4,7 @@ using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;
+using ASample.NetCore.Services.Orders.Domain;
 using ASample.NetCore.Services.Orders.Messages.Commands;
 using ASample.NetCore.Services.Orders.Messages.Events;
 using ASample.NetCore.Services.Orders.Messages.Events.Rejected;
@@ -36,6 +37,9 @@ namespace ASample.NetCore.Orders
 
             builder.Populate(services);
             builder.AddMongo();
+            builder.AddMongoRepository<Order>("Orders");
+            builder.AddMongoRepository<Customer>("Customers");
+
             builder.AddRabbitMq();
             builder.AddDispatchers();
             builder.AddRedis();

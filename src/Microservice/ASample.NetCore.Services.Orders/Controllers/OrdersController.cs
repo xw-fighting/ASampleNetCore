@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.Services.Orders.Controllers
 {
-    [Route("api/[controller]")]
     public class OrdersController : BaseController
     {
         private readonly IDispatcher _dispatcher;
@@ -24,14 +23,14 @@ namespace ASample.NetCore.Services.Orders.Controllers
         }
 
         [HttpGet("orders/{orderId}")]
-        public async Task<OrderDetailsDto> Get([FromRoute] GetOrder query)
+        public async Task<OrderDetailDto> Get([FromRoute] GetOrder query)
         {
             var result = await QueryAsync(query);
             return result;
         }
 
         [HttpGet("customers/{customerId}/orders/{orderId}")]
-        public async Task<OrderDetailsDto> GetForCustomer([FromRoute] GetOrder query)
+        public async Task<OrderDetailDto> GetForCustomer([FromRoute] GetOrder query)
         {
             var result = await QueryAsync(query);
             return result;

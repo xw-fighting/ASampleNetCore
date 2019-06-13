@@ -4,7 +4,7 @@ using System;
 
 namespace ASample.NetCore.Services.Orders.Queries
 {
-    public class GetOrder : IQuery<OrderDetailsDto>
+    public class GetOrder : IQuery<OrderDetailDto>
     {
         public Guid OrderId { get; set; }
         public Guid? CustomerId { get; set; }

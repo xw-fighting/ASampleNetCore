@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.Services.Orders.Controllers
 {
+    [Route("api")]
     public class BaseController : ControllerBase
     {
         private readonly IDispatcher _dispatcher;

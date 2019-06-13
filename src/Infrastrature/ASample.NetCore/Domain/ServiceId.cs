@@ -2,7 +2,7 @@
 
 namespace ASample.NetCore.Domain
 {
-    public class ServiceId
+    public class ServiceId:IServiceId
     {
         private static readonly string UniqueId = $"{Guid.NewGuid():N}";
 
