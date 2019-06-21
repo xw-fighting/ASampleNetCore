@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.Services.Orders.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class OrdersController : BaseController
     {
         private readonly IDispatcher _dispatcher;

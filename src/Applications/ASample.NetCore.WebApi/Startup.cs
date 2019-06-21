@@ -47,7 +47,7 @@ namespace ASample.NetCore.WebApi
             builder.AddDispatchers();
             builder.AddMongoRepository<UserInfo>("User");
             builder.AddRabbitMq();
-            builder.AddRedis();
+            builder.AddCustomerRedis();
            
             //builder.AddMongoRepository<Product>("Products");
             //builder.AddMongoRepository<Order>("Orders");

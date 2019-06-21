@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.Services.Products.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+
     public class BaseController : ControllerBase
     {
         private IDispatcher _dispatcher;

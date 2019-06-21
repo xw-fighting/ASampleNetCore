@@ -12,7 +12,7 @@ namespace ASample.NetCore.Services.Apis.Controllers
     {
         private readonly ICustomersService _customersService;
 
-        protected CartsController(ICustomersService customersService,IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
+        public CartsController(ICustomersService customersService,IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
         {
             _customersService = customersService;
         }

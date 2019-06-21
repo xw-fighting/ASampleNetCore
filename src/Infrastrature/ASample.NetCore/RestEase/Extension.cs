@@ -33,6 +33,8 @@ namespace ASample.NetCore.RestEase
                     ConfigureDefaultClient(services, clientName, serviceName, options);
                     break;
             }
+            ConfigureForwarder<T>(services, clientName);
+
         }
 
 

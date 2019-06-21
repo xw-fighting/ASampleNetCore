@@ -15,11 +15,14 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Redis\ASample.NetCore.Redis.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 

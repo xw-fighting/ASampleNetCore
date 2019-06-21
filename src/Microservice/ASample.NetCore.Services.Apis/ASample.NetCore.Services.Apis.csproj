@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="OpenTracing" Version="0.12.0" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +23,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Redis\ASample.NetCore.Redis.csproj" />
   </ItemGroup>
 
 </Project>

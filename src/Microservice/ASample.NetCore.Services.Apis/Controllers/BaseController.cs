@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ASample.NetCore.Authentications.Attributes;
 using ASample.NetCore.Domain.Message;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.EntityFramwork.Domain;
@@ -11,8 +12,9 @@ using OpenTracing;
 
 namespace ASample.NetCore.Services.Apis.Controllers
 {
-    [Route("api")]
+    [Route("[controller]")]
     [ApiController]
+    [JwtAuth]
     public class BaseController : ControllerBase
     {
         private static readonly string AcceptLanguageHeader = "accept-language";
@@ -22,7 +24,7 @@ namespace ASample.NetCore.Services.Apis.Controllers
         private static readonly string PageLink = "page";
         private readonly IBusPublisher _busPublisher;
         private readonly ITracer _tracer;
-        protected BaseController(IBusPublisher busPublisher, ITracer tracer)
+        public BaseController(IBusPublisher busPublisher, ITracer tracer)
         {
             _busPublisher = busPublisher;
             _tracer = tracer;

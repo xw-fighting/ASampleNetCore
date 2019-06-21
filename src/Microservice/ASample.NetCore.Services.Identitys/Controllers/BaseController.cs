@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.Services.Identitys.Controllers
 {
-    [Route("")]
-    [ApiController]
     public class BaseController : ControllerBase
     {
         protected bool IsAdmin

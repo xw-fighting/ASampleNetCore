@@ -1,16 +1,18 @@
 ﻿using ASample.NetCore.WeChat.Models;
-using ASample.NetCore.WeChat.WeChatAuth;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ASample.NetCore.WeChat.WeChatMessage
+namespace ASample.NetCore.WeChat
 {
-    public static class WeChatMessageService
+    public class WeChatMessageService:IWeChatMessageService
     {
+        private readonly IWeChatAuthService _weChatAuthService;
+
+        public WeChatMessageService(IWeChatAuthService weChatAuthService)
+        {
+            _weChatAuthService = weChatAuthService;
+        }
         /// <summary>
         /// 发送模板消息
         /// </summary>
@@ -19,10 +21,10 @@ namespace ASample.NetCore.WeChat.WeChatMessage
         /// <param name="templateId">模板编号<see cref="MsgTemplateIds"/></param>
         /// <param name="data">模板参数</param>
         /// <returns></returns>
-        public static async Task<SendMsgResult> SendTemplateMsgAsync<TData>(string openId, string templateId, TData data) where TData : MsgTemplateDataBasicParameter
+        public async Task<SendMsgResult> SendTemplateMsgAsync<TData>(string openId, string templateId, TData data) where TData : MsgTemplateDataBasicParameter
         {
             //获取访问微信接口的access_token
-            var accessToken = await WeChatAuthService.Current.GetAccessTokenAsync();
+            var accessToken = await _weChatAuthService.GetAccessTokenAsync();
             //微信发送模板消息url,
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={accessToken}";
             //参数
@@ -45,7 +47,7 @@ namespace ASample.NetCore.WeChat.WeChatMessage
         /// <param name="url"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        private static async Task<SendMsgResult> SendMsgToWechatAsync<TData>(string url, SendMsgParameter<TData> param) where TData : MsgTemplateDataBasicParameter
+        private async Task<SendMsgResult> SendMsgToWechatAsync<TData>(string url, SendMsgParameter<TData> param) where TData : MsgTemplateDataBasicParameter
         {
             //记录日志
             //var log = Logger?.CreateChildLogger("wechat");
@@ -63,5 +65,10 @@ namespace ASample.NetCore.WeChat.WeChatMessage
             return result;
         }
 
+
+        public async Task<bool> SendTextMsgAsync(string msg)
+        {
+            return true;
+        }
     }
 }

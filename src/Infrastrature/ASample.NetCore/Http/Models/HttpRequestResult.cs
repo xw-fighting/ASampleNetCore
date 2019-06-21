@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 
 namespace ASample.NetCore.Http
 {
+    //public class HttpRequestResult:HttpRequestResult<string>
+    //{
+
+    //}
     public class HttpRequestResult
     {
         public bool IsError { get; set; }
-
         public HttpStatusCode StatusCode { get; set; }
-        public  string Data { get; set; }
+        public object Data { get; set; }
         public  string Message { get; set; }
 
-        public static HttpRequestResult Success(string data,string message)
+        public static HttpRequestResult Success<T>(T data,string message) where T:class
         {
             return new HttpRequestResult
             {
                 IsError = false,
-                Data = data,
+                Data = data as T,
                 Message = message,
                 StatusCode = HttpStatusCode.OK
             };
@@ -42,6 +42,17 @@ namespace ASample.NetCore.Http
                 Data = "",
                 Message = message,
                 StatusCode = httpStatusCode
+            };
+        }
+
+        public static HttpRequestResult Error(string message)
+        {
+            return new HttpRequestResult
+            {
+                IsError = true,
+                Data = "",
+                Message = message,
+                StatusCode = HttpStatusCode.InternalServerError
             };
         }
     }

@@ -13,7 +13,7 @@ namespace ASample.NetCore.Services.Apis.Controllers
     public class OrdersController : BaseController
     {
         private readonly IOrdersService _ordersService;
-        protected OrdersController(IOrdersService ordersService, IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
+        public OrdersController(IOrdersService ordersService, IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
         {
             _ordersService = ordersService;
         }

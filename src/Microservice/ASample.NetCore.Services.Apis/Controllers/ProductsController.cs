@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.Services.Apis.Framwork;
 using ASample.NetCore.Services.Apis.Messages.Commands.Products;
 using ASample.NetCore.Services.Apis.Queries;
 using ASample.NetCore.Services.Apis.Services;
@@ -10,11 +11,11 @@ using OpenTracing;
 
 namespace ASample.NetCore.Services.Apis.Controllers
 {
-
+    [AdminAuth]
     public class ProductsController : BaseController
     {
         private readonly IProductsService _productsService;
-        protected ProductsController(IProductsService productsService,IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
+        public ProductsController(IProductsService productsService,IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
         {
             _productsService = productsService;
         }

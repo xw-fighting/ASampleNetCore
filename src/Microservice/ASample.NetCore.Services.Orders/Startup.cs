@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Reflection;
+using ASample.NetCore.Consul;
 using ASample.NetCore.Dispatchers;
+using ASample.NetCore.Jaeger;
 using ASample.NetCore.MongoDb;
+using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;
+using ASample.NetCore.RestEase;
 using ASample.NetCore.Services.Orders.Domain;
 using ASample.NetCore.Services.Orders.Messages.Commands;
 using ASample.NetCore.Services.Orders.Messages.Events;
 using ASample.NetCore.Services.Orders.Messages.Events.Rejected;
+using ASample.NetCore.Services.Orders.Services;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +36,15 @@ namespace ASample.NetCore.Orders
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCustomMvc();
+            //services.AddSwaggerDocs();
+            services.AddConsul();
+            services.AddJaeger();
+            services.AddOpenTracing();
+            //services.AddInitializers(typeof(IMongoDbInitializer));
+            services.RegisterServiceForwarder<IProductsService>("products-service");
+            services.RegisterServiceForwarder<ICustomersService>("customers-service");
+
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                    .AsImplementedInterfaces();
@@ -38,17 +52,19 @@ namespace ASample.NetCore.Orders
             builder.Populate(services);
             builder.AddMongo();
             builder.AddMongoRepository<Order>("Orders");
+            builder.AddMongoRepository<OrderItem>("OrderItems");
             builder.AddMongoRepository<Customer>("Customers");
 
             builder.AddRabbitMq();
             builder.AddDispatchers();
-            builder.AddRedis();
+            builder.AddCustomerRedis();
             Container = builder.Build();
             return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            IApplicationLifetime applicationLifetime, IConsulClient client)
         {
             if (env.IsDevelopment())
             {
@@ -73,7 +89,12 @@ namespace ASample.NetCore.Orders
                    new CompleteOrderRejectedEvent(c.Id, c.CustomerId, e.Message, e.Code))
                .SubscribeCommand<CreateOrderDiscountCommand>()
                .SubscribeEvent<CustomerCreatedEvent>(@namespace: "customers");
-
+            var consulServiceId = app.UseConsul();
+            applicationLifetime.ApplicationStopped.Register(() =>
+            {
+                client.Agent.ServiceDeregister(consulServiceId);
+                Container.Dispose();
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }

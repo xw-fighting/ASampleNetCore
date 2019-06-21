@@ -5,6 +5,7 @@ using ASample.NetCore.Dispatchers;
 using ASample.NetCore.Jaeger;
 using ASample.NetCore.MailKit;
 using ASample.NetCore.MongoDb;
+using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;
 using ASample.NetCore.RestEase;
@@ -34,13 +35,13 @@ namespace ASample.NetCore.Services.Notifications
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddCustomMvc();
             services.AddConsul();
             services.AddJaeger();
             services.AddOpenTracing();
             services.AddRedis();
             services.RegisterServiceForwarder<ICustomersService>("customers-service");
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
@@ -49,6 +50,7 @@ namespace ASample.NetCore.Services.Notifications
             builder.AddDispatchers();
             builder.AddRabbitMq();
             builder.AddMongo();
+            builder.AddCustomerRedis();
             builder.AddMailKit();
 
             Container = builder.Build();
@@ -78,7 +80,7 @@ namespace ASample.NetCore.Services.Notifications
                 Container.Dispose();
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

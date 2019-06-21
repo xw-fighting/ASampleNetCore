@@ -17,7 +17,7 @@ namespace ASample.NetCore.Services.Apis.Controllers
     public class CustomersController : BaseController
     {
         private readonly ICustomersService _customersService;
-        protected CustomersController(ICustomersService customersService, IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
+        public  CustomersController(ICustomersService customersService, IBusPublisher busPublisher, ITracer tracer) : base(busPublisher, tracer)
         {
             _customersService = customersService;
         }

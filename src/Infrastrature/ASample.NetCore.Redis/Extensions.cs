@@ -28,19 +28,17 @@ namespace ASample.NetCore.Redis
 
             services.Configure<RedisOptions>(configuration.GetSection(SectionName));
             var options = configuration.GetOptions<RedisOptions>(SectionName);
-            
-            //services.AddDistributedRedisCache(o =>
-            //{
-            //    o.Configuration = options.ConnectionString;
-            //    o.InstanceName = options.Instance;
-            //});
-
+            services.AddDistributedRedisCache(o =>
+            {
+                o.Configuration = options.ConnectionString;
+                o.InstanceName = options.Instance;
+            });
 
             return services;
 
         }
 
-        public static void AddRedis(this ContainerBuilder builder)
+        public static void AddCustomerRedis(this ContainerBuilder builder)
         {
             IOptions<RedisCacheOptions> redisCacheOption = null;
             builder.Register(context =>

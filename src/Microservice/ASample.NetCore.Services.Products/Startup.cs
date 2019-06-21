@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using ASample.NetCore.Consul;
 using ASample.NetCore.Dispatchers;
+using ASample.NetCore.Jaeger;
 using ASample.NetCore.MongoDb;
+using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;
+using ASample.NetCore.Services.Products.Domain;
 using ASample.NetCore.Services.Products.Messages.Commands;
 using ASample.NetCore.Services.Products.Messages.Events.Rejected;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,23 +40,28 @@ namespace ASample.NetCore.Services.Products
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddCustomMvc();
+            services.AddConsul();
+            services.AddJaeger();
+            services.AddOpenTracing();
+            //services.AddRedis();
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                    .AsImplementedInterfaces();
 
             builder.Populate(services);
             builder.AddMongo();
+            builder.AddMongoRepository<Product>("Products");
             builder.AddRabbitMq();
             builder.AddDispatchers();
-            builder.AddRedis();
+            builder.AddCustomerRedis();
             Container = builder.Build();
             return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, IApplicationLifetime applicationLifetime, IConsulClient client)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +77,9 @@ namespace ASample.NetCore.Services.Products
 
 
             //app.UseHttpsRedirection();
+            app.UseAllForwardedHeaders();
+            app.UseErrorHandler();
+            app.UseServiceId();
             app.UseMvc();
             app.UseRabbitMq()
                 .SubscribeCommand<CreateProductCommand>(onError: (c, e) =>
@@ -79,7 +92,12 @@ namespace ASample.NetCore.Services.Products
                     new ReserveProductsRejectedEvent(c.OrderId, e.Message, e.Code))
                 .SubscribeCommand<ReleaseProductCommand>(onError: (c, e) =>
                     new ReleaseProductsRejectedEvent(c.OrderId, e.Message, e.Code));
-
+            var consulServiceId = app.UseConsul();
+            applicationLifetime.ApplicationStopped.Register(() =>
+            {
+                client.Agent.ServiceDeregister(consulServiceId);
+                Container.Dispose();
+            });
         }
     }
 }

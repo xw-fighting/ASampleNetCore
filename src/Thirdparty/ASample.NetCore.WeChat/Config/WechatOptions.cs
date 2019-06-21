@@ -1,7 +1,7 @@
 ﻿
 namespace ASample.NetCore.WeChat
 {
-    public class WeChatConfig
+    public class WechatOptions
     {
         /// <summary>
         /// 第三方用户唯一凭证
@@ -23,5 +23,10 @@ namespace ASample.NetCore.WeChat
         /// 微信发送审核通知消息模板编号
         /// </summary>
         public string WxCheckMessageTemplateId { get; set; }
+
+        public string NotifyUrl { get; set; }
+        public string Body { get; set; }
+        public string GoodsTag { get; set; }
+        public string Attach { get; set; }
     }
 }
