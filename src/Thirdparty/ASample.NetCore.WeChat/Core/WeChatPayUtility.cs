@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
-namespace ASample.NetCore.WeChat.Core
+namespace ASample.NetCore.WeChat
 {
     public class WeChatPayUtility
     {
@@ -43,7 +43,7 @@ namespace ASample.NetCore.WeChat.Core
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public string SHA1_Encrypt(string content)
+        public static string SHA1_Encrypt(string content)
         {
             byte[] StrRes = Encoding.Default.GetBytes(content);
             HashAlgorithm iSHA = new SHA1CryptoServiceProvider();
@@ -59,11 +59,13 @@ namespace ASample.NetCore.WeChat.Core
         /// <summary>
         /// 生成签名
         /// </summary>
+        /// <param name="signStr"></param>
+        /// <param name="key">key为商户平台设置的密钥key</param>
         /// <returns></returns>
-        public static string MakeSign(string signStr)
+        public static string MakeSign(string signStr,string key)
         {
             //使用URL键值对的格式（即key1=value1&key2=value2…）拼接成字符串str
-            signStr += "&key=" + "";//配置文件中获取//在str后加入API Key
+            signStr += "&key=" + key;//配置文件中获取//在str后加入API Key
             //MD5加密
             var md5 = MD5.Create();
             var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(signStr));

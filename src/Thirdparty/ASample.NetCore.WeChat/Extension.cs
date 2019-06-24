@@ -1,4 +1,5 @@
 ﻿using ASample.NetCore.Extension;
+using ASample.NetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,11 +18,14 @@ namespace ASample.NetCore.WeChat
             }
             var section = configuration.GetSection(SectionName);
             var options = configuration.GetOptions<WechatOptions>(SectionName);
+            services.AddASampleHttpClient();
             services.Configure<WechatOptions>(section);
             services.AddSingleton(options);
             services.AddSingleton<IWeChatAuthService, WeChatAuthService>();
             services.AddSingleton<IWeChatPayService, WeChatPayService>();
             services.AddSingleton<IWeChatMessageService, WeChatMessageService>();
+            services.AddSingleton<IWeChatRedPackService, WeChatRedPackService>();
+            services.AddSingleton<IWeChatEventServices, WeChatEventServices>();
         }
     }
 }

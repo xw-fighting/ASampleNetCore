@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.WeChat.Models;
+﻿using ASample.NetCore.WeChat.WeChatPay;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.WeChat

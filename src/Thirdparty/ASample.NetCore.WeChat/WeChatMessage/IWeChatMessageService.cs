@@ -1,7 +1,4 @@
-﻿using ASample.NetCore.WeChat.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ASample.NetCore.WeChat.WeChatMessage;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.WeChat

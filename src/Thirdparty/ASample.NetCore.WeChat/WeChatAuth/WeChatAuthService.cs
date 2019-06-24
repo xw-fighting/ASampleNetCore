@@ -1,13 +1,8 @@
-﻿using ASample.NetCore.Configuration;
-using ASample.NetCore.Http;
-using ASample.NetCore.WeChat.Core;
-using ASample.NetCore.WeChat.Models;
-using ASample.NetCore.WeChat.Models.JsApi;
+﻿using ASample.NetCore.Http;
+using ASample.NetCore.WeChat.WeChatAuth;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
 
@@ -17,12 +12,16 @@ namespace ASample.NetCore.WeChat
     {
         private readonly MemoryCache _cache;
         private readonly string _wechatKey = "wechat_accesstoken";
-        private readonly IOptions<WechatOptions> _wechatOption;
-        public WeChatAuthService(IOptions<WechatOptions> options)
+        private readonly WechatOptions _wechatOption;
+        private readonly IASampleHttpClient _aSampleHttpClient;
+
+        public WeChatAuthService(IOptions<WechatOptions> options,IASampleHttpClient aSampleHttpClient)
         {
-            _wechatOption = options;
+            _wechatOption = options.Value;
+            _aSampleHttpClient = aSampleHttpClient;
             _cache = MemoryCache.Default;
         }
+
         /// <summary>
         /// 获取用户基本信息
         /// </summary>
@@ -35,12 +34,10 @@ namespace ASample.NetCore.WeChat
                 return HttpRequestResult.Error(accessTokenResult.Message);
             var accessToken = accessTokenResult.Data.ToString();
             var url = $"https://api.weixin.qq.com/cgi-bin/user/info?access_token={accessToken}&openid={openId}&lang=zh_CN";
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(url);
-            var respStr = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<WxUserInfoResult>(respStr);
+            var result = await _aSampleHttpClient.GetAsync<WxUserInfoResult>(url);
             return HttpRequestResult.Success<WxUserInfoResult>(result, "");
         }
+       
         /// <summary>
         /// 获取微信accesstoken, 优先从缓存获取，其次重新请求获取
         /// </summary>
@@ -61,17 +58,19 @@ namespace ASample.NetCore.WeChat
                 }); //在过期时间(秒) 减去10秒，冗余
             return HttpRequestResult.Success(result.AccessToken, "");
         }
+        
         /// <summary>
         /// 微信分享时获取配置参数
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<HttpRequestResult> GetJsApiConfigAsync(string url)
+        public async Task<HttpRequestResult> GetJsApiConfigAsync()
         {
-            var requestResult = await GetJsApiTicketAsync();
-            if (requestResult.IsError)
-                return HttpRequestResult.Error(requestResult.Message);
-            var jsapiResult = (JsApiResult)requestResult.Data;
+            var accessTokenResult = await GetAccessTokenAsync();
+            var url = $"https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token={accessTokenResult.Data.ToString()}";
+            var requestResult = await _aSampleHttpClient.GetAsync<JsApiResult>(url);
+            if (requestResult.ErrCode != "0")
+                return HttpRequestResult.Error(requestResult.ErrMsg);
 
             var dic = new SortedDictionary<string, object>();
             var noncestr = WeChatPayUtility.GeneratorNonceStr();
@@ -80,35 +79,18 @@ namespace ASample.NetCore.WeChat
             dic.SetValue("noncestr", noncestr);
             dic.SetValue("timestamp", timestamp);
             dic.SetValue("url", url);
-            dic.SetValue("jsapi_ticket", jsapiResult.Ticket);
+            dic.SetValue("jsapi_ticket", requestResult.Ticket);
 
             var shaStr = dic.ToUrlString();
-            var signature = WeChatPayUtility.MakeSign(shaStr);
+            var signature = WeChatPayUtility.MakeSign(shaStr,_wechatOption.MechKey);
             var result = new JsApiConfigResult
             {
-                AppId = _wechatOption.Value.WxAppId,
+                AppId = _wechatOption.WxAppId,
                 TimeStamp = timestamp,
                 NonceStr = noncestr,
                 Signature = signature,
             };
             return HttpRequestResult.Success(result,"");
-        }
-
-        /// <summary>
-        /// 获取 JS_Ticket
-        /// </summary>
-        /// <returns></returns>
-        public async Task<HttpRequestResult> GetJsApiTicketAsync()
-        {
-            var accessTokenResult = await GetAccessTokenAsync();
-            var url = $"https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token={accessTokenResult}";
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(url);
-            var responseStr = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<JsApiResult>(responseStr);
-            if (result.ErrCode == "0")
-                return HttpRequestResult.Success<JsApiResult>(result,"");
-            return  HttpRequestResult.Error(result.ErrMsg);
         }
 
         /// <summary>
@@ -123,27 +105,10 @@ namespace ASample.NetCore.WeChat
 
             //创建菜单
             var createMenuUrl = $"https://api.weixin.qq.com/cgi-bin/menu/create?access_token={accessToken}";
-            var result = await PostRequestAsync<CreateMenuResult>(createMenuUrl, menuJsonStr);
+            var result = await _aSampleHttpClient.PostAsync<CreateMenuResult>(createMenuUrl, menuJsonStr);
             if (result.ErrorCode == "0")
-                return HttpRequestResult.Success<CreateMenuResult>(result,"");
+                return HttpRequestResult.Success(result, "");
             return HttpRequestResult.Error(result.ErrorMsg);
-        }
-
-        /// <summary>
-        /// post方法访问
-        /// </summary>
-        /// <param name="postUrl"></param>
-        /// <param name="postData"></param>
-        /// <returns></returns>
-        private static async Task<T> PostRequestAsync<T>(string postUrl, string postData)
-        {
-            // 设置参数
-            var httpClient = new HttpClient();
-            var content = new StringContent(postData);
-            var response = await httpClient.PostAsync(postUrl, content);
-            var jsonResult = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<T>(jsonResult);
-            return result;
         }
 
         /// <summary>
@@ -153,14 +118,10 @@ namespace ASample.NetCore.WeChat
         /// <returns></returns>
         private async Task<AccessTokenResult> RequestAccessTokenAsync()
         {
-            //var config = ConfigurationReader.GetValue<WechatOptions>("wechatconfig");
-            var wxAppId = _wechatOption.Value.WxAppId;
-            var wxSecert = _wechatOption.Value.WxSecret;
+            var wxAppId = _wechatOption.WxAppId;
+            var wxSecert = _wechatOption.WxSecret;
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={wxAppId}&secret={wxSecert}";
-            var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync(url, null);
-            var respStr = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<AccessTokenResult>(respStr);
+            var result = await _aSampleHttpClient.PostAsync<AccessTokenResult>(url, null,DeserializeType.JsonDeserialize);
             return result;
         }
 

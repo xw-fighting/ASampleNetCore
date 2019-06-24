@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ASample.NetCore.WeChat.Core
+namespace ASample.NetCore.WeChat
 {
     public static class SortedDictionaryExtension
     {

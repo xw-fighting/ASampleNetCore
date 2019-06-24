@@ -9,8 +9,8 @@ namespace ASample.NetCore.WeChat
 
         Task<HttpRequestResult> GetBasicInfoAsync(string openId);
 
-        Task<HttpRequestResult> GetJsApiConfigAsync(string url);
+        Task<HttpRequestResult> GetJsApiConfigAsync();
 
-        Task<HttpRequestResult> GetJsApiTicketAsync();
+        Task<HttpRequestResult> CreateMenuAsync(string menuJsonStr);
     }
 }

@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.WeChat.Models;
+﻿using ASample.NetCore.WeChat.WeChatMessage;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
