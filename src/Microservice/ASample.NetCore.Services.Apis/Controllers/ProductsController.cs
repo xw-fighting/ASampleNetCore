@@ -23,7 +23,8 @@ namespace ASample.NetCore.Services.Apis.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]BrowseProducts query)
         {
-            var result = Collection(await _productsService.BrowseAsync(query));
+            var products = await _productsService.BrowseAsync(query);
+            var result = Collection(products);
             return result;
         }
 

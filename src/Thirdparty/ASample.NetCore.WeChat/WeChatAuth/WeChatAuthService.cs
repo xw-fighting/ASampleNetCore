@@ -104,7 +104,7 @@ namespace ASample.NetCore.WeChat
             var accessToken = await GetAccessTokenAsync();
 
             //创建菜单
-            var createMenuUrl = $"https://api.weixin.qq.com/cgi-bin/menu/create?access_token={accessToken}";
+            var createMenuUrl = $"https://api.weixin.qq.com/cgi-bin/menu/create?access_token={accessToken.Data.ToString()}";
             var result = await _aSampleHttpClient.PostAsync<CreateMenuResult>(createMenuUrl, menuJsonStr);
             if (result.ErrorCode == "0")
                 return HttpRequestResult.Success(result, "");

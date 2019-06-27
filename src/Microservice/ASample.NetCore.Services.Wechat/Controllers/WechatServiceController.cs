@@ -19,19 +19,19 @@ namespace ASample.NetCore.WechatService.Controllers
         private readonly IWeChatAuthService _weChatAuthService;
         private readonly IWeChatPayService _weChatPayService;
         private readonly IWeChatMessageService _wChatMessageService;
-        private readonly IWeChatRedPackService _wxSendCashRedPackService;
+        private readonly IWeChatRedPackService  _weChatRedPackService;
         private readonly IWeChatEventServices _weChatEventServices;
 
         public WeChatServiceController(IWeChatAuthService weChatAuthService, 
             IWeChatPayService weChatPayService, 
             IWeChatMessageService wChatMessageService,
-            IWeChatRedPackService wxSendCashRedPackService,
+            IWeChatRedPackService  weChatRedPackService,
             IWeChatEventServices weChatEventServices)
         {
             _weChatAuthService = weChatAuthService;
             _weChatPayService = weChatPayService;
             _wChatMessageService = wChatMessageService;
-            _wxSendCashRedPackService = wxSendCashRedPackService;
+            _weChatRedPackService = weChatRedPackService;
             _weChatEventServices = weChatEventServices;
         }
         [HttpGet("gateway")]
