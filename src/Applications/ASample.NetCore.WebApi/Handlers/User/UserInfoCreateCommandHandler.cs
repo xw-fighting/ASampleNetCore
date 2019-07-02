@@ -23,14 +23,14 @@ namespace ASample.NetCore.WebApi.Handlers.User
         }
         public async Task HandleAsync(UserInfoCreateCommand command, ICorrelationContext context)
         {
-            var discount = new UserInfo()
+            var userInfo = new UserInfo()
             {
                 Id = command.Id,
                 Name = command.Name,
                 Address = command.Address,
                 Age = command.Age
             };
-            await _repository.AddAsync(discount);
+            await _repository.AddAsync(userInfo);
             await _busPublisher.PublishAsync(new UserInfoCreateEvent(command.Id,
                 command.Name, command.Address, command.Age), context);
         }
