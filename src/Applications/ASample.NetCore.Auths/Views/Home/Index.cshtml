@@ -6,3 +6,53 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<div>
+    <div>
+        <label for="UserName">用户名</label>
+        <input type="text" name="UserName" id="UserName"/>
+    </div>
+
+    <div>
+        <label for="UserName">密码</label>
+        <input type="text" name="Password" id="Password"/>
+    </div>
+    <div>
+        <button id="login">登录</button>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        var method = {
+            init: function () {
+                
+                method.eventBind();
+            },
+            eventBind: function () {
+                $("#login").click(function () {
+                    method.signIn();
+                });
+            },
+            signIn: function () {
+                var user = {
+                    UserName:$("#UserName").val(),
+                    Password:$("#Password").val()
+                };
+                $.ajax({
+                    url: "/api/account/sign-in",
+                    method: "post",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data:JSON.stringify(user),
+                    success: function (res) {
+                        console.log(res);
+                    }
+                });
+            }
+        };
+        $(function () {
+            method.init();
+        });
+    </script>
+}

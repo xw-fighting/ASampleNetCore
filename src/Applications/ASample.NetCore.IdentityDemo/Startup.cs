@@ -1,16 +1,16 @@
-﻿using ASample.NetCore.Auths.DbConexts;
-using ASample.NetCore.Auths.Domains;
-using ASample.NetCore.SqlServerDb;
-using ASample.NetCore.SqlServerDb.Options;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ASample.NetCore.Auths
+namespace ASample.NetCore.IdentityDemo
 {
     public class Startup
     {
@@ -31,25 +31,6 @@ namespace ASample.NetCore.Auths
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddDbContext<ASampleIdentityDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.Configure<SqlServerOptions>(Configuration.GetSection("sql"));
-            services.AddEntityFrameworkSqlServer()
-               .AddSqlServer<ASampleIdentityDbContext>();
-            // AddIdentity adds cookie based authentication
-            // Adds scoped classes for things like UserManager, SignInManager, PasswordHashers etc..
-            // NOTE: Automatically adds the validated user from a cookie to the HttpContext.User
-            // https://github.com/aspnet/Identity/blob/85f8a49aef68bf9763cd9854ce1dd4a26a7c5d3c/src/Identity/IdentityServiceCollectionExtensions.cs
-            services.AddIdentity<ASampleUser, IdentityRole>()
-
-                // Adds UserStore and RoleStore from this context
-                // That are consumed by the UserManager and RoleManager
-                // https://github.com/aspnet/Identity/blob/dev/src/EF/IdentityEntityFrameworkBuilderExtensions.cs
-                .AddEntityFrameworkStores<ASampleIdentityDbContext>()
-
-                // Adds a provider that generates unique keys and hashes for things like
-                // forgot password links, phone number verification codes etc...
-                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -64,11 +45,14 @@ namespace ASample.NetCore.Auths
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

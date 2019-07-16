@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ASample.NetCore.Auths.Models;
+using ASample.NetCore.IdentityDemo.Models;
 
-namespace ASample.NetCore.Auths.Controllers
+namespace ASample.NetCore.IdentityDemo.Controllers
 {
     public class HomeController : Controller
     {
@@ -17,14 +17,7 @@ namespace ASample.NetCore.Auths.Controllers
 
         public IActionResult Privacy()
         {
-
             return View();
-        }
-
-        public IActionResult UserInfo()
-        {
-            var user = HttpContext.User.Identity.Name;
-            return Content(user);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
