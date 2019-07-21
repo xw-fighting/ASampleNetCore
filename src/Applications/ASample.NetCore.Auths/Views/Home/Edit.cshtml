@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Edit";
+}
+    <div class="inmodal" id="myModal" style="display: none;">
+        <div class="modal-body form-inline" style="width: 400px;">
+            <div class="table-responsive">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <span class="txt">管理员admin</span>
+                </div>
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input id="userName" readonly name="userName" type="text" placeholder="请输入用户名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input id="password" name="password" disabled="true" type="password" placeholder="请输入密码" class="form-control" data-minlength="6" data-minlength-error="密码最少6位" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input id="realName" name="realName" type="text" placeholder="请输入姓名" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>是否选择</label>
+                    <input type="checkbox" class="i-checks">
+                </div>
+                <a href="#" class="btn btn-info" data-toggle="inmodal" data-target="#myModal3" id="upload-pic">选择图片</a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">关 闭</button>
+            <button type="button" class="btn btn-primary">保 存</button>
+        </div>
+    </div>
+

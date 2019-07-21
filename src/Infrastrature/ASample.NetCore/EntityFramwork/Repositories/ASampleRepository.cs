@@ -28,6 +28,33 @@ namespace ASample.NetCore.EntityFramwork
             return GetAll().PaginateAsync();
         }
 
+        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
+            , Expression<Func<TEntity,s>> sortLamda
+            , Expression<Func<TEntity, bool>> whereLamda
+            , bool isAsc = true)
+        {
+            IQueryable<TEntity> result;
+            
+            var queryable = await QueryAsync(whereLamda);
+            if(queryable.Count() <= 0)
+            {
+                return new PagedResult<TEntity> { Items = new List<TEntity>()};
+            }
+            if(sortLamda == null)
+            {
+                //Expression<Func<TEntity,s>> sort = c=>c.
+            }
+            if (isAsc)
+            {
+                result = queryable.OrderBy(sortLamda).Take(limit).Skip((page - 1) * limit);
+            }
+            else
+            {
+                result = queryable.OrderByDescending(sortLamda).Take(limit).Skip((page - 1) * limit);
+            }
+            return await result.PaginateAsync(page, limit);
+        }
+
         public virtual Task<PagedResult<TEntity>> BrowseAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
         {
             return GetAll().PaginateAsync();

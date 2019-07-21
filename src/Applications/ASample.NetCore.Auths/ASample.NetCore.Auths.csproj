@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -7,8 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190701124745_initIdentityDatabase.cs" />
-    <Compile Remove="Migrations\20190701124745_initIdentityDatabase.Designer.cs" />
+    <None Include="wwwroot\lib\footable\fonts\footable.svg" />
+    <None Include="wwwroot\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\font-awesome\fonts\iconfont.svg" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\lib\dataTables\datatables.min.js" />
+    <None Include="wwwroot\lib\footable\footable.all.min.js" />
+    <None Include="wwwroot\lib\iCheck\icheck.min.js" />
+    <None Include="wwwroot\lib\layui\extend\echarts.js" />
+    <None Include="wwwroot\lib\layui\extend\echartsTheme.js" />
+    <None Include="wwwroot\lib\metisMenu\jquery.metisMenu.js" />
+    <None Include="wwwroot\lib\pace\pace.min.js" />
+    <None Include="wwwroot\lib\slimscroll\jquery.slimscroll.js" />
+    <None Include="wwwroot\lib\slimscroll\jquery.slimscroll.min.js" />
+    <None Include="wwwroot\lib\toastr\toastr.min.js" />
+    <None Include="wwwroot\lib\layer\layer.js" />
+    <None Include="wwwroot\skin-config.html" />
   </ItemGroup>
 
 
@@ -22,6 +38,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServerDb.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 

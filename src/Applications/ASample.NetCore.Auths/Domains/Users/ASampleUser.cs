@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
+using System;
 
 namespace ASample.NetCore.Auths.Domains
 {
@@ -13,5 +15,8 @@ namespace ASample.NetCore.Auths.Domains
         /// The users last name
         /// </summary>
         public string LastName { get; set; }
+
+        [JsonConverter(typeof(ChinaDateTimeConverter))]
+        public DateTime CreateTime { get; set; }
     }
 }

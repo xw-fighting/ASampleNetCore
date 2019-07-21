@@ -2,6 +2,8 @@
 using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.SqlServerDb;
 using ASample.NetCore.SqlServerDb.Options;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ASample.NetCore.Auths
 {
@@ -20,9 +23,10 @@ namespace ASample.NetCore.Auths
         }
 
         public IConfiguration Configuration { get; }
+        public IContainer Container { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -50,8 +54,27 @@ namespace ASample.NetCore.Auths
                 // Adds a provider that generates unique keys and hashes for things like
                 // forgot password links, phone number verification codes etc...
                 .AddDefaultTokenProviders();
+            //services.AddScoped<RoleManager<IdentityRole>>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc().AddJsonOptions(opt => {
+                opt.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var builder = new ContainerBuilder();
+            builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
+                .AsImplementedInterfaces();
+            builder.Populate(services);
+            //builder.AddDispatchers();
+
+            builder.AddSqlServerRepository<ASampleIdentityDbContext, TUser>();
+            //builder.AddSqlServerRepository<ASampleIdentityDbContext, UserInfo>();
+            //builder.AddSqlServerRepository<ASampleIdentityDbContext, UserInfo>();
+            //builder.AddRabbitMq();
+
+            Container = builder.Build();
+
+            return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

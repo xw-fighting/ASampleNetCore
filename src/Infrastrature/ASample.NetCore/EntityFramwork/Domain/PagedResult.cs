@@ -6,12 +6,12 @@ namespace ASample.NetCore.EntityFramwork.Domain
 {
     public class PagedResult<T> : PagedResultBase
     {
-        public IEnumerable<T> Items { get; }
+        public IEnumerable<T> Items { get; set; }
 
         public bool IsEmpty => Items == null || !Items.Any();
         public bool IsNotEmpty => !IsEmpty;
 
-        protected PagedResult()
+        public PagedResult()
         {
             Items = null;
         }

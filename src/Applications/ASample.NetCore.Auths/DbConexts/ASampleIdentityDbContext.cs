@@ -36,11 +36,18 @@ namespace ASample.NetCore.Auths.DbConexts
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.ApplyConfiguration(new UserMap());
-            //modelBuilder.ApplyConfiguration(new UserInfoMap());
-            //modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
-            //modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            //modelBuilder.ApplyConfiguration(new ProductsReportConfiguration(_jsonSerializer));
+            modelBuilder.Entity<TUser>().HasKey(a => a.Id);
+            modelBuilder.Entity<TOrganization>().HasKey(a => a.Id);
+            modelBuilder.Entity<TRole>().HasKey(a => a.Id);
+            modelBuilder.Entity<TRight>().HasKey(a => a.Id);
+            modelBuilder.Entity<TGroup>().HasKey(a => a.Id);
+            modelBuilder.Entity<TLog>().HasKey(a => a.Id);
+            modelBuilder.Entity<TOrganizationRoleRelation>().HasKey(a => a.Id);
+            modelBuilder.Entity<TUserRoleRelation>().HasKey(a => a.Id);
+            modelBuilder.Entity<TUserGroupRelation>().HasKey(a => a.Id);
+            modelBuilder.Entity<TGroupRoleRelation>().HasKey(a => a.Id);
+            modelBuilder.Entity<TRoleRightRelation>().HasKey(a => a.Id);
+
         }
 
         ///// <summary>

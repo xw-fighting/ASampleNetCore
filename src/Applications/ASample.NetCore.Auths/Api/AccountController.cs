@@ -23,7 +23,7 @@ namespace ASample.NetCore.Auths.Api
         public AccountController(UserManager<ASampleUser> userManager, SignInManager<ASampleUser> signInManager, RoleManager<ASampleUser> roleManager)
         {
             _userManager = userManager;
-            _roleManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
         }
 
