@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ASample.NetCore.Auths.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASample.NetCore.Auths.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -15,21 +13,9 @@ namespace ASample.NetCore.Auths.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public IActionResult Config()
         {
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-
-            return View();
-        }
-
-        public IActionResult UserInfo()
-        {
-            var user = HttpContext.User.Identity.Name;
-            return Content(user);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

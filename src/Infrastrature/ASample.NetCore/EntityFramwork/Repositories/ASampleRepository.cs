@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.EntityFramwork
@@ -41,6 +40,33 @@ namespace ASample.NetCore.EntityFramwork
                 return new PagedResult<TEntity> { Items = new List<TEntity>()};
             }
             if(sortLamda == null)
+            {
+                //Expression<Func<TEntity,s>> sort = c=>c.
+            }
+            if (isAsc)
+            {
+                result = queryable.OrderBy(sortLamda).Take(limit).Skip((page - 1) * limit);
+            }
+            else
+            {
+                result = queryable.OrderByDescending(sortLamda).Take(limit).Skip((page - 1) * limit);
+            }
+            return await result.PaginateAsync(page, limit);
+        }
+
+        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
+            , Expression<Func<TEntity, s>> sortLamda
+            , Func<IQueryable<TEntity>,IQueryable<TEntity>> whereLamda = null
+            , bool isAsc = true)
+        {
+            IQueryable<TEntity> result;
+
+            var queryable = whereLamda(GetAll());
+            if (queryable.Count() <= 0)
+            {
+                return new PagedResult<TEntity> { Items = new List<TEntity>() };
+            }
+            if (sortLamda == null)
             {
                 //Expression<Func<TEntity,s>> sort = c=>c.
             }

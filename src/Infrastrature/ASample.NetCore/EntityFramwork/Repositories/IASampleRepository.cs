@@ -27,6 +27,11 @@ namespace ASample.NetCore.EntityFramwork
              TQuery query) where TQuery : PagedQueryBase;
 
         Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
+            , Expression<Func<TEntity, s>> sortLamda
+            , Func<IQueryable<TEntity>, IQueryable<TEntity>> whereLamda = null
+            , bool isAsc = true);
+
+        Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
            , Expression<Func<TEntity, s>> sortLamda
            , Expression<Func<TEntity, bool>> whereLamda
            , bool isAsc = true);
@@ -36,6 +41,4 @@ namespace ASample.NetCore.EntityFramwork
         Task DeleteAsync(TKey id);
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
     }
-
-    
 }

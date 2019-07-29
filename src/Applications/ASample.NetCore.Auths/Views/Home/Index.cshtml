@@ -77,12 +77,20 @@
     </div>
 </div>
 
+
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">开启头部工具栏</div>
                 <div class="layui-card-body">
+                    <div class="test-table-reload-btn" style="margin-bottom: 10px;">
+                        用户名：
+                        <div class="layui-inline">
+                            <input class="layui-input" name="UserName" id="UserName" autocomplete="off">
+                        </div>
+                        <button class="layui-btn" id="search">搜索</button>
+                    </div>
                     <table class="layui-hide" id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
 
                     <script type="text/html" id="test-table-toolbar-toolbarDemo">
@@ -94,9 +102,9 @@
                     </script>
 
                     @*<script type="text/html" id="test-table-toolbar-barDemo">
-                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-                    </script>*@
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>*@
                 </div>
             </div>
         </div>
@@ -161,7 +169,6 @@
 
                 $("#btnSave").click(function () {
                     //添加
-                    debugger
                     var json = $.toJson("#form");
                     if (!param.data) {
                         var methodType = 'post';
@@ -173,6 +180,10 @@
                         json["Id"] = param.data.Id;
                         method.saveData(json,methodType);
                     }
+                });
+
+                $("#search").click(function () {
+                    method.tableReload();
                 });
             },
 
@@ -191,7 +202,7 @@
                             , { field: 'UserName', title: '用户名', width: 120, edit: 'text' }
                             , { field: 'PhoneNumber', title: '手机号', width: 120, edit: 'text' }
                             , {
-                                field: 'Email', title: '邮箱', width: 150, edit: 'text', templet: function (res) {
+                                field: 'Email', title: '邮箱', width: 250, edit: 'text', templet: function (res) {
                                     return '<em>' + res.Email + '</em>'
                                 }
                             }
@@ -202,7 +213,7 @@
                             // , { field: 'ip', title: 'IP', width: 120 }
                             // , { field: 'logins', title: '登入次数', width: 100, sort: true }
                             //, { field: 'joinTime', title: '加入时间', width: 120 }
-                            , { fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo', width: 150 }
+                            //, { fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo', width: 150 }
                         ]]
                         , page: true
                     });
@@ -224,11 +235,15 @@
                                 $("#Password").parent().hide();
                                 $("#ConfirmPassword").parent().hide();
                                 param.data = checkStatus.data[0];
+                                if (!param.data) {
+                                    layer.alert("请选择一行数据进行操作");
+                                    return;
+                                }
                                 method.openDialog();
                                 method.initEditData();
                                 break;
                             case 'delete':
-                                layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                                layer.alert("请选择一行数据进行操作");
                                 break;
                         };
                     });
@@ -253,7 +268,16 @@
                             });
                         }
                     });
-
+                });
+            },
+            tableReload: function () {
+                param.table.reload('test-table-toolbar', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        UserName: $("#UserName").val()
+                    }
                 });
             },
 
@@ -288,7 +312,9 @@
                             return;
                         }
                         else {
+                            layer.closeAll();
                             layer.msg(tipMsg, { "icon": 1 });
+                            method.tableReload();
                         }
                     }
                 })
@@ -317,14 +343,13 @@
                         console.log(res);
                     }
                 });
-            }
+            },
+
+
+            
         };
         $(function () {
             method.init();
         });
-    </script>
-
-    <script>
-
     </script>
 }

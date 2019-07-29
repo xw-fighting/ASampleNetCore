@@ -51,9 +51,26 @@ namespace ASample.NetCore.Auths.Repositories
             return result;
         }
 
+        public async Task<PagedResult<T>> QueryPagedAsync1(int page, int limit
+        , Func<IQueryable<T>, IQueryable<T>> whereLamda = null
+        , bool isAsc = false)
+        {
+            var result = await _sqlServerRepository.QueryPagedAsync(page, limit, c=>c.CreateTime, whereLamda, isAsc);
+            return result;
+        }
+
         public async Task UpdateAsync(T param)
         {
             await _sqlServerRepository.UpdateAsync(param);
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate = null)
+        {
+            T result = new T();
+            if (predicate == null)
+                result = await _sqlServerRepository.GetAsync(c => true);
+            result = await _sqlServerRepository.GetAsync(predicate);
+            return result;
         }
     }
 }

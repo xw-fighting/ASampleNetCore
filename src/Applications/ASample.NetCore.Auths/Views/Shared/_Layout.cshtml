@@ -20,17 +20,19 @@
 
     <link href="~/css/history.css" rel="stylesheet" />
     <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/lib/layui/css/modules/layer/theme/default/layer.css" rel="stylesheet" />
     <link href="~/css/admin.css" rel="stylesheet" />
-    @*<link href="~/lib/layer/layer.css" rel="stylesheet" />*@
 
 
     @*<link rel="stylesheet" href="~/css/site.css" />*@
+    @RenderSection("Styles", required: false)
+
 </head>
 <body class="pace-done fixed-nav fixed-nav-basic fixed-sidebar">
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
-                <ul class="nav metismenu" id="side-menu" >
+                <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                             <span>
@@ -43,7 +45,7 @@
                     </li>
 
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">基础信息管理</span> <span class="fa arrow"></span></a>
+                        <a href="/Home/Index"><i class="fa fa-th-large"></i> <span class="nav-label">基础信息管理</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li class="active"><a href="/Home/Privacy">行政区划管理</a></li>
                             <li><a href="">办事机构管理</a></li>
@@ -116,16 +118,19 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span class="m-r-sm text-muted welcome-message"><i class="fa fa-user fa-lg" style="padding-right: 6px;"></i>欢迎您，管理员</span>
+                            <span class="m-r-sm text-muted welcome-message">
+                                <i class="fa fa-user fa-lg" style="padding-right: 6px;"></i>
+                                欢迎您，<a href="#" id="userName">管理员</a>
+                            </span>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-home fa-lg"></i>首页</a>
+                            <a href="/Home/Index"><i class="fa fa-home fa-lg"></i>首页</a>
                         </li>
                         <li>
-                            <a hrel="#"><i class="iconfont icon-xiugaimima"></i>修改密码</a>
+                            <a href="/Account/Password"><i class="iconfont icon-xiugaimima"></i>修改密码</a>
                         </li>
                         <li>
-                            <a href="login.html">
+                            <a href="#" id="logOut">
                                 <i class="fa fa-sign-out fa-lg"></i>退出登录
                             </a>
                         </li>
@@ -156,7 +161,11 @@
     <script src="~/lib/iCheck/icheck.min.js"></script>
     <script src="~/lib/footable/footable.all.min.js"></script>
     @*<script src="~/lib/layer/layer.js"></script>*@
+    <script src="~/lib/layui/css/modules/layer/layer.js"></script>
     <script src="~/lib/layui/layui.js"></script>
+    @*<script src="~/lib/layui/lay/modules/laytpl.js"></script>*@
+    @*<script src="~/lib/layui/lay/modules/element.js"></script>
+        <script src="~/lib/layui/lay/modules/util.js"></script>*@
     <script src="~/js/jqueryextent.js"></script>
 
     @*<script src="~/lib/vue/vue.js"></script>*@
@@ -190,7 +199,54 @@
             var btnH = $('.fixed-btn > .row').children().height() + 11;
             $('.fixed-btn').height(btnH);
 
+            getUserName();
+
+            $("#logOut").click(function () {
+                logOut();
+            });
+
         });
+        function getUserName() {
+            $.ajax({
+                url: "/api/Account/profile",
+                dataType: "json",
+                contentType: "application/json",
+                method: "post",
+                success: function (res) {
+                    if (res.IsError) {
+                        location.href = "/Account/Login";
+                        return;
+                    }
+                    else {
+                        $("#userName").html(res.Data);
+                    }
+                },
+                error: function () {
+
+                }
+            })
+        }
+
+        function logOut() {
+            $.ajax({
+                url: "/api/Account/sign-out",
+                dataType: "json",
+                contentType: "application/json",
+                method: "post",
+                success: function (res) {
+                    if (res.IsError) {
+                        layer.alert(res.Message);
+                        return;
+                    }
+                    else {
+                        location.href = "/Account/Login";
+                    }
+                },
+                error: function () {
+
+                }
+            })
+        }
 
         function getMenus() {
             $.ajax({
@@ -202,16 +258,16 @@
                     $("#").html("");
                     var menuHtml = "";
                     $(res).each(function (index, item) {
-                        menuHtml +='<li>'+
-                                        '<a href="#"><i class="fa fa-bar-chart-o"></i> '+
-                                        '< span class="nav-label" > 报表统计</span > <span class="fa arrow"></span></a >'+
-                                        '<ul class="nav nav-second-level collapse">'+
-                                            '<li><a href="">用户分析</a></li>'+
-                                            '<li><a href="">缴费分析</a></li>'+
-                                            '<li><a href="">菜单分析</a></li>'+
-                                            '<li><a href="">接口分析</a></li>'+
-                                        '</ul>'+
-                                    '</li>'
+                        menuHtml += '<li>' +
+                            '<a href="#"><i class="fa fa-bar-chart-o"></i> ' +
+                            '< span class="nav-label" > 报表统计</span > <span class="fa arrow"></span></a >' +
+                            '<ul class="nav nav-second-level collapse">' +
+                            '<li><a href="">用户分析</a></li>' +
+                            '<li><a href="">缴费分析</a></li>' +
+                            '<li><a href="">菜单分析</a></li>' +
+                            '<li><a href="">接口分析</a></li>' +
+                            '</ul>' +
+                            '</li>'
                     });
                 },
                 error: function () {
