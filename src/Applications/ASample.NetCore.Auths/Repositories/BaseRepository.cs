@@ -51,7 +51,7 @@ namespace ASample.NetCore.Auths.Repositories
             return result;
         }
 
-        public async Task<PagedResult<T>> QueryPagedAsync1(int page, int limit
+        public async Task<PagedResult<T>> QueryPagedAsync(int page, int limit
         , Func<IQueryable<T>, IQueryable<T>> whereLamda = null
         , bool isAsc = false)
         {

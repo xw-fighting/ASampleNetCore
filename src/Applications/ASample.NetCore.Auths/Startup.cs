@@ -89,6 +89,12 @@ namespace ASample.NetCore.Auths
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ASampleIdentityDbContext>();
+                context.Database.EnsureCreated();
+            }
+
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();

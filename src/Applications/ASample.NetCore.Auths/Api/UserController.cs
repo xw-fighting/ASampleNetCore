@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Auths.Domains;
+using ASample.NetCore.Auths.Models.Admins;
 using ASample.NetCore.Auths.Models.IdentityUsers;
 using ASample.NetCore.Auths.Repositories;
 using ASample.NetCore.Common;
-using ASample.NetCore.Common.QuerylableExtension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -40,11 +40,10 @@ namespace ASample.NetCore.Auths.Api
         }
 
         [HttpGet("QueryPaged")]
-        public async Task<string> QueryPagedAsync([FromQuery] LayuiPagedParam param)
+        public async Task<string> QueryPagedAsync([FromQuery] UserSearchParam param)
         {
-            //var total = _userManager.Users.Count();
-            var filter = param.SearchParam.SearchFilter<TUser,SearchParam>();
-            var result = await _iTUserRepository.QueryPagedAsync1(param.Page,param.Limit, filter);
+            var filter = param.SearchFilter<TUser, UserSearchParam>();
+            var result = await _iTUserRepository.QueryPagedAsync(param.Page,param.Limit, filter);
             var pageData = new LayuiTableDto<TUser>
             {
                 Code = "0",

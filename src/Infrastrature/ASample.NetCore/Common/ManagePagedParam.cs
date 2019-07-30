@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ASample.NetCore.Common
+namespace ASample.NetCore
 {
     public class AdminPagedParam
     {

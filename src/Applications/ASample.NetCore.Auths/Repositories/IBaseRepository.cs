@@ -16,7 +16,7 @@ namespace ASample.NetCore.Auths.Repositories
             , Expression<Func<T, bool>> whereLamda
             , bool isAsc = false);
 
-        Task<PagedResult<T>> QueryPagedAsync1(int page, int limit
+        Task<PagedResult<T>> QueryPagedAsync(int page, int limit
            , Func<IQueryable<T>, IQueryable<T>> whereLamda = null
            , bool isAsc = true);
         Task AddAsync(T param);
