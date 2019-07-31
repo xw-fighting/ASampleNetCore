@@ -1,4 +1,5 @@
-﻿using ASample.NetCore.Auths.Domains;
+﻿using ASample.NetCore.Auths.DbConexts.Maps;
+using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.SqlServerDb.Options;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -35,19 +36,18 @@ namespace ASample.NetCore.Auths.DbConexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<TUser>().HasKey(a => a.Id);
-            modelBuilder.Entity<TOrganization>().HasKey(a => a.Id);
-            modelBuilder.Entity<TRole>().HasKey(a => a.Id);
-            modelBuilder.Entity<TRight>().HasKey(a => a.Id);
-            modelBuilder.Entity<TGroup>().HasKey(a => a.Id);
-            modelBuilder.Entity<TLog>().HasKey(a => a.Id);
-            modelBuilder.Entity<TOrganizationRoleRelation>().HasKey(a => a.Id);
-            modelBuilder.Entity<TUserRoleRelation>().HasKey(a => a.Id);
-            modelBuilder.Entity<TUserGroupRelation>().HasKey(a => a.Id);
-            modelBuilder.Entity<TGroupRoleRelation>().HasKey(a => a.Id);
-            modelBuilder.Entity<TRoleRightRelation>().HasKey(a => a.Id);
-
+            modelBuilder.ApplyConfiguration(new TUserMap());
+            modelBuilder.ApplyConfiguration(new TOrganizationMap());
+            modelBuilder.ApplyConfiguration(new TRoleMap());
+            modelBuilder.ApplyConfiguration(new TRightMap());
+            modelBuilder.ApplyConfiguration(new TGroupMap());
+            modelBuilder.ApplyConfiguration(new TLogMap());
+            modelBuilder.ApplyConfiguration(new TOrganizationRoleRelationMap());
+            modelBuilder.ApplyConfiguration(new TUserRoleRelationMap());
+            modelBuilder.ApplyConfiguration(new TUserGroupRelationMap());
+            modelBuilder.ApplyConfiguration(new TGroupRoleRelationMap());
+            modelBuilder.ApplyConfiguration(new TRoleRightRelationMap());
+            
         }
 
         ///// <summary>

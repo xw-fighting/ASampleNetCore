@@ -70,27 +70,25 @@ namespace ASample.NetCore.Common
                 var type = typeof(string);
                 var parameter = Expression.Parameter(typeof(TSource), "x");
                 var source = propertyName.Split('.').Aggregate((Expression)parameter, Expression.Property);
-                MethodCallExpression body;
                 Expression<Func<TSource, bool>> lambda;
                 if (propertyName.Contains("name", StringComparison.CurrentCultureIgnoreCase))
                     methodName = "Contains";
                 if (propertyName.Contains("time", StringComparison.CurrentCultureIgnoreCase)
                                 || propertyName.Contains("date", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    type = typeof(DateTime);
-                    //propertyValue = Convert.ToDateTime(propertyValue).Date.ToString("yyyy-MM-dd");
-                    body = Expression.Call(source, "GreaterThanOrEqual", Type.EmptyTypes, Expression.Constant(propertyValue, type));
-                    var body1 = Expression.AndAlso(body,Expression.Call(source, "Like", null,Expression.Constant(propertyValue)));
-                    //Expression.Call(source, "GreaterThanOrEqual", Type.EmptyTypes, Expression.Constant(propertyValue, type));
-
-                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+                    var property = typeof(TSource).GetProperty(propertyName);
+                    var left = Expression.Property(parameter, property);
+                    //等式右边的值
+                    var right = Expression.Constant(Convert.ToDateTime(propertyValue).Date);
+                    var right2 = Expression.Constant(Convert.ToDateTime(propertyValue).AddDays(1).Date);
+                    var express = Expression.AndAlso(Expression.GreaterThanOrEqual(left, right),Expression.LessThan(left, right2));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(express, parameter);
                 }
                 else
                 {
-                    body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, type));
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, type));
                     lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
                 }
-                
                 return lambda.Compile();
             }
             catch (Exception ex)

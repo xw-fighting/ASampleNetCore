@@ -1,21 +1,22 @@
 ﻿using ASample.NetCore.Domain.AggregateRoots;
+using System;
 
 namespace ASample.NetCore.Auths.Domains
 {
-    public class TGroup:AggregateRoot
+    public class TRole:AggregateRoot
     {
         /// <summary>
-        /// 组名称
+        /// 父级角色ID
         /// </summary>
-        public string GroupName { get; set; }
+        public Guid ParentId { get; set; }
 
         /// <summary>
-        /// 父组
+        /// 角色名称
         /// </summary>
-        public string ParentId { get; set; }
+        public string RoleName { get; set; }
 
         /// <summary>
-        /// 组描述
+        /// 角色描述
         /// </summary>
         public string Description { get; set; }
     }

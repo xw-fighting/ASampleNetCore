@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190730231553_reBuildDatabase.cs" />
+    <Compile Remove="Migrations\20190730231553_reBuildDatabase.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\footable\fonts\footable.svg" />
     <None Include="wwwroot\font-awesome\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\font-awesome\fonts\fontawesome-webfont.woff2" />

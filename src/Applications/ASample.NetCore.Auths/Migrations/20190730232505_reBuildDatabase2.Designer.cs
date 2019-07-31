@@ -4,14 +4,16 @@ using ASample.NetCore.Auths.DbConexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASample.NetCore.Auths.Migrations
 {
     [DbContext(typeof(ASampleIdentityDbContext))]
-    partial class ASampleIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190730232505_reBuildDatabase2")]
+    partial class reBuildDatabase2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,11 +87,9 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<DateTime?>("DeleteTime");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500);
+                    b.Property<string>("Description");
 
-                    b.Property<string>("GroupName")
-                        .HasMaxLength(50);
+                    b.Property<string>("GroupName");
 
                     b.Property<bool>("IsDeleted");
 
@@ -121,8 +121,7 @@ namespace ASample.NetCore.Auths.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content")
-                        .HasMaxLength(50);
+                    b.Property<string>("Content");
 
                     b.Property<DateTime>("CreateTime");
 
@@ -134,8 +133,7 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<int>("OpType");
 
-                    b.Property<string>("OpUser")
-                        .HasMaxLength(500);
+                    b.Property<string>("OpUser");
 
                     b.HasKey("Id");
 
@@ -151,15 +149,13 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<DateTime?>("DeleteTime");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500);
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("ModifyTime");
 
-                    b.Property<string>("OrgName")
-                        .HasMaxLength(50);
+                    b.Property<string>("OrgName");
 
                     b.Property<Guid>("ParentId");
 
@@ -191,8 +187,7 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<DateTime?>("DeleteTime");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500);
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 
@@ -200,8 +195,7 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<Guid>("ParentId");
 
-                    b.Property<string>("RightName")
-                        .HasMaxLength(50);
+                    b.Property<string>("RightName");
 
                     b.HasKey("Id");
 
@@ -217,8 +211,7 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<DateTime?>("DeleteTime");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500);
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 
@@ -226,8 +219,7 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<Guid>("ParentId");
 
-                    b.Property<string>("RoleName")
-                        .HasMaxLength(20);
+                    b.Property<string>("RoleName");
 
                     b.HasKey("Id");
 
@@ -261,15 +253,13 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<DateTime?>("DeleteTime");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(20);
+                    b.Property<string>("Email");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime>("LastLoginTime");
 
-                    b.Property<string>("LoginName")
-                        .HasMaxLength(20);
+                    b.Property<string>("LoginName");
 
                     b.Property<DateTime>("LoginTime");
 
@@ -279,11 +269,9 @@ namespace ASample.NetCore.Auths.Migrations
 
                     b.Property<string>("Password");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(12);
+                    b.Property<string>("PhoneNumber");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(20);
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
