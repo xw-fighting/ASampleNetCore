@@ -48,11 +48,6 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
