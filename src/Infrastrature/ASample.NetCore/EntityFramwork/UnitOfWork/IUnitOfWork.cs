@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ASample.NetCore.EntityFramwork
 {
-    public interface IUnitOfWork:IDisposable
+    public interface IUnitOfWork<TDbContext> where TDbContext : DbContext , IDisposable
     {
         int SaveChanges();
     }

@@ -10,7 +10,7 @@ namespace ASample.NetCore.Domain.AggregateRoots
         public AggregateRoot()
         {
             Id = Guid.NewGuid();
-            CreateTime = DateTime.Now;
+            //CreateTime = DateTime.Now;
         }
     }
         
@@ -29,6 +29,7 @@ namespace ASample.NetCore.Domain.AggregateRoots
         /// <summary>
         /// 删除时间
         /// </summary>
+
         public virtual DateTime? DeleteTime { get ; set; }
 
         /// <summary>

@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using System;
 using System.Linq;
 using MongoDB.Driver.Linq;
+using MongoDB.Bson;
 
 namespace ASample.NetCore.MongoDb.Repository
 {
@@ -60,6 +61,7 @@ namespace ASample.NetCore.MongoDb.Repository
 
         public override TEntity Update(TEntity entity)
         {
+            entity.ModifyTime = BsonDateTime.Create(DateTime.Now).ToLocalTime();
             Collection.ReplaceOne(e => e.Id == entity.Id, entity);
             return entity;
         }

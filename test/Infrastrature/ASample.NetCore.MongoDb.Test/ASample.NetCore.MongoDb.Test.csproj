@@ -19,4 +19,10 @@
     <ProjectReference Include="..\..\..\src\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

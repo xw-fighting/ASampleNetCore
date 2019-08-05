@@ -8,7 +8,7 @@ namespace ASample.NetCore.EntityFramwork
         public static IServiceCollection AddUnitOfWork<TDbContext>(this IServiceCollection services)
             where TDbContext:DbContext
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork<TDbContext>>();
+            services.AddScoped<IUnitOfWork<TDbContext>, UnitOfWork<TDbContext>>();
             return services;
         }
     }

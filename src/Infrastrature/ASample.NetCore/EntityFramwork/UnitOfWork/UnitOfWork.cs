@@ -4,9 +4,9 @@ using System;
 
 namespace ASample.NetCore.EntityFramwork
 {
-    public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
+    public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext> where TDbContext : DbContext
     {
-        private readonly TDbContext _dbContext;
+        public readonly TDbContext _dbContext;
 
         public UnitOfWork(TDbContext context)
         {

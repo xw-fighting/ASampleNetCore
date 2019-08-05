@@ -122,16 +122,19 @@ namespace ASample.NetCore.EntityFramwork
         public abstract TEntity Insert(TEntity entity);
         public virtual Task AddAsync(TEntity entity)
         {
+            entity.CreateTime = DateTime.Now;
             return Task.FromResult(Insert(entity));
         }
 
         public virtual TKey AddAndGetId(TEntity entity)
         {
+            entity.CreateTime = DateTime.Now;
             return Insert(entity).Id;
         }
 
         public virtual Task<TKey> AddAndGetIdAsync(TEntity entity)
         {
+            entity.CreateTime = DateTime.Now;
             return Task.FromResult(Insert(entity).Id);
         }
 
@@ -139,6 +142,7 @@ namespace ASample.NetCore.EntityFramwork
 
         public virtual Task UpdateAsync(TEntity entity)
         {
+            entity.ModifyTime = DateTime.Now;
             return Task.FromResult(Update(entity));
         }
 
@@ -155,15 +159,29 @@ namespace ASample.NetCore.EntityFramwork
 
         public virtual Task DeleteAsync(TKey id)
         {
-            Delete(id);
-            return Task.FromResult(0);
+            var entity = Get(id);
+            entity.DeleteTime = DateTime.Now;
+            entity.IsDeleted = true;
+            //Delete(id);
+            return Task.FromResult(Update(entity));
+        }
+
+        public virtual Task DeleteAsync(TEntity entity)
+        {
+            var tEntity = Get(entity.Id);
+            tEntity.DeleteTime = DateTime.Now;
+            tEntity.IsDeleted = true;
+            //Delete(id);
+            return Task.FromResult(Update(tEntity));
         }
 
         public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
         {
             foreach (var entity in GetAll().Where(predicate).ToList())
             {
-                Delete(entity);
+                entity.IsDeleted = true;
+                entity.DeleteTime = DateTime.Now;
+                Update(entity);
             }
         }
 

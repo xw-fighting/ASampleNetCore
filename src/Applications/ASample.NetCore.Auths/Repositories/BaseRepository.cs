@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using ASample.NetCore.Auths.DbConexts;
 using ASample.NetCore.Common;
 using ASample.NetCore.Domain.AggregateRoots;
 using ASample.NetCore.EntityFramwork;
@@ -14,10 +15,10 @@ namespace ASample.NetCore.Auths.Repositories
     public class BaseRepository<T> : IBaseRepository<T> where T : AggregateRoot, new()
     {
         private ISqlServerRepository<T> _sqlServerRepository;
-        private IUnitOfWork _unitOfWork;
+        private IUnitOfWork<ASampleIdentityDbContext> _unitOfWork;
         public BaseRepository(
             ISqlServerRepository<T> sqlServerRepository
-            , IUnitOfWork unitOfWork
+            , IUnitOfWork<ASampleIdentityDbContext> unitOfWork
             )
         {
             _sqlServerRepository = sqlServerRepository;

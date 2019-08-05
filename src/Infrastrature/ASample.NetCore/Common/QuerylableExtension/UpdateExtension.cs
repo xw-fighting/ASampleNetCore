@@ -1,34 +1,36 @@
-﻿using System;
+﻿using ASample.NetCore.Domain.AggregateRoots;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 
-namespace ASample.NetCore.Common
+namespace ASample.NetCore.Common.QuerylableExtension
 {
-    public static class FilterExtension
+    public static class UpdateExtension
     {
-        public static Func<IQueryable<T>, IQueryable<T>> SearchFilter<T,TParam>(this TParam param) where T:class,new() where TParam:class
-        {
-            IQueryable<T> queryable(IQueryable<T> q)
-            {
-                if (param != null)
-                {
-                    var hasValueDic = GetPropertyValue(param);
-                    foreach (var item in hasValueDic)
-                    {
-                        var value = hasValueDic[item.Key];
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            Func<T, bool> expression = GetExpression<T, TParam>(item.Key, hasValueDic[item.Key]);
-                            q = q.Where(expression).AsQueryable();
-                        }
-                    }
-                }
-                return q;
-            }
-            return queryable;
-        }
+        //public void UpdateEntity<TEntity>(this TEntity entity) where TEntity : AggregateRoot
+        //{
+        //    IQueryable<TEntity> queryable(IQueryable<TEntity> q)
+        //    {
+        //        if (entity != null)
+        //        {
+        //            var hasValueDic = GetPropertyValue(entity);
+        //            foreach (var item in hasValueDic)
+        //            {
+        //                var value = hasValueDic[item.Key];
+        //                if (!string.IsNullOrEmpty(value))
+        //                {
+        //                    Func<TEntity, bool> expression = GetExpression<TEntity>(item.Key, hasValueDic[item.Key]);
+        //                    q = q.(expression).AsQueryable();
+        //                }
+        //            }
+        //        }
+        //        return q;
+        //    }
+        //    return queryable;
+        //}
 
         /// <summary>
         /// 获取对象的属性和值
@@ -53,16 +55,7 @@ namespace ASample.NetCore.Common
             }
             return propertyValueDic;
         }
-
-        /// <summary>
-        /// 构建 Lambda 表达式
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TParam"></typeparam>
-        /// <param name="propertyName"></param>
-        /// <param name="propertyValue"></param>
-        /// <returns></returns>
-        public static Func<TSource, bool> GetExpression<TSource,TParam>(string propertyName, string propertyValue)
+        public static Func<TSource, bool> GetExpression<TSource>(string propertyName, string propertyValue)
         {
             try
             {
@@ -81,7 +74,7 @@ namespace ASample.NetCore.Common
                     //等式右边的值
                     var right = Expression.Constant(Convert.ToDateTime(propertyValue).Date);
                     var right2 = Expression.Constant(Convert.ToDateTime(propertyValue).AddDays(1).Date);
-                    var express = Expression.AndAlso(Expression.GreaterThanOrEqual(left, right),Expression.LessThan(left, right2));
+                    var express = Expression.AndAlso(Expression.GreaterThanOrEqual(left, right), Expression.LessThan(left, right2));
                     lambda = Expression.Lambda<Func<TSource, bool>>(express, parameter);
                 }
                 else
@@ -95,12 +88,6 @@ namespace ASample.NetCore.Common
             {
                 throw ex;
             }
-        }
-
-
-        public static TValue IfNotNull<T, TValue>(this T objectT, Func<T, TValue> selector)
-        {
-            return objectT == null ? default(TValue) : selector(objectT);
         }
     }
 }
