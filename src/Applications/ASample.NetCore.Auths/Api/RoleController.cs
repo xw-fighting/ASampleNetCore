@@ -6,6 +6,7 @@ using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.Auths.Models;
 using ASample.NetCore.Auths.Repositories;
 using ASample.NetCore.Common;
+using ASample.NetCore.Common.QuerylableExtension;
 using ASample.NetCore.EntityFramwork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -61,7 +62,7 @@ namespace ASample.NetCore.Auths.Api
                 var add = new TRole
                 {
                     RoleName = param.RoleName,
-                    ParentId = (param.ParentId != null ? param.ParentId.Value : param.ParentId),
+                    ParentId = param.ParentId,
                     Description = param.Description,
                 };
                 await _iTRoleRepository.AddAsync(add);
@@ -79,15 +80,15 @@ namespace ASample.NetCore.Auths.Api
         {
             try
             {
-                var update = new TRole
-                {
-                    Id = param.Id.Value,
-                    RoleName = param.RoleName,
-                    ParentId = (param.ParentId != null? param.ParentId.Value: param.ParentId),
-                    Description = param.Description,
-                };
-
-                await _iTRoleRepository.UpdateAsync(update);
+                var tRole = await _iTRoleRepository.GetAsync(c => c.Id == param.Id);
+                tRole = param.UpdateEntity<TRole, RoleParam>(tRole);
+                //if (!string.IsNullOrEmpty(param.RoleName))
+                //    tRole.RoleName = param.RoleName;
+                //if (param.ParentId != null)
+                //    tRole.ParentId = param.ParentId;
+                //if (!string.IsNullOrEmpty(param.Description))
+                //    tRole.Description = param.Description;
+                await _iTRoleRepository.UpdateAsync(tRole);
                 //_unitOfWork.SaveChanges();
                 return ApiRequestResult.Success("修改成功");
             }

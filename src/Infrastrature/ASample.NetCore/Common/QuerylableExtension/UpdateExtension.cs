@@ -4,33 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
 namespace ASample.NetCore.Common.QuerylableExtension
 {
     public static class UpdateExtension
     {
-        //public void UpdateEntity<TEntity>(this TEntity entity) where TEntity : AggregateRoot
-        //{
-        //    IQueryable<TEntity> queryable(IQueryable<TEntity> q)
-        //    {
-        //        if (entity != null)
-        //        {
-        //            var hasValueDic = GetPropertyValue(entity);
-        //            foreach (var item in hasValueDic)
-        //            {
-        //                var value = hasValueDic[item.Key];
-        //                if (!string.IsNullOrEmpty(value))
-        //                {
-        //                    Func<TEntity, bool> expression = GetExpression<TEntity>(item.Key, hasValueDic[item.Key]);
-        //                    q = q.(expression).AsQueryable();
-        //                }
-        //            }
-        //        }
-        //        return q;
-        //    }
-        //    return queryable;
-        //}
+        public static TEntity UpdateEntity<TEntity,TParam>(this TParam param,TEntity entity) 
+            where TEntity : AggregateRoot 
+            where TParam : class,new()
+        {
+            if (param != null)
+            {
+                var hasValueDic = GetPropertyValue(param);
+                foreach (var item in hasValueDic)
+                {
+                    var value = hasValueDic[item.Key];
+                    if (!string.IsNullOrEmpty(value) && item.Key !="Id")
+                    {
+                        var t = entity.GetType();
+                        var properties = t.GetProperties();//获取到泛型所有属性的集合
+                        var updateFiled = properties.FirstOrDefault(c => c.Name == item.Key);
+                        updateFiled.SetValue(entity, item.Value); 
+                    }
+                }
+            }
+            return entity;
+        }
 
         /// <summary>
         /// 获取对象的属性和值

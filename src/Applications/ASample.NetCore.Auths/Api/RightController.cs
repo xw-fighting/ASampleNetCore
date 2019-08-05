@@ -58,7 +58,7 @@ namespace ASample.NetCore.Auths.Api
                 var add = new TRight
                 {
                     RightName = param.RightName,
-                    ParentId = param.ParentId.Value,
+                    ParentId = param.ParentId,
                     Description = param.Description,
                 };
                 await _iTRightRepository.AddAsync(add);
@@ -79,9 +79,9 @@ namespace ASample.NetCore.Auths.Api
                 if (!string.IsNullOrEmpty(param.RightName))
                     tRight.RightName = param.RightName;
                 if (param.ParentId != null)
-                    tRight.ParentId = param.ParentId.Value;
+                    tRight.ParentId = param.ParentId;
                 if (!string.IsNullOrEmpty(param.Description))
-                    tRight.RightName = param.Description;
+                    tRight.Description = param.Description;
 
                 await _iTRightRepository.UpdateAsync(tRight);
                 return ApiRequestResult.Success("修改成功");
