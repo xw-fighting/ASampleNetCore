@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ASample.NetCore.Auths.Models.Rights
 {
     public class RightParam
     {
+        public Guid Id { get; set; }
+        public string RightName { get; set; }
+        public Guid ?ParentId { get; set; }
+        public string Description { get; set; }
     }
 }

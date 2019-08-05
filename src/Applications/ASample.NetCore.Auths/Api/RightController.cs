@@ -22,7 +22,6 @@ namespace ASample.NetCore.Auths.Api
         private readonly ITRightRepository _iTRightRepository;
 
         public RightController(UserManager<ASampleUser> userManager
-            , SignInManager<ASampleUser> signInManager
             , ITRightRepository tRightRepository)
         {
             _userManager = userManager;
@@ -58,7 +57,9 @@ namespace ASample.NetCore.Auths.Api
             {
                 var add = new TRight
                 {
-
+                    RightName = param.RightName,
+                    ParentId = param.ParentId.Value,
+                    Description = param.Description,
                 };
                 await _iTRightRepository.AddAsync(add);
                 return ApiRequestResult.Success("添加成功");
@@ -74,12 +75,15 @@ namespace ASample.NetCore.Auths.Api
         {
             try
             {
-                var update = new TRight
-                {
-                    
-                };
+                var tRight = await _iTRightRepository.GetAsync(c => c.Id == param.Id);
+                if (!string.IsNullOrEmpty(param.RightName))
+                    tRight.RightName = param.RightName;
+                if (param.ParentId != null)
+                    tRight.ParentId = param.ParentId.Value;
+                if (!string.IsNullOrEmpty(param.Description))
+                    tRight.RightName = param.Description;
 
-                await _iTRightRepository.UpdateAsync(update);
+                await _iTRightRepository.UpdateAsync(tRight);
                 return ApiRequestResult.Success("修改成功");
             }
             catch (Exception ex)

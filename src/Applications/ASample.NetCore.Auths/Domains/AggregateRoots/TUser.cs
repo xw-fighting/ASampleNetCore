@@ -8,7 +8,7 @@ namespace ASample.NetCore.Auths.Domains
         /// <summary>
         /// 所属组织
         /// </summary>
-        public Guid OrgId { get; set; }
+        public Guid? OrgId { get; set; }
 
         /// <summary>
         /// 登录帐号
@@ -38,12 +38,12 @@ namespace ASample.NetCore.Auths.Domains
         /// <summary>
         /// 登录时间
         /// </summary>
-        public DateTime LoginTime { get; set; }
+        public DateTime? LoginTime { get; set; }
 
         /// <summary>
         /// 上次登录时间
         /// </summary>
-        public DateTime LastLoginTime { get; set; }
+        public DateTime? LastLoginTime { get; set; }
 
         /// <summary>
         /// 登录次数

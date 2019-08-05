@@ -13,7 +13,7 @@ namespace ASample.NetCore.Auths.Domains
         /// <summary>
         /// 父组
         /// </summary>
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
 
         /// <summary>
         /// 组描述

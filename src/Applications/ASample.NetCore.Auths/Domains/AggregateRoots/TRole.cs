@@ -8,7 +8,7 @@ namespace ASample.NetCore.Auths.Domains
         /// <summary>
         /// 父级角色ID
         /// </summary>
-        public Guid ParentId { get; set; }
+        public Guid ?ParentId { get; set; }
 
         /// <summary>
         /// 角色名称

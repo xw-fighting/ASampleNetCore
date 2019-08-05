@@ -22,6 +22,7 @@ namespace ASample.NetCore.Auths.Repositories
         Task AddAsync(T param);
         Task UpdateAsync(T param);
         Task DeleteAsync(T param);
+        Task DeleteAsync(Guid id);
 
         Task<T> GetAsync(Expression<Func<T, bool>> predicate = null);
     }

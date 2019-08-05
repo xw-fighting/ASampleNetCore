@@ -4,14 +4,16 @@ using ASample.NetCore.Auths.DbConexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASample.NetCore.Auths.Migrations
 {
     [DbContext(typeof(ASampleIdentityDbContext))]
-    partial class ASampleIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190805142816_updateFiledNullable")]
+    partial class updateFiledNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

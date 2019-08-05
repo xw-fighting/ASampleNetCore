@@ -57,7 +57,11 @@ namespace ASample.NetCore.Auths
             //services.AddScoped<RoleManager<IdentityRole>>();
 
 
-            services.AddMvc().AddJsonOptions(opt => {
+            services.AddMvc(
+                option =>
+                {
+                    option.Filters.Add<UnitOfWorkExcute>();
+                }).AddJsonOptions(opt => {
                 opt.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -68,6 +72,8 @@ namespace ASample.NetCore.Auths
             //builder.AddDispatchers();
 
             builder.AddSqlServerRepository<ASampleIdentityDbContext, TUser>();
+            builder.AddSqlServerRepository<ASampleIdentityDbContext, TRole>();
+            builder.AddSqlServerRepository<ASampleIdentityDbContext, TRight>();
             //builder.AddSqlServerRepository<ASampleIdentityDbContext, UserInfo>();
             //builder.AddSqlServerRepository<ASampleIdentityDbContext, UserInfo>();
             //builder.AddRabbitMq();
@@ -89,11 +95,11 @@ namespace ASample.NetCore.Auths
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ASampleIdentityDbContext>();
-                context.Database.EnsureCreated();
-            }
+            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var context = serviceScope.ServiceProvider.GetRequiredService<ASampleIdentityDbContext>();
+            //    context.Database.EnsureCreated();
+            //}
 
             app.UseStaticFiles();
             app.UseCookiePolicy();

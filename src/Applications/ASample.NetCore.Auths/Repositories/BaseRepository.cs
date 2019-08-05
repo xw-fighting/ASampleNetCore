@@ -34,6 +34,11 @@ namespace ASample.NetCore.Auths.Repositories
             await _sqlServerRepository.DeleteAsync(param.Id);
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            await _sqlServerRepository.DeleteAsync(id);
+        }
+
         public async Task<List<T>> QueryAsync(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> result;
