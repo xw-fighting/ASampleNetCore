@@ -43,7 +43,7 @@ namespace ASample.NetCore.Auths.Api
         public async Task<string> QueryPagedAsync([FromQuery] UserSearchParam param)
         {
             var filter = param.SearchFilter<TUser, UserSearchParam>();
-            var result = await _iTUserRepository.QueryPagedAsync(param.Page,param.Limit, filter);
+            var result = await _iTUserRepository.QueryPagedAsync(param.Page, param.Limit, filter);
             var pageData = new LayuiTableDto<TUser>
             {
                 Code = "0",
@@ -53,6 +53,12 @@ namespace ASample.NetCore.Auths.Api
             };
             var json = JsonConvert.SerializeObject(pageData);
             return json;
+        }
+        [HttpGet("id")]
+        public async Task GetUserRight([FromQuery] Guid id)
+        {
+            //获取当前用户的角色
+            //var userRoles = await 
         }
 
         [HttpPost]

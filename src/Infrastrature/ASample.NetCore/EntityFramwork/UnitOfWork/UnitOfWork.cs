@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-
+using System.Threading.Tasks;
 
 namespace ASample.NetCore.EntityFramwork
 {
@@ -21,6 +21,16 @@ namespace ASample.NetCore.EntityFramwork
         public int SaveChanges()
         {
             return _dbContext.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        public TDbContext GetDbContext()
+        {
+            return _dbContext;
         }
     }
 }
