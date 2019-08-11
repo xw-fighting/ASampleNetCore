@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Auths.Domains;
-using ASample.NetCore.Auths.Dtos;
+using ASample.NetCore.Auths.Models;
 using ASample.NetCore.Auths.Models.Account;
 using ASample.NetCore.Auths.Repositories;
 using Microsoft.AspNetCore.Authorization;

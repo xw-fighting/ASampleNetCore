@@ -12,7 +12,7 @@ namespace ASample.NetCore.Auths.DbConexts.Maps
             builder.Property(c => c.LoginName).HasMaxLength(20);
             builder.Property(c => c.UserName).HasMaxLength(20);
             builder.Property(c => c.PhoneNumber).HasMaxLength(12);
-            builder.Property(c => c.Email).HasMaxLength(20);
+            builder.Property(c => c.Email).HasMaxLength(50);
 
             builder.Property(c => c.CreateTime);
             builder.Property(c => c.DeleteTime);

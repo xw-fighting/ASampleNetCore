@@ -1,7 +1,7 @@
 ﻿
 
 @{
-    ViewData["Title"] = "权限信息";
+    ViewData["Title"] = "菜单信息";
 }
 
 
@@ -9,10 +9,10 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">权限信息</div>
+                <div class="layui-card-header">菜单信息</div>
                 <div class="layui-card-body">
                     <div class="test-table-reload-btn" style="margin-bottom: 10px;">
-                        权限名：
+                        菜单名：
                         <div class="layui-inline">
                             <input class="layui-input" name="SearchRightName" id="SearchRightName" autocomplete="off">
                         </div>
@@ -42,20 +42,35 @@
     <div class="modal-body form-inline" style="width: auto;">
         <div class="table-responsive">
             <div class="form-group">
-                <label>权限名:</label>
-                <input id="RightName" name="RightName" type="text" placeholder="请输入权限名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位" required>
+                <label>菜单名:</label>
+                <input id="RightName" name="RightName" type="text" placeholder="请输入菜单名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位" required>
                 <div class="help-block with-errors"></div>
             </div>
             <div class="form-group">
-                <label>父级权限:</label>
-                @*<input id="UserName" name="UserName" type="text" placeholder="请输入用户名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位" required>*@
-                <div class="help-block with-errors"></div>
+                <label>菜单图标:</label>
+                <input id="RightIcon" name="RightIcon" type="text" placeholder="请输入图标" class="form-control">
             </div>
             <div class="form-group">
-                <label>权限描述:</label>
-                <input id="Description" name="Description" type="text" placeholder="请输入描述" class="form-control">
+                <label>菜单地址:</label>
+                <input id="RightUrl" name="RightUrl" type="text" placeholder="请输入地址" class="form-control">
             </div>
-        </div>
+            <div class="form-group">
+                <div class="layui-card layui-form" lay-filter="component-form-element">
+                    <label for=ParentId>父级菜单:</label>
+                    <div class="layui-col-md6">
+                        <select name="ParentId" lay-verify="" id="ParentId">
+
+                        </select>
+                    </div>
+                </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>菜单名描述:</label>
+                    <input id="Description" name="Description" type="text" placeholder="请输入描述" class="form-control">
+                </div>
+            </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal" id="btnClose">关 闭</button>
@@ -71,6 +86,7 @@
         var method = {
             init: function () {
                 method.initTable();
+                method.getParentRight();
                 method.eventBind();
             },
             eventBind: function () {
@@ -109,12 +125,12 @@
                         , title: '用户数据表'
                         , cols: [[
                             { type:'radio', fixed: 'left' }
-                            , { field: 'Id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }
-                            , { field: 'RightName', title: '用户名', width: 120, edit: 'text' }
-                            , { field: 'ParentId', title: '父级权限', width: 120, edit: 'text' }
-                            , {
-                                field: 'Description', title: '描述', width: 250, edit: 'text'
-                            }
+                            //, { field: 'Id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }
+                            , { field: 'RightName', title: '菜单名', width: 120, edit: 'text' }
+                            , { field: 'ParentId', title: '父级菜单', width: 120, edit: 'text' }
+                            , { field: 'RightIcon', title: '菜单图标', width: 120, edit: 'text' }
+                            , { field: 'RightUrl', title: '菜单地址', width: 120, edit: 'text' }
+                            , { field: 'Description', title: '描述', width: 250, edit: 'text'}
                             //, { field: 'sex', title: '性别', width: 80, edit: 'text', sort: true }
                             //, { field: 'city', title: '城市', width: 100 }
                             //, { field: 'sign', title: '签名' }
@@ -203,6 +219,7 @@
             },
 
             saveData: function (json, methodType) {
+                debugger
                 var tipMsg = "添加成功";
                 if (methodType == "put") {
                     tipMsg = "修改成功";
@@ -234,6 +251,34 @@
                     $.toValue(editData, "#form .form-group");
                 }
             },
+
+            getParentRight: function () {
+                $.ajax({
+                    url: "/api/Right/ParentRight",
+                    method: 'get',
+                    //dataType: "json",
+                    contentType: "application/json",
+                    //data: JSON.stringify(json),
+                    success: function (res) {
+                        debugger
+                        if (res.IsError) {
+                            layer.alert(res.Message);
+                            return;
+                        }
+                        else {
+                            //layer.closeAll();
+                            //layer.msg(tipMsg, { "icon": 1 });
+                            $("#ParentId").html("");
+                            var selectStr = '<option value="">请选择父级菜单</option>';
+                            debugger
+                            $.each(res.Data, function (index,item) {
+                                selectStr += '<option value="' + item.Id + '">' + item.RightName + '</option>';
+                            });
+                            $("#ParentId").append(selectStr);
+                        }
+                    }
+                })
+            }
         };
         $(function () {
             method.init();

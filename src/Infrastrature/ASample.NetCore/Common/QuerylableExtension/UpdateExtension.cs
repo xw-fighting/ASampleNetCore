@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ASample.NetCore.Common.QuerylableExtension
+namespace ASample.NetCore.Common
 {
     public static class UpdateExtension
     {

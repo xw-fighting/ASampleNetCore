@@ -19,12 +19,12 @@ namespace ASample.NetCore.EntityFramwork
 
         public virtual Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(GetAll());
+            return Task.FromResult(GetAll().Where(predicate));
         }
 
         public virtual Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
         {
-            return GetAll().PaginateAsync();
+            return GetAll().Where(predicate).PaginateAsync();
         }
 
         public virtual async Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit

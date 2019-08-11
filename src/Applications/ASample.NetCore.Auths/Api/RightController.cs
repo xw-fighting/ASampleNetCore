@@ -34,6 +34,13 @@ namespace ASample.NetCore.Auths.Api
             return ApiRequestResult.Success(result, "");
         }
 
+        [HttpGet("ParentRight")]
+        public async Task<ApiRequestResult> GetParentRightAsync()
+        {
+            var result = await _iTRightRepository.QueryAsync(c => c.ParentId == null);
+            return ApiRequestResult.Success(result, "");
+        }
+
         [HttpGet("QueryPaged")]
         public async Task<string> QueryPagedAsync([FromQuery] RightSearchParam param)
         {
@@ -60,6 +67,8 @@ namespace ASample.NetCore.Auths.Api
                     RightName = param.RightName,
                     ParentId = param.ParentId,
                     Description = param.Description,
+                    RightIcon = param.RightIcon,
+                    RightUrl = param.RightUrl,
                 };
                 await _iTRightRepository.AddAsync(add);
                 return ApiRequestResult.Success("添加成功");
@@ -76,13 +85,7 @@ namespace ASample.NetCore.Auths.Api
             try
             {
                 var tRight = await _iTRightRepository.GetAsync(c => c.Id == param.Id);
-                if (!string.IsNullOrEmpty(param.RightName))
-                    tRight.RightName = param.RightName;
-                if (param.ParentId != null)
-                    tRight.ParentId = param.ParentId;
-                if (!string.IsNullOrEmpty(param.Description))
-                    tRight.Description = param.Description;
-
+                tRight = param.UpdateEntity<TRight,RightParam>(tRight);
                 await _iTRightRepository.UpdateAsync(tRight);
                 return ApiRequestResult.Success("修改成功");
             }

@@ -16,6 +16,16 @@ namespace ASample.NetCore.Auths.Domains
         public string RightName { get; set; }
 
         /// <summary>
+        /// 权限地址
+        /// </summary>
+        public string RightUrl { get; set; }
+
+        /// <summary>
+        /// 权限图标
+        /// </summary>
+        public string RightIcon { get; set; }
+
+        /// <summary>
         /// 权限描述
         /// </summary>
         public string Description { get; set; }

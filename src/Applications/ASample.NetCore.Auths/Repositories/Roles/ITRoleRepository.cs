@@ -8,5 +8,9 @@ namespace ASample.NetCore.Auths.Repositories
     public interface ITRoleRepository:IBaseRepository<TRole>
     {
         Task<List<TRoleRightRelation>> GetRoleRightsAsync(Guid roleId);
+
+        Task<bool> DeleteRoleRightAsync(Guid roleId);
+
+        Task<bool> UpdateRoleRightAsync(Guid roleId, List<Guid> rightIds);
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.Auths.Dtos
+namespace ASample.NetCore.Auths.Models
 {
     public class SignInParam
     {

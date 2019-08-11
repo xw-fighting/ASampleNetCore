@@ -44,7 +44,8 @@ namespace ASample.NetCore.Auths.Repositories
             IQueryable<T> result;
             if(predicate == null)
                 result = await _sqlServerRepository.QueryAsync(c => true);
-            result = await _sqlServerRepository.QueryAsync(predicate);
+            else
+                result = await _sqlServerRepository.QueryAsync(predicate);
             return result.ToList();
         }
 

@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using System;
+using System.IO;
 
 namespace ASample.NetCore.Auths
 {
@@ -102,6 +104,13 @@ namespace ASample.NetCore.Auths
             //}
 
             app.UseStaticFiles();
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+                RequestPath = new PathString("/wwwroot"),
+                EnableDirectoryBrowsing = true
+            });
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc(routes =>

@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "角色权限";
+}
+@section Styles{
+    <style>
+        .layTable {
+            width: 50%;
+            display: block;
+            float: left;
+            margin-right: 2px;
+            /*border:solid #808080 1px;*/
+        }
+    </style>
+}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">菜单信息</div>
+                <div class="layui-card-body">
+                    <div class="test-table-reload-btn" style="margin-bottom: 10px;">
+                        用户名：
+                        <div class="layui-inline">
+                            <input class="layui-input" name="UserName" id="UserName" autocomplete="off">
+                        </div>
+                        <button class="layui-btn" id="search">搜索</button>
+                    </div>
+                    <table class="layui-hide" id="roleTable" lay-filter="roleTable"></table>
+                    <table class="layui-hide" id="rightTable" lay-filter="rightTable"></table>
+
+
+                    <script type="text/html" id="roleTable-toolbar">
+                        <div class="layui-btn-container">
+                            <button class="layui-btn layui-btn-sm btn btn-info" lay-event="add"><i class="iconfont icon-xinzeng"></i>保存设置</button>
+
+                            @*<button class="layui-btn layui-btn-sm btn btn-info" lay-event="add"><i class="iconfont icon-xinzeng"></i>新增</button>*@
+                            @*<button class="layui-btn layui-btn-sm btn btn-info" lay-event="update"><i class="iconfont icon-bianji"></i>修改</button>*@
+                            @*<button class="layui-btn layui-btn-sm btn btn-info" lay-event="delete"><i class="iconfont icon-shanchu"></i>删除</button>*@
+                        </div>
+                    </script>
+
+                    @*<script type="text/html" id="test-table-toolbar-barDemo">
+                            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                        </script>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        var param = {
+            data: null,
+            table: null,
+            righttable: null,
+            roleRights: [],
+            roleId:null
+        };
+        var method = {
+            init: function () {
+                method.initTable();
+                method.eventBind();
+            },
+            eventBind: function () {
+                $("#search").click(function () {
+                    method.tableReload();
+                });
+            },
+
+            initTable: function () {
+                layui.use(['table'], function () {
+                    var table = layui.table;
+                    param.table = table;
+                    table.render({
+                        elem: '#roleTable'
+                        , url: '/api/Role/QueryPaged'
+                        , toolbar: '#roleTable-toolbar'
+                        , title: '角色数据表'
+                        , cols: [[
+                            { type: 'radio', fixed: 'left' }
+                            //, { field: 'Id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }
+                            , { field: 'RoleName', title: '角色名', width: 220, edit: 'text' }
+                            , { field: 'Description', title: '描述', width: 220, edit: 'text' }
+                        ]]
+                        //, page: true
+                    });
+
+                    //头工具栏事件
+                    table.on('toolbar(roleTable)', function (obj) {
+                        debugger
+                        var checkStatus = table.checkStatus(obj.config.id);
+                        switch (obj.event) {
+                            case 'add':
+                                method.updateRoleRight();
+                                break;
+                            case 'update':
+                               
+                                break;
+                            case 'delete':
+                                layer.alert("请选择一行数据进行操作");
+                                break;
+                        };
+                    });
+
+                    //监听行工具事件
+                    table.on('tool(roleTable)', function (obj) {
+
+                    });
+
+                    table.on('row(roleTable)', function (obj) {
+                        var data = obj.data;
+                        method.initRightTable(data.Id);
+                        param.roleId = data.Id;
+                        ////标注选中样式
+                        //obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                    });
+                    $(".layui-table-box").addClass("layTable");
+                    //if(!date.Id)
+                    method.initRightTable();
+                });
+            },
+
+            initRightTable: function (roleId) {
+                var url = '/api/Role/RoleRight';
+                if (roleId)
+                    url += '?RoleId=' + roleId;
+                layui.use(['table'], function () {
+                    var table = layui.table;
+                    param.righttable = table;
+                    table.render({
+                        elem: '#rightTable'
+                        , url: url
+                        //, toolbar: '#test-table-toolbar-toolbarDemo'
+                        , title: '菜单表'
+                        , cols: [[
+                            { type: 'checkbox' }
+                            //, { field: 'Id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }
+                            , { field: 'RightName', title: '菜单名', width: 120, edit: 'text' }
+                            , { field: 'Description', title: '描述', width: 120, edit: 'text' }
+                        ]]
+                        //, page: true
+                    });
+
+                     table.on('row(rightTable)', function (obj) {
+                        var data = obj.data;
+                         //method.initRoleTable(data.Id);
+                         param.roleRights.push(data.Id);
+                        ////标注选中样式
+                        //obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                    });
+                });
+            },
+
+            tableReload: function () {
+                param.table.reload('test-table-toolbar', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        UserId: param.data.Id
+                    }
+                });
+            },
+
+            updateRoleRight: function () {
+                debugger
+
+                var roleRightParam = {
+                    RoleId: param.roleId,
+                    RightIds: param.roleRights
+                };
+                $.ajax({
+                    url: '/api/Role/RoleRight',
+                    method: 'post',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(roleRightParam),
+                    success: function (res) {
+                        if (res.IsError) {
+                            layer.alert(res.Message);
+                            return;
+                        }
+                        layer.msg(res.Message, { "icon": 1 });
+                    },
+                    error: function () {
+
+                    }
+
+                })
+            }
+        };
+        $(function () {
+            method.init();
+        });
+    </script>
+}
+
+

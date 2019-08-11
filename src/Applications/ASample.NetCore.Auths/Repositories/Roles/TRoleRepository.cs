@@ -12,20 +12,47 @@ namespace ASample.NetCore.Auths.Repositories
 {
     public class TRoleRepository : BaseRepository<TRole>,ITRoleRepository
     {
-        private readonly ASampleIdentityDbContext _dbContext;
+        //private readonly IUnitOfWork<ASampleIdentityDbContext> _unitOfWork;
         public TRoleRepository(
             ISqlServerRepository<TRole> sqlServerRepository
             , IUnitOfWork<ASampleIdentityDbContext> unitOfWork
-            , ASampleIdentityDbContext dbContext
             ):base(sqlServerRepository, unitOfWork)
         {
-            _dbContext = dbContext;
+            //_unitOfWork = unitOfWork;
+            _dbSet = unitOfWork.GetDbContext().Set<TRoleRightRelation>();
         }
+
+        public DbSet<TRoleRightRelation> _dbSet;
 
         public async Task<List<TRoleRightRelation>> GetRoleRightsAsync(Guid roleId)
         {
-            var roleRight =await _dbContext.Set<TRoleRightRelation>().Where(c => c.RoleId == roleId).ToListAsync();
+            var roleRight =await _dbSet.Where(c => c.RoleId == roleId).ToListAsync();
             return roleRight;
+        }
+
+        public async Task<bool> DeleteRoleRightAsync(Guid roleId)
+        {
+            var roleRights =  _dbSet.Where(c => c.RoleId == roleId);
+             _dbSet.RemoveRange(roleRights);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdateRoleRightAsync(Guid roleId,List<Guid> rightIds)
+        {
+            var roleRights = _dbSet.Where(c => c.RoleId == roleId);
+            _dbSet.RemoveRange(roleRights);
+            var roleRightEntitys = new List<TRoleRightRelation>();
+            foreach (var item in rightIds)
+            {
+                var roleRight = new TRoleRightRelation
+                {
+                    RoleId = roleId,
+                    RightId = item
+                };
+                roleRightEntitys.Add(roleRight);
+            }
+            await _dbSet.AddRangeAsync(roleRightEntitys);
+            return await Task.FromResult(true);
         }
     }
 }
