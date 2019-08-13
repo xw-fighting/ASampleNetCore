@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ASample.NetCore.Domain.Exceptions;
 
 namespace ASample.NetCore.Handlers
 {

@@ -1,5 +1,4 @@
-﻿using ASample.NetCore.Domain.Exceptions;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.Handlers

@@ -1,5 +1,4 @@
-﻿using ASample.NetCore.Domain.Exceptions;
-using ASample.NetCore.Redis.Dto;
+﻿using ASample.NetCore.Redis.Dto;
 using ASample.NetCore.Redis.Options;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Options;

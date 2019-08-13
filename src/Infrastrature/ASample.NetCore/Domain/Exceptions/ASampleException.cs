@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ASample.NetCore.Domain.Exceptions
+namespace ASample.NetCore
 {
     public class ASampleException:Exception
     {

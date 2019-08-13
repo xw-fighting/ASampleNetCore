@@ -1,5 +1,4 @@
-﻿using ASample.NetCore.Domain.Exceptions;
-using ASample.NetCore.Serialize;
+﻿using ASample.NetCore.Serialize;
 using Newtonsoft.Json;
 using System;
 using System.Net;

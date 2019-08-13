@@ -1,5 +1,4 @@
-﻿using ASample.NetCore.Domain.Exceptions;
-using ASample.NetCore.Domain.RabbitMq;
+﻿using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.Handlers;
 using ASample.NetCore.Services.Customers.Messages.Events.Orders;
 using ASample.NetCore.Services.Customers.Repositories;

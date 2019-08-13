@@ -1,5 +1,4 @@
 ﻿using System;
-using ASample.NetCore.Domain.Exceptions;
 using ASample.NetCore.Domain.Message;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;

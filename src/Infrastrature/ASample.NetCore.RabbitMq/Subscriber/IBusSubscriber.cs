@@ -1,5 +1,4 @@
-﻿using ASample.NetCore.Domain.Exceptions;
-using ASample.NetCore.Domain.Message;
+﻿using ASample.NetCore.Domain.Message;
 using System;
 
 namespace ASample.NetCore.RabbitMq.Subscriber

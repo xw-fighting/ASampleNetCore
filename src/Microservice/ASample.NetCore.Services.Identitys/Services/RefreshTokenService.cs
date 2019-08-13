@@ -1,6 +1,5 @@
 ﻿using ASample.NetCore.Authentication.Dto;
 using ASample.NetCore.Authentication.Handlers;
-using ASample.NetCore.Domain.Exceptions;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.RabbitMq.Publisher;
 using ASample.NetCore.Services.Identitys.Domain;

@@ -1,5 +1,4 @@
 ﻿using ASample.NetCore.Services.Identitys.Dto;
-using ASample.NetCore.Domain.Exceptions;
 using ASample.NetCore.Domain.AggregateRoots;
 using Microsoft.AspNetCore.Identity;
 using System;

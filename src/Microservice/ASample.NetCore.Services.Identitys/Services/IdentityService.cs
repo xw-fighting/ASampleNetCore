@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.Services.Identitys.Dto;
 using ASample.NetCore.Services.Identitys.Repositories;
-using ASample.NetCore.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using ASample.NetCore.Authentication.Handlers;
 using ASample.NetCore.RabbitMq.Publisher;

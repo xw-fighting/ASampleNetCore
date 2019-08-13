@@ -1,5 +1,4 @@
 ﻿using ASample.NetCore.Domain.AggregateRoots;
-using ASample.NetCore.Domain.Exceptions;
 using System;
 
 namespace ASample.NetCore.Services.Customers.Domain
