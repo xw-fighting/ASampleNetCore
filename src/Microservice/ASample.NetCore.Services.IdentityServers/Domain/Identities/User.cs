@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace ASample.NetCore.Services.IdentityServers.Domain
 {
-    public class IdentityUser:AggregateRoot
+    public class User:AggregateRoot
     {
         private static readonly Regex EmailRegex = new Regex(
             @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
@@ -17,19 +17,19 @@ namespace ASample.NetCore.Services.IdentityServers.Domain
         public string Role { get; private set; }
         public string PasswordHash { get; private set; }
 
-        protected IdentityUser()
+        protected User()
         {
 
         }
 
-        public IdentityUser(Guid id, string name,string email, string role)
+        public User(Guid id, string name,string email, string role)
         {
             if (!EmailRegex.IsMatch(email))
             {
                 throw new ASampleException(IdentityServerCodes.InvalidEmail,
                     $"Invalid email: '{email}'.");
             }
-            if (!IdentityRole.IsValid(role))
+            if (!Domain.Role.IsValid(role))
             {
                 throw new ASampleException(IdentityServerCodes.InvalidRole,
                     $"Invalid role: '{role}'.");
@@ -45,7 +45,7 @@ namespace ASample.NetCore.Services.IdentityServers.Domain
             Role = role.ToLowerInvariant();
         }
 
-        public void SetPassword(string password, IPasswordHasher<IdentityUser> passwordHasher)
+        public void SetPassword(string password, IPasswordHasher<User> passwordHasher)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
@@ -55,7 +55,7 @@ namespace ASample.NetCore.Services.IdentityServers.Domain
             PasswordHash = passwordHasher.HashPassword(this, password);
         }
 
-        public bool ValidatePassword(string password, IPasswordHasher<IdentityUser> passwordHasher)
+        public bool ValidatePassword(string password, IPasswordHasher<User> passwordHasher)
             => passwordHasher.VerifyHashedPassword(this, PasswordHash, password) != PasswordVerificationResult.Failed;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ASample.NetCore.Services.Identitys.Domain;
-using ASample.NetCore.Services.Identitys.Dto;
 using ASample.NetCore.Services.Identitys.Repositories;
 using Microsoft.AspNetCore.Identity;
 using ASample.NetCore.Authentication.Handlers;
@@ -36,6 +35,23 @@ namespace ASample.NetCore.Services.Identitys.Services
             _busPublisher = busPublisher;
         }
 
+        public async Task<JsonWebToken> SignInAsync(string email, string password)
+        {
+            var user = await _userRepository.GetAsync(email);
+            if (user == null || !user.ValidatePassword(password, _passwordHasher))
+            {
+                throw new ASampleException(Codes.InvalidCredentials,
+                    "Invalid credentials.");
+            }
+            var refreshToken = new RefreshToken(user, _passwordHasher);
+            var claims = await _claimsProvider.GetAsync(user.Id);
+            var jwt = _jwtHandler.CreateToken(user.Id.ToString("N"), user.Role, claims);
+            jwt.RefreshToken = refreshToken.Token;
+            await _refreshTokenRepository.AddAsync(refreshToken);
+
+            return jwt;
+        }
+
         public async Task SignUpAsync(Guid id, string email, string password, string role = Role.User)
         {
             var user = await _userRepository.GetAsync(email);
@@ -54,22 +70,7 @@ namespace ASample.NetCore.Services.Identitys.Services
             await _busPublisher.PublishAsync(new SignedUpEvent(id, email, role), CorrelationContext.Empty);
         }
 
-        public async Task<JsonWebToken> SignInAsync(string email, string password)
-        {
-            var user = await _userRepository.GetAsync(email);
-            if (user == null || !user.ValidatePassword(password, _passwordHasher))
-            {
-                throw new ASampleException(Codes.InvalidCredentials,
-                    "Invalid credentials.");
-            }
-            var refreshToken = new RefreshToken(user, _passwordHasher);
-            var claims = await _claimsProvider.GetAsync(user.Id);
-            var jwt = _jwtHandler.CreateToken(user.Id.ToString("N"), user.Role, claims);
-            jwt.RefreshToken = refreshToken.Token;
-            await _refreshTokenRepository.AddAsync(refreshToken);
-
-            return jwt;
-        }
+        
 
         public async Task ChangePasswordAsync(Guid userId, string currentPassword, string newPassword)
         {

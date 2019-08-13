@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Services.Identitys.Dto;
+﻿using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.Domain.AggregateRoots;
 using Microsoft.AspNetCore.Identity;
 using System;

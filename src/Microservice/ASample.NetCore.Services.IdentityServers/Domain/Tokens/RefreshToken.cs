@@ -1,13 +1,12 @@
-﻿using ASample.NetCore.Services.Identitys.Domain;
-using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain.AggregateRoots;
 using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace ASample.NetCore.Services.Identitys.Domain
+
+namespace ASample.NetCore.Services.IdentityServers.Domain
 {
     public class RefreshToken:AggregateRoot
     {
-        //public Guid Id { get; private set; }
         public Guid UserId { get; private set; }
         public string Token { get; private set; }
         public DateTime? RevokedTime { get; private set; }
@@ -28,7 +27,7 @@ namespace ASample.NetCore.Services.Identitys.Domain
         {
             if (Revoked)
             {
-                throw new ASampleException(Codes.RefreshTokenAlreadyRevoked,
+                throw new ASampleException(IdentityServerCodes.RefreshTokenAlreadyRevoked,
                     $"Refresh token: '{Id}' was already revoked at '{RevokedTime}'.");
             }
             RevokedTime = DateTime.Now;

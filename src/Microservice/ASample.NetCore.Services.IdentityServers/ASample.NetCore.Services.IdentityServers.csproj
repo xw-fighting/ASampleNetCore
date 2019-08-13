@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -12,10 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Tokens\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 

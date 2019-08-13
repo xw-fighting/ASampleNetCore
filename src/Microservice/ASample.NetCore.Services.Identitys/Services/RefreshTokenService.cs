@@ -3,7 +3,7 @@ using ASample.NetCore.Authentication.Handlers;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.RabbitMq.Publisher;
 using ASample.NetCore.Services.Identitys.Domain;
-using ASample.NetCore.Services.Identitys.Dto;
+using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.Services.Identitys.Messages.Events;
 using ASample.NetCore.Services.Identitys.Repositories;
 using Microsoft.AspNetCore.Identity;
