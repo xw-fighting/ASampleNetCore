@@ -53,8 +53,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.MongoDb.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Authentications", "src\Infrastrature\ASample.NetCore.Authentication\ASample.NetCore.Authentications.csproj", "{5080A55B-B978-4BA5-A56F-192348349934}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SignalR", "src\Infrastrature\ASample.NetCore.SignalR\ASample.NetCore.SignalR.csproj", "{F12DB760-524D-4D80-9AEA-DBA2155449E7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Identitys", "src\Microservice\ASample.NetCore.Services.Identitys\ASample.NetCore.Services.Identitys.csproj", "{438C8322-0975-410C-9A29-A6650C4D1FC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Services.Wechats", "src\Microservice\ASample.NetCore.Services.Wechat\ASample.NetCore.Services.Wechats.csproj", "{0AEE419A-24A2-4F08-8928-B55A6C264B96}"
@@ -83,9 +81,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SignalRWeb"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Auths", "src\Applications\ASample.NetCore.Auths\ASample.NetCore.Auths.csproj", "{8E0CC472-9F19-4624-AA22-E39890E586E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.PostgreDb", "src\Infrastrature\ASample.NetCore.PostgreDb\ASample.NetCore.PostgreDb.csproj", "{02379663-CBF6-4A25-A1B3-E5F3E638DECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.PostgreDb", "src\Infrastrature\ASample.NetCore.PostgreDb\ASample.NetCore.PostgreDb.csproj", "{02379663-CBF6-4A25-A1B3-E5F3E638DECF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.DbApiTest", "src\Applications\ASample.NetCore.DbApiTest\ASample.NetCore.DbApiTest.csproj", "{650CD39C-BF9E-4D9D-AF85-B1BCA9DD92D3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.SignalR", "src\Thirdparty\ASample.NetCore.SignalR\ASample.NetCore.SignalR.csproj", "{B9EDC86A-0761-4D3B-8C94-A9B6DADC91C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,10 +165,6 @@ Global
 		{5080A55B-B978-4BA5-A56F-192348349934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5080A55B-B978-4BA5-A56F-192348349934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5080A55B-B978-4BA5-A56F-192348349934}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F12DB760-524D-4D80-9AEA-DBA2155449E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F12DB760-524D-4D80-9AEA-DBA2155449E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F12DB760-524D-4D80-9AEA-DBA2155449E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F12DB760-524D-4D80-9AEA-DBA2155449E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{438C8322-0975-410C-9A29-A6650C4D1FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{438C8322-0975-410C-9A29-A6650C4D1FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{438C8322-0975-410C-9A29-A6650C4D1FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -225,6 +221,10 @@ Global
 		{650CD39C-BF9E-4D9D-AF85-B1BCA9DD92D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{650CD39C-BF9E-4D9D-AF85-B1BCA9DD92D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{650CD39C-BF9E-4D9D-AF85-B1BCA9DD92D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9EDC86A-0761-4D3B-8C94-A9B6DADC91C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9EDC86A-0761-4D3B-8C94-A9B6DADC91C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9EDC86A-0761-4D3B-8C94-A9B6DADC91C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9EDC86A-0761-4D3B-8C94-A9B6DADC91C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -253,7 +253,6 @@ Global
 		{D6F1D039-0491-4229-939C-DFD22535DC20} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 		{D537531F-C012-41B4-89E1-3A0F698DB3BC} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 		{5080A55B-B978-4BA5-A56F-192348349934} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
-		{F12DB760-524D-4D80-9AEA-DBA2155449E7} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
 		{438C8322-0975-410C-9A29-A6650C4D1FC0} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
 		{0AEE419A-24A2-4F08-8928-B55A6C264B96} = {8652845C-3DAB-4B89-8CBF-61C8A6341E6D}
 		{FB800DCF-1374-40DB-922D-F838F48D4935} = {12A6D346-528A-42B3-9B55-76DDA7B09E33}
@@ -269,6 +268,7 @@ Global
 		{8E0CC472-9F19-4624-AA22-E39890E586E4} = {AD05BB09-3859-42CC-9B22-F3875FC1219F}
 		{02379663-CBF6-4A25-A1B3-E5F3E638DECF} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
 		{650CD39C-BF9E-4D9D-AF85-B1BCA9DD92D3} = {AD05BB09-3859-42CC-9B22-F3875FC1219F}
+		{B9EDC86A-0761-4D3B-8C94-A9B6DADC91C3} = {28D78B61-F2FB-43ED-8955-961F5D2D2E78}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3C1D5E7-3D29-43DF-AEB9-6241110E2A0B}
