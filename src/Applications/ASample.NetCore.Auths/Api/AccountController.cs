@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ASample.NetCore.Auths.Api
 {
@@ -21,15 +22,19 @@ namespace ASample.NetCore.Auths.Api
         private readonly UserManager<ASampleUser> _userManager;
         private readonly SignInManager<ASampleUser> _signInManager;
         private readonly ITUserRepository _userRepository;
+        private readonly ILogger<AccountController> _log;
 
+        
         public AccountController(UserManager<ASampleUser> userManager
             , SignInManager<ASampleUser> signInManager
             , ITUserRepository userRepository
+            , ILogger<AccountController> log
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userRepository = userRepository;
+            _log = log;
         }
 
         //[Authorize]
@@ -42,11 +47,12 @@ namespace ASample.NetCore.Auths.Api
                 //var test = HttpContext.Current.User.Identity.GetUserId();
                 var userInfo = await _userManager.FindByNameAsync(param.UserName);
                 HttpContext.User = await _signInManager.CreateUserPrincipalAsync(userInfo);
-
+                _log.LogInformation("登录成功");
                 // If we have no return URL...
                 return ApiRequestResult.Success(param.UserName,"登录成功");
                 // Otherwise, go to the return url
             }
+            _log.LogError("登录失败");
             return ApiRequestResult.Error("登录失败");
            
         }
