@@ -19,12 +19,21 @@ namespace ASample.NetCore.Common
                 foreach (var item in hasValueDic)
                 {
                     var value = hasValueDic[item.Key];
-                    if (!string.IsNullOrEmpty(value) && item.Key !="Id")
+                    if (!string.IsNullOrEmpty(value) && item.Key != "Id")
                     {
                         var t = entity.GetType();
                         var properties = t.GetProperties();//获取到泛型所有属性的集合
                         var updateFiled = properties.FirstOrDefault(c => c.Name == item.Key);
-                        updateFiled.SetValue(entity, item.Value); 
+                        object itemVlaue = item.Value;
+                        if (updateFiled.PropertyType == typeof(Nullable<Guid>) || updateFiled.PropertyType == typeof(Guid))
+                        {
+                            itemVlaue = Guid.Parse(item.Value);
+                        }
+                        if (updateFiled.PropertyType == typeof(DateTime) || updateFiled.PropertyType == typeof(Nullable<DateTime>))
+                        {
+                            itemVlaue = DateTime.Parse(item.Value);
+                        }
+                        updateFiled.SetValue(entity, itemVlaue); 
                     }
                 }
             }

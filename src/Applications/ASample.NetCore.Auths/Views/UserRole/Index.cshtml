@@ -155,8 +155,6 @@
                                 method.updateUserRole();
                                 break;
                             case 'update':
-                                $("#Password").parent().hide();
-                                $("#ConfirmPassword").parent().hide();
                                 param.data = checkStatus.data[0];
                                 if (!param.data) {
                                     layer.alert("请选择一行数据进行操作");

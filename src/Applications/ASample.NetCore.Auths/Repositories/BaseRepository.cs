@@ -76,7 +76,8 @@ namespace ASample.NetCore.Auths.Repositories
             T result = new T();
             if (predicate == null)
                 result = await _sqlServerRepository.GetAsync(c => true);
-            result = await _sqlServerRepository.GetAsync(predicate);
+            else
+                result = await _sqlServerRepository.GetAsync(predicate);
             return result;
         }
     }

@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="~/lib/layui/css/modules/layer/theme/default/layer.css"/>
     <link rel="stylesheet" href="~/css/admin.css"/>
     <link rel="stylesheet" href="~/lib/metisMenu/metisMenu.css"/>
+    <link rel="stylesheet" href="~/css/common.css" />
     @*<link rel="stylesheet" href="~/css/site.css" />*@
     @RenderSection("Styles", required: false)
 
@@ -42,8 +43,12 @@
                             IN+
                         </div>
                     </li>
-
-                    
+                    <li>
+                        <a href="/Home/Index">
+                            <i class="fa fa-home fa-lg"></i>
+                            <span class="nav-label">首页</span> @*<span class="fa arrow"></span>*@
+                        </a>
+                    </li>
 
                 </ul>
             </div>
@@ -107,6 +112,7 @@
     @*<script src="~/lib/layui/lay/modules/element.js"></script>
         <script src="~/lib/layui/lay/modules/util.js"></script>*@
     <script src="~/js/jqueryextent.js"></script>
+    @*<script src="~/js/common.js"></script>*@
 
     @*<script src="~/lib/vue/vue.js"></script>*@
 
@@ -139,9 +145,7 @@
             //获取按钮层的高度
             var btnH = $('.fixed-btn > .row').children().height() + 11;
             $('.fixed-btn').height(btnH);
-
             getUserName();
-
 
             $("#logOut").click(function () {
                 logOut();
@@ -193,17 +197,15 @@
         }
 
         function getMenus() {
-            debugger
-            //$('#side-menu').metisMenu();
-            //urlchange();
             $.ajax({
                 url: "/api/User/UserMenu",
                 dataType: "json",
                 contentType: "application/json",
                 method: "get",
                 success: function (res) {
+                   
                     if (res.IsError) {
-                        layer.alert(res.Message);
+                        //layer.alert(res.Message);
                         return;
                     }
                     $("#side-menu").html("");
@@ -216,7 +218,11 @@
                         '<div class="logo-element">' +
                         '    IN+' +
                         '</div>' +
-                        '</li';
+                        '</li>';
+                    menuHtml += '<li>' +
+                            '<a href="/Home/Index"><i class="fa fa-home fa-lg"></i> ' +
+                            '<span class="nav-label">首页</span></a>' +
+                            '</li>';
                     $(res.Data).each(function (index, item) {
 
                         var subMenuHtml = "";
@@ -232,7 +238,6 @@
                             '</ul>' +
                             '</li>';
                     });
-                    debugger
                     $('#side-menu').metisMenu('dispose'); //参考https://mm.onokumus.com/mm-ajax.html，可以自己研究一下
                     $("#side-menu").append(menuHtml);
                     $('#side-menu').metisMenu();

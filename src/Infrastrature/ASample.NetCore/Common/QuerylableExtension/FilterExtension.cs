@@ -71,18 +71,29 @@ namespace ASample.NetCore.Common
                 var parameter = Expression.Parameter(typeof(TSource), "x");
                 var source = propertyName.Split('.').Aggregate((Expression)parameter, Expression.Property);
                 Expression<Func<TSource, bool>> lambda;
+                var property = typeof(TSource).GetProperty(propertyName);
                 if (propertyName.Contains("name", StringComparison.CurrentCultureIgnoreCase))
                     methodName = "Contains";
                 if (propertyName.Contains("time", StringComparison.CurrentCultureIgnoreCase)
                                 || propertyName.Contains("date", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var property = typeof(TSource).GetProperty(propertyName);
+
                     var left = Expression.Property(parameter, property);
                     //等式右边的值
                     var right = Expression.Constant(Convert.ToDateTime(propertyValue).Date);
                     var right2 = Expression.Constant(Convert.ToDateTime(propertyValue).AddDays(1).Date);
                     var express = Expression.AndAlso(Expression.GreaterThanOrEqual(left, right),Expression.LessThan(left, right2));
                     lambda = Expression.Lambda<Func<TSource, bool>>(express, parameter);
+                }
+                else if(property.PropertyType == typeof(Nullable<Guid>))
+                {
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, typeof(Nullable<Guid>)));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+                }
+                else if(property.PropertyType == typeof(Guid))
+                {
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, typeof(Guid)));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
                 }
                 else
                 {

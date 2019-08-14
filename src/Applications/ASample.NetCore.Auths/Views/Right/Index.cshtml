@@ -193,6 +193,7 @@
                     });
                 });
             },
+
             tableReload: function () {
                 param.table.reload('test-table-toolbar', {
                     page: {
@@ -219,7 +220,6 @@
             },
 
             saveData: function (json, methodType) {
-                debugger
                 var tipMsg = "添加成功";
                 if (methodType == "put") {
                     tipMsg = "修改成功";
