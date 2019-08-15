@@ -15,8 +15,11 @@ namespace ASample.NetCore.DbApiTest.Controllers
     public class SqlServerController : ControllerBase
     {
         private ISqlServerUserRepository _userRepository;
-        public SqlServerController(ISqlServerUserRepository userRepository)
+        private readonly IUnitOfWork<ASampleSqlServerDbContext> _unitOfWork;
+
+        public SqlServerController(ISqlServerUserRepository userRepository, IUnitOfWork<ASampleSqlServerDbContext> unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _userRepository = userRepository;
         }
         [HttpGet]
@@ -26,10 +29,18 @@ namespace ASample.NetCore.DbApiTest.Controllers
             return result;
         }
 
+        [HttpGet("query")]
+        public async Task<List<User>> QueryAsync()
+        {
+            var result = await _userRepository.QueryAsync();
+            return result.ToList();
+        }
+
         [HttpPost]
         public async Task AddAsync([FromBody]User user)
         {
             await _userRepository.AddAsync(user);
+            _unitOfWork.SaveChanges();
         }
     }
 }

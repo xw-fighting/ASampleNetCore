@@ -7,6 +7,7 @@ using ASample.NetCore.DbApiTest.Domain;
 using ASample.NetCore.DbApiTest.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ASample.NetCore.EntityFramwork;
 
 namespace ASample.NetCore.DbApiTest.Controllers
 {
@@ -15,9 +16,11 @@ namespace ASample.NetCore.DbApiTest.Controllers
     public class MySqlController : ControllerBase
     {
         private IMySqlUserRepository _userRepository;
-        public MySqlController(IMySqlUserRepository userRepository)
+        private readonly IUnitOfWork<ASampleSqlServerDbContext> _unitOfWork;
+        public MySqlController(IMySqlUserRepository userRepository, IUnitOfWork<ASampleSqlServerDbContext> unitOfWork)
         {
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
         [HttpGet]
         public async Task<User> GetAsync(Guid id)

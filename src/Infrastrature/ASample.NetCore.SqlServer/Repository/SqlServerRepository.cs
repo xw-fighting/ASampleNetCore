@@ -12,11 +12,10 @@ namespace ASample.NetCore.SqlServerDb.Repository
 
     {
         protected DbSet<TEntity> _dbSet; 
-        protected DbContext _db; 
-        public SqlServerRepository(TDbContext dbContext)
+        //private readonly IUnitOfWork<TDbContext> _unitOfWork;
+        public SqlServerRepository(IUnitOfWork<TDbContext> unitOfWork)
         {
-            _db = dbContext;
-            _dbSet = dbContext.Set<TEntity>();
+            _dbSet = unitOfWork.GetDbContext().Set<TEntity>();
         }
         public override void Delete(TEntity entity)
         {

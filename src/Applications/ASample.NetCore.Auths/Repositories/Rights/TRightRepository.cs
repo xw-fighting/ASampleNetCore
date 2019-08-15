@@ -6,13 +6,10 @@ using ASample.NetCore.SqlServerDb.Repository;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public class TRightRepository : BaseRepository<TRight>,ITRightRepository
+    public class TRightRepository :SqlServerRepository<ASampleIdentityDbContext,TRight>,ITRightRepository
     {
-
-        public TRightRepository(
-            ISqlServerRepository<TRight> sqlServerRepository
-            , IUnitOfWork<ASampleIdentityDbContext> unitOfWork
-            ):base(sqlServerRepository, unitOfWork)
+        private readonly IUnitOfWork<ASampleIdentityDbContext> _unitOfWork;
+        public TRightRepository(IUnitOfWork<ASampleIdentityDbContext> unitOfWork) :base(unitOfWork)
         {
 
         }

@@ -1,11 +1,12 @@
 ﻿using ASample.NetCore.Auths.Domains;
+using ASample.NetCore.SqlServerDb.Repository;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public interface ITRoleRepository:IBaseRepository<TRole>
+    public interface ITRoleRepository:ISqlServerRepository<TRole>
     {
         Task<List<TRoleRightRelation>> GetRoleRightsAsync(Guid roleId);
 

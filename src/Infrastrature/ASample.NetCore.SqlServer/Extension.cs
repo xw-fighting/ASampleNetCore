@@ -1,7 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
-using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.SqlServerDb.Repository;
-using Autofac;
+﻿using ASample.NetCore.EntityFramwork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,11 +14,12 @@ namespace ASample.NetCore.SqlServerDb
             services.AddUnitOfWork<TDbContext>();
         }
 
-        public static void AddSqlServerRepository<TDbContext,TEntity>(this ContainerBuilder builder)
-            where TEntity : AggregateRoot
-            where TDbContext : DbContext
-            => builder.Register(ctx => new SqlServerRepository<TDbContext,TEntity>(ctx.Resolve<TDbContext>()))
-                .As<ISqlServerRepository<TEntity>>()
-                .InstancePerLifetimeScope();
+        //public static void AddSqlServerRepository<TDbContext,TEntity>(this ContainerBuilder builder)
+        //    where TEntity : AggregateRoot
+        //    where TDbContext : DbContext
+        //    => builder.Register(ctx => new SqlServerRepository<TDbContext,TEntity>(ctx.Resolve<TDbContext>()))
+        //        .As<ISqlServerRepository<TEntity>>()
+        //        .InstancePerLifetimeScope();
+
     }
 }

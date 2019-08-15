@@ -21,20 +21,16 @@ namespace ASample.NetCore.EntityFramwork
         Task<PagedResult<TEntity>> BrowseAsync<TQuery>(Expression<Func<TEntity, bool>> predicate,
                TQuery query) where TQuery : PagedQueryBase;
 
-        Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate = null);
 
         Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate,
              TQuery query) where TQuery : PagedQueryBase;
 
-        Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
-            , Expression<Func<TEntity, s>> sortLamda
+        Task<PagedResult<TEntity>> QueryPagedAsync(int page, int limit
+            , Func<TEntity, dynamic> sortLamda = null
             , Func<IQueryable<TEntity>, IQueryable<TEntity>> whereLamda = null
             , bool isAsc = true);
 
-        Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
-           , Expression<Func<TEntity, s>> sortLamda
-           , Expression<Func<TEntity, bool>> whereLamda
-           , bool isAsc = true);
 
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);

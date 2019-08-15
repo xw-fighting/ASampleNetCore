@@ -76,12 +76,6 @@ namespace ASample.NetCore.Auths
                 .AsImplementedInterfaces();
             builder.Populate(services);
             //builder.AddDispatchers();
-
-            builder.AddSqlServerRepository<ASampleIdentityDbContext, TUser>();
-            builder.AddSqlServerRepository<ASampleIdentityDbContext, TRole>();
-            builder.AddSqlServerRepository<ASampleIdentityDbContext, TRight>();
-            //builder.AddSqlServerRepository<ASampleIdentityDbContext, UserInfo>();
-            //builder.AddSqlServerRepository<ASampleIdentityDbContext, UserInfo>();
             //builder.AddRabbitMq();
 
             Container = builder.Build();

@@ -1,12 +1,10 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
-using System;
-using System.Threading.Tasks;
+using ASample.NetCore.SqlServerDb.Repository;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {
-    public interface ISqlServerUserRepository
+    public interface ISqlServerUserRepository:ISqlServerRepository<User>
     {
-        Task<User> GetAsync(Guid id);
-        Task AddAsync(User user);
+
     }
 }

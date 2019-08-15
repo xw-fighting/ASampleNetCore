@@ -10,37 +10,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public class TRoleRepository : BaseRepository<TRole>,ITRoleRepository
+    public class TRoleRepository : SqlServerRepository<ASampleIdentityDbContext,TRole>,ITRoleRepository
     {
-        //private readonly IUnitOfWork<ASampleIdentityDbContext> _unitOfWork;
-        public TRoleRepository(
-            ISqlServerRepository<TRole> sqlServerRepository
-            , IUnitOfWork<ASampleIdentityDbContext> unitOfWork
-            ):base(sqlServerRepository, unitOfWork)
+        public TRoleRepository(IUnitOfWork<ASampleIdentityDbContext> unitOfWork ):base( unitOfWork)
         {
-            //_unitOfWork = unitOfWork;
-            _dbSet = unitOfWork.GetDbContext().Set<TRoleRightRelation>();
+            _dbRelateSet = unitOfWork.GetDbContext().Set<TRoleRightRelation>();
         }
 
-        public DbSet<TRoleRightRelation> _dbSet;
+        public DbSet<TRoleRightRelation> _dbRelateSet;
 
         public async Task<List<TRoleRightRelation>> GetRoleRightsAsync(Guid roleId)
         {
-            var roleRight =await _dbSet.Where(c => c.RoleId == roleId).ToListAsync();
+            var roleRight =await _dbRelateSet.Where(c => c.RoleId == roleId).ToListAsync();
             return roleRight;
         }
 
         public async Task<bool> DeleteRoleRightAsync(Guid roleId)
         {
-            var roleRights =  _dbSet.Where(c => c.RoleId == roleId);
-             _dbSet.RemoveRange(roleRights);
+            var roleRights =  _dbRelateSet.Where(c => c.RoleId == roleId);
+             _dbRelateSet.RemoveRange(roleRights);
             return await Task.FromResult(true);
         }
 
         public async Task<bool> UpdateRoleRightAsync(Guid roleId,List<Guid> rightIds)
         {
-            var roleRights = _dbSet.Where(c => c.RoleId == roleId);
-            _dbSet.RemoveRange(roleRights);
+            var roleRights = _dbRelateSet.Where(c => c.RoleId == roleId);
+            _dbRelateSet.RemoveRange(roleRights);
             var roleRightEntitys = new List<TRoleRightRelation>();
             foreach (var item in rightIds)
             {
@@ -51,7 +46,7 @@ namespace ASample.NetCore.Auths.Repositories
                 };
                 roleRightEntitys.Add(roleRight);
             }
-            await _dbSet.AddRangeAsync(roleRightEntitys);
+            await _dbRelateSet.AddRangeAsync(roleRightEntitys);
             return await Task.FromResult(true);
         }
     }

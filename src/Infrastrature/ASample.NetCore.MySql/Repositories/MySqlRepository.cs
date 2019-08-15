@@ -10,24 +10,20 @@ namespace ASample.NetCore.MySqlDb.Repositories
         where TEntity:AggregateRoot
         where TDbContext:DbContext
     {
-        private TDbContext _db;
         private DbSet<TEntity> _dbSet;
-        public MySqlRepository(TDbContext dbContext)
+        public MySqlRepository(IUnitOfWork<TDbContext> unitOfWork)
         {
-            _db = dbContext;
-            _dbSet = dbContext.Set<TEntity>();
+            _dbSet = unitOfWork.GetDbContext().Set<TEntity>();
         }
         public override void Delete(Guid id)
         {
             var entity = _dbSet.Find(id);
             _dbSet.Remove(entity);
-            //_db.SaveChanges();
         }
 
         public override void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
-            //_db.SaveChanges();
         }
 
         public override IQueryable<TEntity> GetAll()
@@ -39,14 +35,12 @@ namespace ASample.NetCore.MySqlDb.Repositories
         public override TEntity Insert(TEntity entity)
         {
             var result = _dbSet.Add(entity);
-            //_db.SaveChanges();
             return result.Entity;
         }
 
         public override TEntity Update(TEntity entity)
         {
             var result = _dbSet.Update(entity);
-            //_db.SaveChanges();
             return result.Entity;
         }
     }

@@ -8,7 +8,7 @@ namespace ASample.NetCore.Common
 {
     public static class FilterExtension
     {
-        public static Func<IQueryable<T>, IQueryable<T>> SearchFilter<T,TParam>(this TParam param) where T:class,new() where TParam:class
+        public static Func<IQueryable<T>, IQueryable<T>> SearchLambda<T,TParam>(this TParam param) where T:class,new() where TParam:class
         {
             IQueryable<T> queryable(IQueryable<T> q)
             {
@@ -28,6 +28,16 @@ namespace ASample.NetCore.Common
                 return q;
             }
             return queryable;
+        }
+
+        public static Expression<Func<T, Tkey>> SortLambda<T, Tkey>(this object tkey ,string sort,string defaultSort = "CreateTime")
+        {
+            //1.创建表达式参数（指定参数或变量的类型:p）  
+            var param = Expression.Parameter(typeof(T), "t");
+            //2.构建表达式体(类型包含指定的属性:p.Name)  
+            var body = Expression.Property(param, string.IsNullOrEmpty(sort) ? defaultSort : sort);
+            //3.根据参数和表达式体构造一个lambda表达式  
+            return Expression.Lambda<Func<T, Tkey>>(Expression.Convert(body, typeof(Tkey)), param);
         }
 
         /// <summary>

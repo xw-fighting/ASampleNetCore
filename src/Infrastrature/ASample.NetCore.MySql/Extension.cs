@@ -20,12 +20,12 @@ namespace ASample.NetCore.MySqlDb
             services.AddUnitOfWork<TDbContext>();
         }
 
-        public static void AddMySqlRepository<TDbContext, TEntity>(this ContainerBuilder builder)
-            where TEntity : AggregateRoot
-            where TDbContext : DbContext
-            => builder.Register(ctx => new MySqlRepository<TDbContext, TEntity>(ctx.Resolve<TDbContext>()))
-                .As<IMySqlRepository<TEntity>>()
-                .InstancePerLifetimeScope();
+        //public static void AddMySqlRepository<TDbContext, TEntity>(this ContainerBuilder builder)
+        //    where TEntity : AggregateRoot
+        //    where TDbContext : DbContext
+        //    => builder.Register(ctx => new MySqlRepository<TDbContext, TEntity>(ctx.Resolve<TDbContext>()))
+        //        .As<IMySqlRepository<TEntity>>()
+        //        .InstancePerLifetimeScope();
 
 
         public static T Bind<T>(this T model, Expression<Func<T, object>> expression, object value)

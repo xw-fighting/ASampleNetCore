@@ -16,12 +16,12 @@ namespace ASample.NetCore.PostgreDb
             services.AddUnitOfWork<TDbContext>();
         }
 
-        public static void AddPostgreRepository<TDbContext, TEntity>(this ContainerBuilder builder)
-            where TEntity : AggregateRoot
-            where TDbContext : DbContext
-            => builder.Register(ctx => new PostgreRepository<TDbContext, TEntity>(ctx.Resolve<TDbContext>()))
-                .As<IPostgreRepository<TEntity>>()
-                .InstancePerLifetimeScope();
+        //public static void AddPostgreRepository<TDbContext, TEntity>(this ContainerBuilder builder)
+        //    where TEntity : AggregateRoot
+        //    where TDbContext : DbContext
+        //    => builder.Register(ctx => new PostgreRepository<TDbContext, TEntity>(ctx.Resolve<TDbContext>()))
+        //        .As<IPostgreRepository<TEntity>>()
+        //        .InstancePerLifetimeScope();
 
     }
 }

@@ -17,9 +17,12 @@ namespace ASample.NetCore.EntityFramwork
     {
         public abstract IQueryable<TEntity> GetAll();
 
-        public virtual Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate = null)
         {
-            return Task.FromResult(GetAll().Where(predicate));
+            if (predicate == null)
+                return Task.FromResult(GetAll());
+            else
+                return  Task.FromResult(GetAll().Where(predicate));
         }
 
         public virtual Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
@@ -27,35 +30,8 @@ namespace ASample.NetCore.EntityFramwork
             return GetAll().Where(predicate).PaginateAsync();
         }
 
-        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
-            , Expression<Func<TEntity,s>> sortLamda
-            , Expression<Func<TEntity, bool>> whereLamda
-            , bool isAsc = true)
-        {
-            IQueryable<TEntity> result;
-            
-            var queryable = await QueryAsync(whereLamda);
-            if(queryable.Count() <= 0)
-            {
-                return new PagedResult<TEntity> { Items = new List<TEntity>()};
-            }
-            if(sortLamda == null)
-            {
-                //Expression<Func<TEntity,s>> sort = c=>c.
-            }
-            if (isAsc)
-            {
-                result = queryable.OrderBy(sortLamda).Take(limit).Skip((page - 1) * limit);
-            }
-            else
-            {
-                result = queryable.OrderByDescending(sortLamda).Take(limit).Skip((page - 1) * limit);
-            }
-            return await result.PaginateAsync(page, limit);
-        }
-
-        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync<s>(int page, int limit
-            , Expression<Func<TEntity, s>> sortLamda
+        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync(int page, int limit
+            , Func<TEntity, dynamic> sortLamda = null
             , Func<IQueryable<TEntity>,IQueryable<TEntity>> whereLamda = null
             , bool isAsc = true)
         {
@@ -68,15 +44,15 @@ namespace ASample.NetCore.EntityFramwork
             }
             if (sortLamda == null)
             {
-                //Expression<Func<TEntity,s>> sort = c=>c.
+                sortLamda = o => o.CreateTime;
             }
             if (isAsc)
             {
-                result = queryable.OrderBy(sortLamda).Take(limit).Skip((page - 1) * limit);
+                result = queryable.OrderBy(sortLamda).Take(limit).Skip((page - 1) * limit).AsQueryable();
             }
             else
             {
-                result = queryable.OrderByDescending(sortLamda).Take(limit).Skip((page - 1) * limit);
+                result = queryable.OrderByDescending(sortLamda).Take(limit).Skip((page - 1) * limit).AsQueryable();
             }
             return await result.PaginateAsync(page, limit);
         }

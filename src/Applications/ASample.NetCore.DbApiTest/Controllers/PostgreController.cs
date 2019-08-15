@@ -5,6 +5,7 @@ using ASample.NetCore.DbApiTest.Domain;
 using ASample.NetCore.DbApiTest.Dtos;
 using ASample.NetCore.DbApiTest.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using ASample.NetCore.EntityFramwork;
 
 namespace ASample.NetCore.DbApiTest.Controllers
 {
@@ -13,9 +14,12 @@ namespace ASample.NetCore.DbApiTest.Controllers
     public class PostgreController : ControllerBase
     {
         private IPostgreUserRepository _userRepository;
-        public PostgreController(IPostgreUserRepository userRepository)
+        private readonly IUnitOfWork<ASampleSqlServerDbContext> _unitOfWork;
+
+        public PostgreController(IPostgreUserRepository userRepository, IUnitOfWork<ASampleSqlServerDbContext> unitOfWork)
         {
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace ASample.NetCore.DbApiTest.Controllers
         {
             var user1 = user.BindId<User>(c => c.Id);
             await _userRepository.AddAsync(user);
+
         }
 
         [HttpPut]

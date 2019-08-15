@@ -44,8 +44,8 @@ namespace ASample.NetCore.Auths.Api
         [HttpGet("QueryPaged")]
         public async Task<string> QueryPagedAsync([FromQuery] RightSearchParam param)
         {
-            var filter = param.SearchFilter<TRight, RightSearchParam>();
-            var result = await _iTRightRepository.QueryPagedAsync(param.Page,param.Limit, filter);
+            var filter = param.SearchLambda<TRight, RightSearchParam>();
+            var result = await _iTRightRepository.QueryPagedAsync(param.Page,param.Limit,null, filter);
             var pageData = new LayuiTableDto<TRight>
             {
                 Code = "0",

@@ -46,6 +46,7 @@ namespace ASample.NetCore.DbApiTest
             services.AddMySql<ASampleMySqlDbContext>();
 
 
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {
@@ -62,14 +63,14 @@ namespace ASample.NetCore.DbApiTest
             builder.AddMongo();
             builder.AddMongoRepository<User>("User");
 
-            builder.AddSqlServerRepository<ASampleSqlServerDbContext, User>();
-            builder.AddSqlServerRepository<ASampleSqlServerDbContext, UserInfo>();
+            //builder.AddSqlServerRepository<ASampleSqlServerDbContext, User>();
+            //builder.AddSqlServerRepository<ASampleSqlServerDbContext, UserInfo>();
 
-            builder.AddMySqlRepository<ASampleMySqlDbContext, User>();
-            builder.AddMySqlRepository<ASampleMySqlDbContext, UserInfo>();
+            //builder.AddMySqlRepository<ASampleMySqlDbContext, User>();
+            //builder.AddMySqlRepository<ASampleMySqlDbContext, UserInfo>();
 
-            builder.AddPostgreRepository<AsamplePostgreDbContext, User>();
-            builder.AddPostgreRepository<AsamplePostgreDbContext, UserInfo>();
+            //builder.AddPostgreRepository<AsamplePostgreDbContext, User>();
+            //builder.AddPostgreRepository<AsamplePostgreDbContext, UserInfo>();
             //builder.AddRabbitMq();
 
             Container = builder.Build();
@@ -93,6 +94,16 @@ namespace ASample.NetCore.DbApiTest
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<AsamplePostgreDbContext>();
+                context.Database.EnsureCreated();
+            }
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ASampleSqlServerDbContext>();
+                context.Database.EnsureCreated();
+            }
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ASampleMySqlDbContext>();
                 context.Database.EnsureCreated();
             }
             app.UseStaticFiles();

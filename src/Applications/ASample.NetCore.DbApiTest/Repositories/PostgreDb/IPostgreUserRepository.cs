@@ -1,15 +1,10 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
-using System;
-using System.Threading.Tasks;
+using ASample.NetCore.PostgreDb.Repositories;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {
-    public interface IPostgreUserRepository
+    public interface IPostgreUserRepository: IPostgreRepository<User>
     {
-        Task<User> GetAsync(Guid id);
-        Task AddAsync(User user);
-        Task UpdateAsync(User user);
 
-        Task DeleteAsync(Guid id);
     }
 }

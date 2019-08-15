@@ -1,15 +1,10 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
-using System;
-using System.Threading.Tasks;
+using ASample.NetCore.MySqlDb.Repositories;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {
-    public interface IMySqlUserRepository
+    public interface IMySqlUserRepository:IMySqlRepository<User>
     {
-        Task<User> GetAsync(Guid id);
-        Task AddAsync(User user);
-        Task UpdateAsync(User user);
 
-        Task DeleteAsync(Guid id);
     }
 }

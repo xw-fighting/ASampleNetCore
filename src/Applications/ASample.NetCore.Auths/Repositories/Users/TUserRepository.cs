@@ -10,36 +10,33 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public class TUserRepository : BaseRepository<TUser>,ITUserRepository
+    public class TUserRepository : SqlServerRepository<ASampleIdentityDbContext,TUser>,ITUserRepository
     {
-        //private readonly IUnitOfWork<ASampleIdentityDbContext> _unitOfWork;
         public TUserRepository(
-            ISqlServerRepository<TUser> sqlServerRepository
-            , IUnitOfWork<ASampleIdentityDbContext> unitOfWork
-            ):base(sqlServerRepository, unitOfWork)
+            IUnitOfWork<ASampleIdentityDbContext> unitOfWork
+            ):base(unitOfWork)
         {
-            //_unitOfWork = unitOfWork;
-            _dbSet = unitOfWork.GetDbContext().Set<TUserRoleRelation>();
+            _dbRelationSet = unitOfWork.GetDbContext().Set<TUserRoleRelation>();
         }
-        public DbSet<TUserRoleRelation> _dbSet;
+        public DbSet<TUserRoleRelation> _dbRelationSet;
 
         public async Task<List<TUserRoleRelation>> GetUserRolesAsync(Guid userId)
         {
-            var userRoles = await _dbSet.Where(c => c.UserId == userId).ToListAsync();
+            var userRoles = await _dbRelationSet.Where(c => c.UserId == userId).ToListAsync();
             return userRoles;
         }
 
         public async Task<bool> DeleteUserRoleAsync(Guid userId)
         {
-            var roleRights = _dbSet.Where(c => c.UserId == userId);
-            _dbSet.RemoveRange(roleRights);
+            var roleRights = _dbRelationSet.Where(c => c.UserId == userId);
+            _dbRelationSet.RemoveRange(roleRights);
             return await Task.FromResult(true);
         }
 
         public async Task<bool> UpdateUserRoleAsync(Guid userId, List<Guid> rolesIds)
         {
-            var roleRights = _dbSet.Where(c => c.UserId == userId);
-            _dbSet.RemoveRange(roleRights);
+            var roleRights = _dbRelationSet.Where(c => c.UserId == userId);
+            _dbRelationSet.RemoveRange(roleRights);
             var roleRightEntitys = new List<TUserRoleRelation>();
             foreach (var item in rolesIds)
             {
@@ -50,7 +47,7 @@ namespace ASample.NetCore.Auths.Repositories
                 };
                 roleRightEntitys.Add(roleRight);
             }
-            await _dbSet.AddRangeAsync(roleRightEntitys);
+            await _dbRelationSet.AddRangeAsync(roleRightEntitys);
             return await Task.FromResult(true);
         }
     }
