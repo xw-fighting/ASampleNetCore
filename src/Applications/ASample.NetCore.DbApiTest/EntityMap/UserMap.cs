@@ -14,7 +14,7 @@ namespace ASample.NetCore.DbApiTest.EntityMap
             builder.Property(p => p.Name).IsRequired().HasMaxLength(50);
             builder.Property(p => p.Age).IsRequired();
 
-            builder.Property(p => p.CreateTime).IsRequired();
+            builder.Property(p => p.CreateTime);
             builder.Property(p => p.IsDeleted).IsRequired();
         }
     }

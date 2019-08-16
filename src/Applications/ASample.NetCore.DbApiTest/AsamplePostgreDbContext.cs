@@ -1,18 +1,14 @@
-﻿using ASample.NetCore.PostgreDb.Options;
-using ASample.NetCore.DbApiTest.EntityMap;
+﻿using ASample.NetCore.DbApiTest.EntityMap;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ASample.NetCore.RelationalDb.Options;
 
 namespace ASample.NetCore.DbApiTest
 {
     public class AsamplePostgreDbContext: DbContext
     {
-        private readonly IOptions<PostgreOptions> _postgreOptions;
-        public AsamplePostgreDbContext(IOptions<PostgreOptions> postgrelOptions) : base()
+        private readonly IOptions<DbOptions> _postgreOptions;
+        public AsamplePostgreDbContext(IOptions<DbOptions> postgrelOptions) : base()
         {
             _postgreOptions = postgrelOptions;
         }

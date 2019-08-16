@@ -1,15 +1,15 @@
-﻿using ASample.NetCore.SqlServerDb.Options;
-using ASample.NetCore.DbApiTest.EntityMap;
+﻿using ASample.NetCore.DbApiTest.EntityMap;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ASample.NetCore.RelationalDb.Options;
 
 namespace ASample.NetCore.DbApiTest
 {
     public class ASampleSqlServerDbContext:DbContext
     {
-        private readonly IOptions<SqlServerOptions> _sqlOptions;
+        private readonly IOptions<DbOptions> _sqlOptions;
 
-        public ASampleSqlServerDbContext(IOptions<SqlServerOptions> sqlOptions):base()
+        public ASampleSqlServerDbContext(IOptions<DbOptions> sqlOptions):base()
         {
             _sqlOptions = sqlOptions;
         }

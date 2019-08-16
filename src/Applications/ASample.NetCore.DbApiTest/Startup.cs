@@ -1,21 +1,17 @@
 ﻿using System;
-using ASample.NetCore.SqlServerDb.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ASample.NetCore.SqlServerDb;
 using Autofac;
 using ASample.NetCore.Dispatchers;
 using Autofac.Extensions.DependencyInjection;
 using ASample.NetCore.DbApiTest.Domain;
-using ASample.NetCore.MySqlDb.Options;
-using ASample.NetCore.MySqlDb;
-using ASample.NetCore.PostgreDb.Options;
-using ASample.NetCore.PostgreDb;
 using Swashbuckle.AspNetCore.Swagger;
 using ASample.NetCore.MongoDb;
+using ASample.NetCore.RelationalDb;
+using ASample.NetCore.RelationalDb.Options;
 
 namespace ASample.NetCore.DbApiTest
 {
@@ -31,28 +27,22 @@ namespace ASample.NetCore.DbApiTest
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
-      {
-            services.Configure<SqlServerOptions>(Configuration.GetSection("sql"));
-            services.AddEntityFrameworkSqlServer()
-               .AddSqlServer<ASampleSqlServerDbContext>();
+        {
+            //services.Configure<DbOptions>(Configuration.GetSection("sql"));
+            //services.AddRelationalDb<ASampleSqlServerDbContext>(Configuration.GetSection("sql"));
 
-            services.Configure<PostgreOptions>(Configuration.GetSection("postgre"));
-            services.AddPostgre<AsamplePostgreDbContext>();
+            //services.Configure<DbOptions>(Configuration.GetSection("postgre"));
+            //services.AddRelationalDb<AsamplePostgreDbContext>(Configuration.GetSection("postgre"));
 
-            services.Configure<MySqlOptions>(Configuration.GetSection("mysql"));
-            services.AddMySql<ASampleMySqlDbContext>();
-
-            services.Configure<MySqlOptions>(Configuration.GetSection("nongo"));
-            services.AddMySql<ASampleMySqlDbContext>();
-
-
+            services.Configure<DbOptions>(Configuration.GetSection("mysql"));
+            services.AddRelationalDb<ASampleMySqlDbContext>(Configuration.GetSection("mysql"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "ASample API", Version = "v1" });
             });
-            
+
 
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
@@ -62,15 +52,7 @@ namespace ASample.NetCore.DbApiTest
 
             builder.AddMongo();
             builder.AddMongoRepository<User>("User");
-
-            //builder.AddSqlServerRepository<ASampleSqlServerDbContext, User>();
-            //builder.AddSqlServerRepository<ASampleSqlServerDbContext, UserInfo>();
-
-            //builder.AddMySqlRepository<ASampleMySqlDbContext, User>();
-            //builder.AddMySqlRepository<ASampleMySqlDbContext, UserInfo>();
-
-            //builder.AddPostgreRepository<AsamplePostgreDbContext, User>();
-            //builder.AddPostgreRepository<AsamplePostgreDbContext, UserInfo>();
+           
             //builder.AddRabbitMq();
 
             Container = builder.Build();
@@ -91,16 +73,16 @@ namespace ASample.NetCore.DbApiTest
                 app.UseHsts();
             }
 
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<AsamplePostgreDbContext>();
-                context.Database.EnsureCreated();
-            }
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ASampleSqlServerDbContext>();
-                context.Database.EnsureCreated();
-            }
+            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var context = serviceScope.ServiceProvider.GetRequiredService<AsamplePostgreDbContext>();
+            //    context.Database.EnsureCreated();
+            //}
+            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var context = serviceScope.ServiceProvider.GetRequiredService<ASampleSqlServerDbContext>();
+            //    context.Database.EnsureCreated();
+            //}
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<ASampleMySqlDbContext>();
@@ -115,7 +97,7 @@ namespace ASample.NetCore.DbApiTest
             });
             app.UseHttpsRedirection();
             app.UseMvc();
-            
+
         }
     }
 }

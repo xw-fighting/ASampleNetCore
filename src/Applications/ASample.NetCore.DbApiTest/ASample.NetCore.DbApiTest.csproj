@@ -23,7 +23,10 @@
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MySql\ASample.NetCore.MySqlDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.PostgreDb\ASample.NetCore.PostgreDb.csproj" />
+    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.RelationalDb\ASample.NetCore.RelationalDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServerDb.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
