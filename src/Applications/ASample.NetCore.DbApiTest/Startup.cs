@@ -9,9 +9,11 @@ using ASample.NetCore.Dispatchers;
 using Autofac.Extensions.DependencyInjection;
 using ASample.NetCore.DbApiTest.Domain;
 using Swashbuckle.AspNetCore.Swagger;
-using ASample.NetCore.MongoDb;
-using ASample.NetCore.RelationalDb;
 using ASample.NetCore.RelationalDb.Options;
+using ASample.NetCore.NonInertialDb;
+using ASample.NetCore.RelationalDb;
+using System.Reflection;
+using ASample.NetCore.DbApiTest.Repositories;
 
 namespace ASample.NetCore.DbApiTest
 {
@@ -28,14 +30,20 @@ namespace ASample.NetCore.DbApiTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<DbOptions>(Configuration.GetSection("sql"));
-            //services.AddRelationalDb<ASampleSqlServerDbContext>(Configuration.GetSection("sql"));
+            //sqlserver 数据库
+            services.Configure<DbOptions>(Configuration.GetSection("sql"));
+            services.AddRelationalDb<ASampleSqlServerDbContext>(Configuration.GetSection("sql"));
 
+            //Postgre 数据库
             //services.Configure<DbOptions>(Configuration.GetSection("postgre"));
             //services.AddRelationalDb<AsamplePostgreDbContext>(Configuration.GetSection("postgre"));
 
-            services.Configure<DbOptions>(Configuration.GetSection("mysql"));
-            services.AddRelationalDb<ASampleMySqlDbContext>(Configuration.GetSection("mysql"));
+            //MySql数据库
+            //services.Configure<DbOptions>(Configuration.GetSection("mysql"));
+            //services.AddRelationalDb<ASampleMySqlDbContext>(Configuration.GetSection("mysql"));
+
+            //mongo db 数据库
+            //services.Configure<DbOptions>(Configuration.GetSection("mongo"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
@@ -50,13 +58,15 @@ namespace ASample.NetCore.DbApiTest
             builder.Populate(services);
             builder.AddDispatchers();
 
-            builder.AddMongo();
-            builder.AddMongoRepository<User>("User");
-           
+            builder.AddMongo<ASampleMongoDbContext>();
+
+
+            //builder.AddMongo();
+            //builder.AddMongoRepository<User>("User");
+
             //builder.AddRabbitMq();
 
             Container = builder.Build();
-
             return new AutofacServiceProvider(Container);
         }
 
@@ -83,11 +93,11 @@ namespace ASample.NetCore.DbApiTest
             //    var context = serviceScope.ServiceProvider.GetRequiredService<ASampleSqlServerDbContext>();
             //    context.Database.EnsureCreated();
             //}
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ASampleMySqlDbContext>();
-                context.Database.EnsureCreated();
-            }
+            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var context = serviceScope.ServiceProvider.GetRequiredService<ASampleMySqlDbContext>();
+            //    context.Database.EnsureCreated();
+            //}
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

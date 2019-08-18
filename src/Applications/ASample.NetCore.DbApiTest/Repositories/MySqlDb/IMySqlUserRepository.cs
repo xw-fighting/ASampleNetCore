@@ -1,9 +1,9 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
-using ASample.NetCore.MySqlDb.Repositories;
+using ASample.NetCore.RelationalDb.Repositories;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {
-    public interface IMySqlUserRepository:IMySqlRepository<User>
+    public interface IMySqlUserRepository:IRepository<User>
     {
 
     }
