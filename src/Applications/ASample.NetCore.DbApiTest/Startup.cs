@@ -32,7 +32,7 @@ namespace ASample.NetCore.DbApiTest
         {
             //sqlserver 数据库
             services.Configure<DbOptions>(Configuration.GetSection("sql"));
-            services.AddRelationalDb<ASampleSqlServerDbContext>(Configuration.GetSection("sql"));
+            services.AddRelationalDb<ASampleSqlServerDbContext>();
 
             //Postgre 数据库
             //services.Configure<DbOptions>(Configuration.GetSection("postgre"));

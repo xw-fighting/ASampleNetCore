@@ -8,7 +8,7 @@ namespace ASample.NetCore.RelationalDb
 {
     public static class Extension
     {
-        public static void AddRelationalDb<TDbContext>(this IServiceCollection services, IConfiguration configuration)
+        public static void AddRelationalDb<TDbContext>(this IServiceCollection services)
            where TDbContext : DbContext
         {
             //services.Configure<DbOptions>(configuration);
