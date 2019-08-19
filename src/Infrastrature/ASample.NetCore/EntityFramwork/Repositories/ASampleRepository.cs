@@ -151,6 +151,10 @@ namespace ASample.NetCore.EntityFramwork
             return Task.FromResult(Update(tEntity));
         }
 
+        /// <summary>
+        /// 逻辑删除数据
+        /// </summary>
+        /// <param name="predicate"></param>
         public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
         {
             foreach (var entity in GetAll().Where(predicate).ToList())
@@ -161,24 +165,31 @@ namespace ASample.NetCore.EntityFramwork
             }
         }
 
+        /// <summary>
+        /// 逻辑删除数据
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
         {
             Delete(predicate);
             return Task.FromResult(0);
         }
 
+        /// <summary>
+        /// 构建相等的lambda 表达式
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TKey id)
         {
-            var lambdaParam = Expression.Parameter(typeof(TEntity));
+            var lambdaParam = Expression.Parameter(typeof(TEntity),"x");
 
             var lambdaBody = Expression.Equal(
                 Expression.PropertyOrField(lambdaParam, "Id"),
                 Expression.Constant(id, typeof(TKey))
                 );
-
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
-
-
     }
 }

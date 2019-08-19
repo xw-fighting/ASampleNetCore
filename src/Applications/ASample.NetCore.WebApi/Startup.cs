@@ -27,7 +27,7 @@ namespace ASample.NetCore.WebApi
         }
 
         public IConfiguration Configuration { get; }
-        public Autofac.IContainer Container { get; private set; }
+        public IContainer Container { get; private set; }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.

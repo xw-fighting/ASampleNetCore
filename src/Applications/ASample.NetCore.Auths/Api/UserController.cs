@@ -52,7 +52,6 @@ namespace ASample.NetCore.Auths.Api
         public async Task<string> QueryPagedAsync([FromQuery] UserSearchParam param)
         {
             var filter = param.SearchLambda<TUser, UserSearchParam>();
-            //var orderFilter = param.CreateTime.OrderLambda<TUser, DateTime>("CreateTime");
             var result = await _iTUserRepository.QueryPagedAsync(param.Page, param.Limit,c=>c.CreateTime, filter);
             var pageData = new LayuiTableDto<TUser>
             {

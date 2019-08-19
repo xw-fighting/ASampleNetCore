@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ASample.NetCore.MySqlDb;
 using ASample.NetCore.DbApiTest.Domain;
 using ASample.NetCore.DbApiTest.Repositories;
+using ASample.NetCore.NonInertialDb;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASample.NetCore.DbApiTest.Controllers

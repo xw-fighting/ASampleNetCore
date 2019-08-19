@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ASample.NetCore.MySqlDb;
 using ASample.NetCore.DbApiTest.Domain;
 using ASample.NetCore.DbApiTest.Dtos;
 using ASample.NetCore.DbApiTest.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using ASample.NetCore.EntityFramwork;
+using ASample.NetCore.Mvc;
 
 namespace ASample.NetCore.DbApiTest.Controllers
 {

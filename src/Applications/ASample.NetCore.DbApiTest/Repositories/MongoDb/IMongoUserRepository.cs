@@ -1,17 +1,12 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
+using ASample.NetCore.NonInertialDb.Repositories;
 using System;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {
-    public interface IMongoUserRepository
+    public interface IMongoUserRepository:IRepository<User>
     {
-        Task<User> GetAsync(Guid id);
 
-        Task AddAsync(User user);
-
-        Task UpdateAsync(User user);
-
-        Task DeleteAsync(Guid id);
     }
 }
