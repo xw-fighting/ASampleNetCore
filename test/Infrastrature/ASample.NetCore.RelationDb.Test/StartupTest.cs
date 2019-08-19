@@ -21,7 +21,7 @@ namespace ASample.NetCore.RelationDb.Test
     {
         public static IContainer Container { get; private set; }
 
-        public static IServiceProvider InitStartup()
+        public static IServiceProvider InitStartup(string dbType)
         {
             var config = new ConfigurationBuilder()
                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -34,9 +34,21 @@ namespace ASample.NetCore.RelationDb.Test
             var configuration = config.Build();
             var services = new ServiceCollection();
             services.AddOptions();  //注入IOptions<T>，这样就可以在DI容器中获取IOptions<T>了
-            services.Configure<DbOptions>(configuration.GetSection("sql")); //注入配置数据
-            services.AddRelationalDb<ASampleSqlServerDbContext>();
-            //services.AddSingleton<IConfiguration>(configuration);
+            services.Configure<DbOptions>(configuration.GetSection(dbType)); //注入配置数据
+            if(dbType == "sql")
+            {
+                services.AddRelationalDb<ASampleSqlServerDbContext>();
+            }
+            if(dbType == "postgre")
+            {
+                services.AddRelationalDb<ASamplePostgreDbContext>();
+            }
+
+            if (dbType == "mysql")
+            {
+                services.AddRelationalDb<ASampleMySqlDbContext>();
+            }
+            services.AddSingleton<IConfiguration>(configuration);
             //services.AddSingleton<IUnitOfWork<ASampleSqlServerDbContext>, UnitOfWork<ASampleSqlServerDbContext>>();
             services.BuildServiceProvider();
             var builder = new ContainerBuilder();
@@ -48,18 +60,47 @@ namespace ASample.NetCore.RelationDb.Test
             //builder.AddRabbitMq();
             //builder.AddMongo();
             //builder.RegisterType<>().As<IOptions<DbOptions>>();
-            builder.Register(context =>
+           
+            
+            if (dbType == "sql")
             {
-                var provider = services.BuildServiceProvider();
-                var options1 = provider.GetServices<IOptions<DbOptions>>();
-                //创建带参数的实例
-                var mongoClient = new ASampleSqlServerDbContext(options1.FirstOrDefault());
-                //mongoClient.SetProperty(options);
-                return mongoClient;
-            }).SingleInstance();
+                builder.Register(context =>
+                {
+                    var provider = services.BuildServiceProvider();
+                    var options1 = provider.GetServices<IOptions<DbOptions>>();
+                    var dbContext = new ASampleSqlServerDbContext(options1.FirstOrDefault());
+                    return dbContext;
+                }).SingleInstance();
+                builder.RegisterType<UnitOfWork<ASampleSqlServerDbContext>>().As<IUnitOfWork<ASampleSqlServerDbContext>>();
+                builder.RegisterType<Repository<ASampleSqlServerDbContext, User>>().As<IRepository<User>>();
+            }
 
-            builder.RegisterType<UnitOfWork<ASampleSqlServerDbContext>>().As<IUnitOfWork<ASampleSqlServerDbContext>>();
-            builder.RegisterType<Repository<ASampleSqlServerDbContext,User>>().As<IRepository<User>>();
+            if (dbType == "postgre")
+            {
+                builder.Register(context =>
+                {
+                    var provider = services.BuildServiceProvider();
+                    var options1 = provider.GetServices<IOptions<DbOptions>>();
+                    var dbContext = new ASamplePostgreDbContext(options1.FirstOrDefault());
+                    return dbContext;
+                }).SingleInstance();
+                builder.RegisterType<UnitOfWork<ASamplePostgreDbContext>>().As<IUnitOfWork<ASamplePostgreDbContext>>();
+                builder.RegisterType<Repository<ASamplePostgreDbContext, User>>().As<IRepository<User>>();
+            }
+
+            if (dbType == "mysql")
+            {
+                builder.Register(context =>
+                {
+                    var provider = services.BuildServiceProvider();
+                    var options1 = provider.GetServices<IOptions<DbOptions>>();
+                    var dbContext = new ASampleMySqlDbContext(options1.FirstOrDefault());
+                    return dbContext;
+                }).SingleInstance();
+                builder.RegisterType<UnitOfWork<ASampleMySqlDbContext>>().As<IUnitOfWork<ASampleMySqlDbContext>>();
+                builder.RegisterType<Repository<ASampleMySqlDbContext, User>>().As<IRepository<User>>();
+            }
+
             Container = builder.Build();
             var serviceProvider = new AutofacServiceProvider(Container);
             return serviceProvider;

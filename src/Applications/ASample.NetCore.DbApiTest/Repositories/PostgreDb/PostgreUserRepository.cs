@@ -4,10 +4,10 @@ using ASample.NetCore.RelationalDb.Repositories;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {
-    public class PostgreUserRepository : Repository<AsamplePostgreDbContext,User>, IPostgreUserRepository
+    public class PostgreUserRepository : Repository<ASamplePostgreDbContext,User>, IPostgreUserRepository
     {
-        private IUnitOfWork<AsamplePostgreDbContext> _unitOfWork;
-        public PostgreUserRepository(IUnitOfWork<AsamplePostgreDbContext> unitOfWork):base(unitOfWork)
+        private IUnitOfWork<ASamplePostgreDbContext> _unitOfWork;
+        public PostgreUserRepository(IUnitOfWork<ASamplePostgreDbContext> unitOfWork):base(unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

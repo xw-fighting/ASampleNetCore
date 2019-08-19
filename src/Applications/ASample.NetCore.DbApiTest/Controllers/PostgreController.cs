@@ -14,9 +14,9 @@ namespace ASample.NetCore.DbApiTest.Controllers
     public class PostgreController : ControllerBase
     {
         private IPostgreUserRepository _userRepository;
-        private readonly IUnitOfWork<AsamplePostgreDbContext> _unitOfWork;
+        private readonly IUnitOfWork<ASamplePostgreDbContext> _unitOfWork;
 
-        public PostgreController(IPostgreUserRepository userRepository, IUnitOfWork<AsamplePostgreDbContext> unitOfWork)
+        public PostgreController(IPostgreUserRepository userRepository, IUnitOfWork<ASamplePostgreDbContext> unitOfWork)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;

@@ -1,11 +1,11 @@
-﻿using ASample.NetCore.DbApiTest.EntityMap;
+﻿using ASample.NetCore.RelationalDb.Options;
+using ASample.NetCore.RelationDb.Test.Maps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using ASample.NetCore.RelationalDb.Options;
 
-namespace ASample.NetCore.DbApiTest
+namespace ASample.NetCore.RelationDb.Test
 {
-    public class ASamplePostgreDbContext: DbContext
+    public class ASamplePostgreDbContext : DbContext
     {
         private readonly IOptions<DbOptions> _postgreOptions;
         public ASamplePostgreDbContext(IOptions<DbOptions> postgrelOptions) : base()
@@ -27,7 +27,7 @@ namespace ASample.NetCore.DbApiTest
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new UserMap());
-            modelBuilder.ApplyConfiguration(new UserInfoMap());
+            //modelBuilder.ApplyConfiguration(new UserInfoMap());
             //modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
             //modelBuilder.ApplyConfiguration(new ProductConfiguration());
             //modelBuilder.ApplyConfiguration(new ProductsReportConfiguration(_jsonSerializer));
