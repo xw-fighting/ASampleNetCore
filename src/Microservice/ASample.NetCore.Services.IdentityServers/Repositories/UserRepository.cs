@@ -1,37 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using ASample.NetCore.MongoDb.Repository;
+﻿using ASample.NetCore.NonInertialDb.Repositories;
 using ASample.NetCore.Services.IdentityServers.Domain;
 
 namespace ASample.NetCore.Services.IdentityServers.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<ASampleMongoDbContext,User>, IUserRepository
     {
-        private readonly IMongoRepository<User> _repository;
-
-        public UserRepository(IMongoRepository<User> repository)
+        public UserRepository(ASampleMongoDbContext aSampleMongoDbContext):base(aSampleMongoDbContext)
         {
-            _repository = repository;
-        }
 
-        public async Task AddAsync(User user)
-        {
-            await _repository.AddAsync(user);
-        }
-
-        public async Task<User> GetAsync(Guid id)
-        {
-            return  await _repository.GetAsync(id);
-        }
-
-        public async Task<User> GetAsync(string email)
-        {
-            return await _repository.GetAsync(c => c.Email == email.ToLowerInvariant());
-        }
-
-        public async Task UpdateAsync(User user)
-        {
-            await _repository.UpdateAsync(user);
         }
     }
 }

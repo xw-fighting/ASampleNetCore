@@ -21,9 +21,9 @@ namespace ASample.NetCore.Services.IdentityServers.Services
 
         public async Task<JsonWebToken> SignInAsync(string email, string password)
         {
-            throw new NotImplementedException();
-            var user =await _userRepository.GetAsync(email);
-            if(user == null && !user.ValidatePassword(password, _passwordHasher))
+            //throw new NotImplementedException();
+            var user = await _userRepository.GetAsync(c => c.Email == email.ToLowerInvariant());
+            if (user == null && !user.ValidatePassword(password, _passwordHasher))
             {
                 //sign in failed
                 throw new ASampleException(IdentityServerCodes.InvalidCredentials,
@@ -31,6 +31,13 @@ namespace ASample.NetCore.Services.IdentityServers.Services
             }
 
             var refreshToken = new RefreshToken(user, _passwordHasher);
+            //var claims = await _claimsProvider.GetAsync(user.Id);
+            //var jwt = _jwtHandler.CreateToken(user.Id.ToString("N"), user.Role, claims);
+            //jwt.RefreshToken = refreshToken.Token;
+            //await _refreshTokenRepository.AddAsync(refreshToken);
+
+            //return jwt;
+            return new JsonWebToken("");
 
         }
 
