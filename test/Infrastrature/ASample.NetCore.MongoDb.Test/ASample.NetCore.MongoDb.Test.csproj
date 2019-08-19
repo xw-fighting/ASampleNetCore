@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
+    <ProjectReference Include="..\..\..\src\Infrastrature\ASample.NetCore.NonInertialDb\ASample.NetCore.NonInertialDb.csproj" />
     <ProjectReference Include="..\..\..\src\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 
