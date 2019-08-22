@@ -1,4 +1,5 @@
-﻿using ASample.NetCore.NonInertialDb.Repositories;
+﻿using System.Threading.Tasks;
+using ASample.NetCore.NonInertialDb.Repositories;
 using ASample.NetCore.Services.IdentityServers.Domain;
 
 namespace ASample.NetCore.Services.IdentityServers.Repositories
@@ -8,6 +9,11 @@ namespace ASample.NetCore.Services.IdentityServers.Repositories
         public UserRepository(ASampleMongoDbContext aSampleMongoDbContext):base(aSampleMongoDbContext)
         {
 
+        }
+
+        public Task<User> GetUserByEmailAsync(string email)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

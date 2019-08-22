@@ -29,7 +29,19 @@ namespace ASample.NetCore.Services.IdentityServers
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddIdentityServer()
+               .AddDeveloperSigningCredential()
+               // Add customer profile service
+               .AddConfigurationStore(options =>
+               {
+                   options.ConnectionString = Configuration.GetSection("mongo:connectionString").ToString();
+                   options.Database = "IdentityServer4";
+               })
+               .AddOperationalStore(options =>
+               {
+                   options.ConnectionString = Configuration.GetSection("mongo:connectionString").ToString();
+                   options.Database = "IdentityServer4";
+               });
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces();
