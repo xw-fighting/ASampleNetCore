@@ -35,17 +35,19 @@ namespace ASample.NetCore.Services.IdentityServers
                .AddConfigurationStore(options =>
                {
                    options.ConnectionString = Configuration.GetSection("mongo:connectionString").ToString();
-                   options.Database = "IdentityServer4";
+                   options.Database = "ASampleIdentityServer4";
                })
                .AddOperationalStore(options =>
                {
                    options.ConnectionString = Configuration.GetSection("mongo:connectionString").ToString();
-                   options.Database = "IdentityServer4";
+                   options.Database = "ASampleIdentityServer4";
                });
+
+
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces();
-            builder.AddMongo<ASampleMongoDbContext>();
+            //builder.AddMongo<ASampleMongoDbContext>();
 
             
             builder.Populate(services);
