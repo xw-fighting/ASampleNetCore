@@ -19,7 +19,7 @@ namespace ASample.NetCore.Auths.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly UserManager<ASampleUser> _userManager;
@@ -98,14 +98,14 @@ namespace ASample.NetCore.Auths.Api
         }
 
         [HttpGet("UserMenu")]
-        public async Task<ApiRequestResult> GetUserRightAsync()
+        public async Task<string> GetUserRightAsync()
         {
             //获取当前用户的角色
             var user = await _userManager.GetUserAsync(HttpContext.User);
             //获取当前用户的 角色
-            var roles = await _iTUserRepository.GetUserRolesAsync(Guid.Parse(user.Id));
+            var roles = await _iTUserRepository.GetUserRolesAsync(Guid.Parse("A0C2A91A-AB72-4FC2-9CF6-13332A499F6C"));
             if (roles == null || roles.Count <= 0)
-                return ApiRequestResult.Error("用户暂无任何菜单权限");
+                return ApiRequestResult.Error("用户暂无任何菜单权限").ToString();
             //获取角色菜单
             var userRights = new List<TRight>();
             foreach (var item in roles)
@@ -124,29 +124,35 @@ namespace ASample.NetCore.Auths.Api
 
             //父菜单
             var parents = list.Where(c => c.ParentId == null);
-            var rightDtos = new List<RightDto>();
+            var rightDtos = new List<MenuDto>();
             foreach (var parent in parents)
             {
-                var rightDto = new RightDto
+                var rightDto = new MenuDto
                 {
-                    Id = parent.Id,
-                    RightIcon = parent.RightIcon,
-                    RightName = parent.RightName,
-                    RightUrl = parent.RightUrl,
+                    //Id = parent.Id,
+                    Icon = parent.RightIcon,
+                    Name = parent.RightName,
+                    Jump = parent.RightUrl,
                 };
                 //获取子菜单
                 var subRights = list.Where(c => c.ParentId == parent.Id).Select(c => 
-                new RightDto
+                new MenuDto
                 {
-                    Id = c.Id,
-                    RightIcon = c.RightIcon,
-                    RightName = c.RightName,
-                    RightUrl = c.RightUrl,
+                    //Id = c.Id,
+                    Icon = c.RightIcon,
+                    Name = c.RightName,
+                    Jump = c.RightUrl,
                 }).ToList();
-                rightDto.SubRights = subRights;
+                rightDto.List = subRights;
                 rightDtos.Add(rightDto);
             }
-            return ApiRequestResult.Success(rightDtos, "");
+            return JsonConvert.SerializeObject(
+                new MenuResult(){
+                    Code = 0,
+                    Msg = "",
+                    Data = rightDtos
+                }
+             );
         }
 
         [HttpPost]

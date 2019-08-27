@@ -6,14 +6,11 @@ namespace ASample.NetCore.Services.IdentityServers.Repositories
 {
     public class UserRepository : Repository<ASampleMongoDbContext,User>, IUserRepository
     {
+        private readonly ASampleMongoDbContext _aSampleMongoDbContext;
+
         public UserRepository(ASampleMongoDbContext aSampleMongoDbContext):base(aSampleMongoDbContext)
         {
-
-        }
-
-        public Task<User> GetUserByEmailAsync(string email)
-        {
-            throw new System.NotImplementedException();
+            _aSampleMongoDbContext = aSampleMongoDbContext;
         }
     }
 }

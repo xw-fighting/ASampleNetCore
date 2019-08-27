@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Services.IdentityServers.Domain;
 using ASample.NetCore.Services.IdentityServers.Repositories;
+using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -13,6 +14,14 @@ namespace ASample.NetCore.Services.IdentityServers.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IClientStore _clientStore;
+
+        public IdentityService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher, IClientStore clientStore)
+        {
+            _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
+            _clientStore = clientStore;
+        }
 
         public Task ChangePasswordAsync(Guid userId, string currentPassword, string newPassword)
         {
@@ -29,6 +38,7 @@ namespace ASample.NetCore.Services.IdentityServers.Services
                 throw new ASampleException(IdentityServerCodes.InvalidCredentials,
                    "Invalid credentials.");
             }
+
 
             var refreshToken = new RefreshToken(user, _passwordHasher);
             //var claims = await _claimsProvider.GetAsync(user.Id);

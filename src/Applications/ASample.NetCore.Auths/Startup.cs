@@ -41,6 +41,7 @@ namespace ASample.NetCore.Auths
             {
                 loggingBuilder.AddSeq(Configuration.GetSection("Seq"));
             });
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddDbContext<ASampleIdentityDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<SqlServerOptions>(Configuration.GetSection("sql"));
@@ -61,7 +62,17 @@ namespace ASample.NetCore.Auths
                 // forgot password links, phone number verification codes etc...
                 .AddDefaultTokenProviders();
             //services.AddScoped<RoleManager<IdentityRole>>();
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", b =>
+                {
+                    b.AllowAnyOrigin() //允许任何来源的主机访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();//指定处理cookie
+                });
+            });
+            services.AddHttpContextAccessor();
 
             services.AddMvc(
                 option =>
@@ -111,6 +122,7 @@ namespace ASample.NetCore.Auths
             });
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseCors("any");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

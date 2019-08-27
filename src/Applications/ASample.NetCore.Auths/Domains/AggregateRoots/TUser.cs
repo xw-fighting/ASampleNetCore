@@ -25,6 +25,8 @@ namespace ASample.NetCore.Auths.Domains
         /// </summary>
         public string UserName { get; set; }
 
+        //public string NickName { get; set; }
+
         /// <summary>
         /// 手机号
         /// </summary>

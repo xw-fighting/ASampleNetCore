@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.Auths.Models;
@@ -23,17 +24,19 @@ namespace ASample.NetCore.Auths.Api
         private readonly SignInManager<ASampleUser> _signInManager;
         private readonly ITUserRepository _userRepository;
         private readonly ILogger<AccountController> _log;
+        private readonly IHttpContextAccessor _context;
 
-        
-        public AccountController(UserManager<ASampleUser> userManager
-            , SignInManager<ASampleUser> signInManager
-            , ITUserRepository userRepository
-            , ILogger<AccountController> log
-            )
+
+        public AccountController(UserManager<ASampleUser> userManager,
+                                 SignInManager<ASampleUser> signInManager,
+                                 ITUserRepository userRepository,
+                                 IHttpContextAccessor context,
+                                 ILogger<AccountController> log)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userRepository = userRepository;
+            _context = context;
             _log = log;
         }
 
@@ -46,11 +49,15 @@ namespace ASample.NetCore.Auths.Api
             {
                 //var test = HttpContext.Current.User.Identity.GetUserId();
                 var userInfo = await _userManager.FindByNameAsync(param.UserName);
-                HttpContext.User = await _signInManager.CreateUserPrincipalAsync(userInfo);
+                _context.HttpContext.User = await _signInManager.CreateUserPrincipalAsync(userInfo);
                 _log.LogInformation("登录成功");
-                // If we have no return URL...
-                return ApiRequestResult.Success(param.UserName,"登录成功");
-                // Otherwise, go to the return url
+
+                var dto = new AccountInfoDto
+                {
+                    UserName = userInfo.UserName,
+                    UserId = userInfo.Id
+                };
+                return ApiRequestResult.Success(dto, "登录成功");
             }
             _log.LogError("登录失败");
             return ApiRequestResult.Error("登录失败");
@@ -83,19 +90,20 @@ namespace ASample.NetCore.Auths.Api
         }
 
         [HttpPost("profile")]
-        public async Task<ApiRequestResult> GetUserInfo()
+        public async Task<ApiRequestResult> GetUserInfo([FromBody] string userId)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userRepository.GetAsync(c => c.Id == Guid.Parse(userId));
+            //var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return ApiRequestResult.Error("未登录");
-            return ApiRequestResult.Success(user.UserName, "获取用户信息成功");
+            return ApiRequestResult.Success(user, "获取用户信息成功");
         }
 
 
         [HttpPost("password")]
         public async Task<ApiRequestResult> UpdatePassword(UpdatePasswordModel model)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
                 return ApiRequestResult.Error("未登录");
             var checkResult = await _userManager.CheckPasswordAsync(user, model.OldPassword);
