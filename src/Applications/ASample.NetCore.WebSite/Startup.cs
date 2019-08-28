@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASample.NetCore.WebSite.Filters;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +32,10 @@ namespace ASample.NetCore.WebSite
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            //var hangfireConnStr = Configuration["sql:connectionString"];
             services.AddSignalR();
-
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration["sql:connectionString"]));
+            services.AddHangfireServer();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -48,6 +52,19 @@ namespace ASample.NetCore.WebSite
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var options = new DashboardOptions
+            {
+                //AuthorizationFilters = new[]
+                //{
+                //    new AuthorizationFilter { Users = "admin, superuser", Roles = "advanced" },
+                //    new ClaimsBasedAuthorizationFilter("name", "value")
+                //}
+                Authorization = new[] { new HFDashboardAuthFilter() }
+            };
+            app.UseHangfireDashboard("/hangfire", options);
+            RecurringJob.AddOrUpdate(() => Console.WriteLine("Recurring!"),"0 3 * * *");
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
