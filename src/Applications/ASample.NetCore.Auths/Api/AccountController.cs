@@ -4,9 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ASample.NetCore.Auths.Domains;
+using ASample.NetCore.Auths.Dtos.Users;
 using ASample.NetCore.Auths.Models;
 using ASample.NetCore.Auths.Models.Account;
 using ASample.NetCore.Auths.Repositories;
+using ASample.NetCore.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -90,13 +92,14 @@ namespace ASample.NetCore.Auths.Api
         }
 
         [HttpPost("profile")]
-        public async Task<ApiRequestResult> GetUserInfo([FromBody] string userId)
+        public async Task<ApiRequestResult> GetUserInfo([FromBody] AccountInfoDto param)
         {
-            var user = await _userRepository.GetAsync(c => c.Id == Guid.Parse(userId));
+            var user = await _userRepository.GetAsync(c => c.Id == Guid.Parse(param.UserId));
             //var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return ApiRequestResult.Error("未登录");
-            return ApiRequestResult.Success(user, "获取用户信息成功");
+            var dto = user.EntityMap<TUser,UserInfoDto>();
+            return ApiRequestResult.Success(dto, "获取用户信息成功");
         }
 
 

@@ -19,7 +19,7 @@ namespace ASample.NetCore.Auths.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RoleController : ControllerBase
     {
         private readonly UserManager<ASampleUser> _userManager;

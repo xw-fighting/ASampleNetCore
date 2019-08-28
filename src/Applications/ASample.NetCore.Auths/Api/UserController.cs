@@ -132,6 +132,7 @@ namespace ASample.NetCore.Auths.Api
                     //Id = parent.Id,
                     Icon = parent.RightIcon,
                     Name = parent.RightName,
+                    Title = parent.RightName,
                     Jump = parent.RightUrl,
                 };
                 //获取子菜单
@@ -141,6 +142,7 @@ namespace ASample.NetCore.Auths.Api
                     //Id = c.Id,
                     Icon = c.RightIcon,
                     Name = c.RightName,
+                    Title = c.RightName,
                     Jump = c.RightUrl,
                 }).ToList();
                 rightDto.List = subRights;
