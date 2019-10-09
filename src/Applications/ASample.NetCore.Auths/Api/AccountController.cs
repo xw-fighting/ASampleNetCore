@@ -70,12 +70,34 @@ namespace ASample.NetCore.Auths.Api
         [HttpPost("sign-up")]
         public async Task<ApiRequestResult> SignUp([FromBody]SignUpParam param)
         {
+
+            var userId = Guid.NewGuid();
             var asampleUser = new ASampleUser
             {
+                Id = userId.ToString(),
                 UserName = param.UserName,
                 Email = param.Email,
                 PhoneNumber = param.PhoneNumber,
             };
+            var hashedNewPassword = _userManager.PasswordHasher.HashPassword(asampleUser, param.Password);
+            var user = new TUser
+            {
+                Id = userId,
+                UserName = param.UserName,
+                Email = param.Email,
+                PhoneNumber = param.PhoneNumber,
+                Password = hashedNewPassword,
+                //OrgId = param.OrgId,
+                //LoginName = param.LoginName,
+            };
+            await _userRepository.AddAsync(user);
+
+            //var asampleUser = new ASampleUser
+            //{
+            //    UserName = param.UserName,
+            //    Email = param.Email,
+            //    PhoneNumber = param.PhoneNumber,
+            //};
             var result = await _userManager.CreateAsync(asampleUser, param.Password);
             if (result.Succeeded)
             {

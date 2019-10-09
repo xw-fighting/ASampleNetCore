@@ -95,6 +95,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.NonInertial
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.RelationDb.Test", "test\Infrastrature\ASample.NetCore.RelationDb.Test\ASample.NetCore.RelationDb.Test.csproj", "{911F4465-87D2-4E13-8900-6790E6FC6C43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.xUnitTest", "test\Infrastrature\ASample.NetCore.xUnitTest\ASample.NetCore.xUnitTest.csproj", "{C03A5383-D68A-4232-8D24-7CA5257C4D68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +251,10 @@ Global
 		{911F4465-87D2-4E13-8900-6790E6FC6C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{911F4465-87D2-4E13-8900-6790E6FC6C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{911F4465-87D2-4E13-8900-6790E6FC6C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C03A5383-D68A-4232-8D24-7CA5257C4D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C03A5383-D68A-4232-8D24-7CA5257C4D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C03A5383-D68A-4232-8D24-7CA5257C4D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C03A5383-D68A-4232-8D24-7CA5257C4D68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -297,6 +303,7 @@ Global
 		{73B9EA33-2492-433D-8491-7BDEB26C73C3} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
 		{2BAD3F68-49C5-4744-A864-CC7F6756DA91} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
 		{911F4465-87D2-4E13-8900-6790E6FC6C43} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
+		{C03A5383-D68A-4232-8D24-7CA5257C4D68} = {331D8643-D424-4198-99F9-ECFB0EF4666C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3C1D5E7-3D29-43DF-AEB9-6241110E2A0B}
