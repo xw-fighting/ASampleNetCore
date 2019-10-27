@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SignalR App</title>
+</head>
+
+<body>
+    <Button type="Button" id="conOpenBtn">連接</Button>
+    <Button type="Button" id="conCloseBtn">關閉連接</Button>
+    <select id="group">
+        <option>貓派</option>
+        <option>狗派</option>
+    </select>
+    <button type="button" id="addGroupBtn">加入群組</button>
+    <br>
+    姓名：<input id="name" type="text"><br>
+    訊息<input id="msg" type="text">
+    <br>
+    <button type="Button" id="submitGroupBtn">送出給群組</button>
+    <button type="Button" id="submitAllBtn">送出給所有人</button>
+    <br>
+
+    <select id="ConList">
+    </select>
+
+    <div id="msgDiv"></div>
+
+
+    <script src="lib/signalr/js/signalr.js"></script>
+    <script src="lib/msgpack5.js"></script>
+    <script src="lib/signalr-protocol-msgpack.js"></script>
+    <script>
+        // JS寫在這
+        // 建立SignalR連接
+        var _ConList = document.getElementById("ConList");
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub",
+            {
+                //連線無回應的時間限制
+                serverTimeoutInMilliseconds: 500
+            })
+            .withHubProtocol(new signalR.protocols.msgpack.MessagePackHubProtocol())
+            .build();
+        // 傳送訊息事件
+        connection.on("ReceiveMessage", function (message) {
+            debugger
+            var msg = message;
+            var encodedMsg = msg.User + " says :" + msg.Message;
+            var li = document.createElement("li");
+            li.textContent = encodedMsg;
+            document.getElementById("msgDiv").appendChild(li);
+        });
+
+        // 連接事件
+        //connection.start().catch(function (err) {
+        //    return console.error(err.toString());
+        //});
+        // Button事件
+        //document.getElementById("submitBtn").addEventListener("click", function(event) {
+        //    var user = document.getElementById("name").value;
+        //    var message = document.getElementById("msg").value;
+        //    connection.invoke("SendMessage", user, message).catch(function(err) {
+        //        return console.error(err.toString());
+        //    });
+        //    event.preventDefault();
+        //});
+        document.getElementById("conOpenBtn").addEventListener("click", function (event) {
+            connection.start().then(function () {
+                console.log('start');
+
+                var user = document.getElementById("name").value;
+                var group = document.getElementById("group").value;
+                connection.invoke("AddConUserList", user, group).catch(function (err) {
+                    return console.error(err.toString());
+                });
+
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+
+        document.getElementById("addGroupBtn").addEventListener("click", function (event) {
+            var user = document.getElementById("name").value;
+            var group = document.getElementById("group").value;
+            connection.invoke("AddGroup", group, user).catch(function (err) {
+                return console.error(err.toString());
+            });
+            event.preventDefault();
+        });
+
+        connection.on("RecAddGroupMsg", function (message) {
+            var msg = message;
+            var li = document.createElement("li");
+            li.textContent = msg;
+            document.getElementById("msgDiv").appendChild(li);
+        });
+
+        connection.on("GetConList", function (message) {
+            debugger
+            console.log(message);
+            _ConList.innerHTML = '';
+            // for (var i = 0; i < _ConList.options.length; i++) {
+            //     _ConList.removeChild(_ConList.options[i]);
+            // }
+
+            for (var i = 0; i < message.length; i++) {
+                var user = document.createElement("option");
+                user.text = message[i].UserName;
+                _ConList.appendChild(user);
+            }
+        });
+
+        // 群組訊息Button事件
+        document.getElementById("submitGroupBtn").addEventListener("click", function (e) {
+            var user = document.getElementById("name").value;
+            var group = document.getElementById("group").value;
+            var message = document.getElementById("msg").value;
+
+            connection.invoke("SendMessageToGroup", group, user, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+        document.getElementById("submitAllBtn").addEventListener("click", function (e) {
+            var user = document.getElementById("name").value;
+            //var group = document.getElementById("group").value;
+            var message = document.getElementById("msg").value;
+
+            connection.invoke("SendMessage", user, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+
+        // 群組訊息接收事件
+        connection.on("ReceiveGroupMessage", function (groupName, user, message) {
+            var msg = `[群組訊息(${groupName})]${user}：${message}`;
+            var li = document.createElement("li");
+            li.textContent = msg;
+            document.getElementById("msgDiv").appendChild(li);
+        });
+
+
+        document.getElementById("submitBtn").addEventListener("click", function (event) {
+            var user = document.getElementById("name").value;
+            var message = document.getElementById("msg").value;
+            fetch(`Chat/SendMessage?user=${user}&message=${message}`, {
+                method: "GET"
+            })
+            event.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

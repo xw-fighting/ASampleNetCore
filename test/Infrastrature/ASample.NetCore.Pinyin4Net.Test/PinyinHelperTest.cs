@@ -11,7 +11,7 @@ namespace ASample.NetCore.Pinyin4Net.Test
         public void ToHanyuPinyinStringArrayTest()
         {
             var hanzi = "测试";
-            var str = PinyinHelper.ToHanyuPinyinStringArray(hanzi);
+            var str = PinyinHelper.ToHanyuPinyinString(hanzi);
             Console.WriteLine(str);
         }
 

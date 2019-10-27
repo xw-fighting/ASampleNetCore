@@ -12,7 +12,7 @@ namespace ASample.NetCore.Pinyin4Net
         /// <param name="hanziStr">待转换汉字</param>
         /// <param name="hanyuPinyinOutputFormat">转换格式</param>
         /// <returns></returns>
-        public static string ToHanyuPinyinStringArray(string hanziStr, HanyuPinyinOutputFormat hanyuPinyinOutputFormat = null)
+        public static string ToHanyuPinyinString(string hanziStr, HanyuPinyinOutputFormat hanyuPinyinOutputFormat = null)
         {
             var pinyin = string.Empty;
             if(hanyuPinyinOutputFormat == null)

@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SignalR App</title>
+    <style>
+        input {
+            background: transparent;
+            border: 0;
+            height: 100%;
+            padding: 5px;
+        }
+
+        input:focus {
+            outline-offset: 0px;
+            outline-color: rgb(240, 142, 15);
+            outline-width: 3px;
+            outline-style: solid;
+        }
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 2px solid #dee2e6;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="table"></table>
+
+    <script src="lib/signalr/js/signalr.js"></script>
+    <script src="lib/msgpack5.js"></script>
+    <script src="lib/signalr-protocol-msgpack.js"></script>
+    <script>
+        // JS寫在這
+        var rowCount = 5;
+        var cellCount = 5;
+        var table = document.getElementById('table');
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/fileHub").build();
+        connection.start()
+            .then(function () {
+                connection.invoke('GetFile', 'TestFile').catch(function (err) {
+                    return console.error(err.toString());
+                });
+            })
+            .catch(function (err) {
+                return console.error(err.toString());
+            });
+
+        connection.on("ReceiveFile", function (file) {
+            console.log(file);
+            var count = 0;
+            for (var i = 0; i < file.row; i++) {
+                var row = document.createElement('tr');
+                for (var j = 0; j < file.column; j++) {
+                    var cell = document.createElement('td');
+                    cell.id = file.textList[count].cellName;
+                    cell.addEventListener('click', cellEdit);
+                    // cell塞入change事件
+                    cell.addEventListener('input', change);
+                    // 建立cell填入後端紀錄的值
+                    cell.appendChild(createCell(file.textList[count].text));
+                    row.appendChild(cell);
+                    count++;
+                }
+                table.append(row);
+            }
+        });
+
+        connection.on("ReceiveEditText", function (cellName, text) {
+            document.getElementById(cellName).childNodes[0].value = text;
+        });
+
+        function change() {
+            console.log(this);
+            connection.invoke('EditText', 'TestFile', this.id, this.childNodes[0].value).catch(function (err) {
+                return console.error(err.toString());
+            });
+        }
+
+
+
+        function createCell(text) {
+            var input = document.createElement('input');
+            input.addEventListener('blur', cellLock);
+            input.value = text;
+            input.type = 'text';
+            input.readOnly = true;
+
+            return input;
+        }
+
+        function createTable() {
+            for (var i = 0; i < cellCount; i++) {
+                var row = document.createElement('tr');
+                for (var j = 0; j < rowCount; j++) {
+                    var cell = document.createElement('td');
+                    cell.addEventListener('click', cellEdit,true);
+                    cell.appendChild(createCell());
+                    row.appendChild(cell);
+                }
+                table.append(row)
+            }
+        }
+
+        //createTable();
+
+        // 未編輯鎖上Cell
+        function cellLock() {
+            this.readOnly = true;
+        }
+        // 編輯時解鎖Cell
+        function cellEdit() {
+            this.childNodes[0].readOnly = false;
+            // 焦點移至input
+            this.childNodes[0].focus();
+        }
+    </script>
+</body>
+
+</html>
