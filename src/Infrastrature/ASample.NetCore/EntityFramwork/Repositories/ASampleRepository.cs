@@ -96,6 +96,7 @@ namespace ASample.NetCore.EntityFramwork
         }
 
         public abstract TEntity Insert(TEntity entity);
+
         public virtual Task AddAsync(TEntity entity)
         {
             entity.CreateTime = DateTime.Now;
