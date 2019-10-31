@@ -1,5 +1,5 @@
 ﻿using ASample.NetCore.Auths.Domains.Values;
-using ASample.NetCore.Domain.AggregateRoots;
+using ASample.NetCore.Domain;
 
 namespace ASample.NetCore.Auths.Domains
 {

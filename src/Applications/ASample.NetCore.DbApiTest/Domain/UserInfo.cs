@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 

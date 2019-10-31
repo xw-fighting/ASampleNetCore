@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ASample.NetCore.Domain.AggregateRoots
+namespace ASample.NetCore.Domain
 {
     public abstract  class AggregateRoot: AggregateRoot<Guid>, ISoftDelete, IPrimaryKey
     {

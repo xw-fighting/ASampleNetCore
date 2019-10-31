@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 using Microsoft.AspNetCore.Identity;
 using System;
 

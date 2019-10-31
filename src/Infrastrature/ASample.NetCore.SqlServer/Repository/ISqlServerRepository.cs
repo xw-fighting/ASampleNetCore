@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 using ASample.NetCore.EntityFramwork;
 using Microsoft.EntityFrameworkCore;
 

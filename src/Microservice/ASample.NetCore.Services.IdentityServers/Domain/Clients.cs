@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 
 
 namespace ASample.NetCore.Services.IdentityServers.Domain

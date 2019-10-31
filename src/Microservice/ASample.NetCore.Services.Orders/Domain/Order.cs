@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 using ASample.NetCore.Services.Orders.Domain.Values;
 using System;
 using System.Collections.Generic;

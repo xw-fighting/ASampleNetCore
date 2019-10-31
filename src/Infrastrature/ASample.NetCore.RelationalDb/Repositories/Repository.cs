@@ -1,10 +1,8 @@
-﻿using ASample.NetCore.Domain.AggregateRoots;
+﻿using ASample.NetCore.Domain;
 using ASample.NetCore.EntityFramwork;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ASample.NetCore.RelationalDb.Repositories
 {

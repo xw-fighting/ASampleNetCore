@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ASample.NetCore.Domain.AggregateRoots
+namespace ASample.NetCore.Domain
 { 
     public interface ISoftDelete
     {
