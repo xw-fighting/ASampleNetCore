@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Authentication.Dto;
+﻿using ASample.NetCore.Authentications;
 using System;
 using System.Threading.Tasks;
 

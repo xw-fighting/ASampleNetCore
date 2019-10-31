@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ASample.NetCore.Common
+namespace ASample.NetCore.Extension
 {
     public static class FilterExtension
     {

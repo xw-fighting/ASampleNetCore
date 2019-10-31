@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.Authentications.Attributes;
+﻿using ASample.NetCore.Authentications;
 
 namespace ASample.NetCore.Services.Apis.Framwork
 {

@@ -19,7 +19,7 @@ namespace ASample.NetCore.DbApiTest
             {
                 return;
             }
-            optionsBuilder.UseNpgsql(_postgreOptions.Value.ConnectionString);
+            //optionsBuilder.UseNpgsql(_postgreOptions.Value.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

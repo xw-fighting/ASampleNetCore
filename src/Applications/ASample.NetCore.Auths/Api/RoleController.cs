@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ASample.NetCore.Auths.DbConexts;
 using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.Auths.Models.Roles;
 using ASample.NetCore.Auths.Models;
 using ASample.NetCore.Auths.Repositories;
 using ASample.NetCore.Common;
-using ASample.NetCore.EntityFramwork;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ASample.NetCore.Auths.Dtos.Roles;
+using ASample.NetCore.Extension;
 
 namespace ASample.NetCore.Auths.Api
 {

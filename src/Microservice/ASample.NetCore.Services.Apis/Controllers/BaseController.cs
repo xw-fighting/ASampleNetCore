@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ASample.NetCore.Authentications.Attributes;
+using ASample.NetCore.Authentications;
 using ASample.NetCore.Domain.Message;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.EntityFramwork.Domain;

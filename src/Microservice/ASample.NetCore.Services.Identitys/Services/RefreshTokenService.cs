@@ -1,15 +1,11 @@
-﻿using ASample.NetCore.Authentication.Dto;
-using ASample.NetCore.Authentication.Handlers;
+﻿using ASample.NetCore.Authentications;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.RabbitMq.Publisher;
-using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.Services.Identitys.Messages.Events;
 using ASample.NetCore.Services.Identitys.Repositories;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.Services.Identitys.Services

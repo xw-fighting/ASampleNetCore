@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Auths.Domains;
-using ASample.NetCore.Auths.Models;
 using ASample.NetCore.Auths.Models.Rights;
 using ASample.NetCore.Auths.Repositories;
 using ASample.NetCore.Common;
-using Microsoft.AspNetCore.Authorization;
+using ASample.NetCore.Extension;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

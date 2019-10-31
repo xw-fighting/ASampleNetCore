@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using ASample.NetCore.Authentications.Attributes;
+using ASample.NetCore.Authentications;
 using ASample.NetCore.Mvc;
 using ASample.NetCore.Services.Identitys.Messages.Commands;
 using ASample.NetCore.Services.Identitys.Services;
