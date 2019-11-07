@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.NonInertialDb\ASample.NetCore.NonInertialDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 

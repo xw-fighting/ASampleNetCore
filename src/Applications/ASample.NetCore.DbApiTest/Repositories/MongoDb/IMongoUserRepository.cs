@@ -1,7 +1,5 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
-using ASample.NetCore.NonInertialDb.Repositories;
-using System;
-using System.Threading.Tasks;
+using ASample.NetCore.NonRelationalDb;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {

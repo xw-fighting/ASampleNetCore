@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.MongoDb.Repository;
+﻿using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.Services.Customers.Domain;
 using System;
 using System.Threading.Tasks;
@@ -7,9 +7,9 @@ namespace ASample.NetCore.Services.Customers.Repositories
 {
     public class ProductsRepository : IProductsRepository
     {
-        private readonly IMongoRepository<Product> _repository;
+        private readonly IRepository<Product> _repository;
 
-        public ProductsRepository(IMongoRepository<Product> repository)
+        public ProductsRepository(IRepository<Product> repository)
         {
             _repository = repository;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ASample.NetCore.Mvc;
-using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Services.Apis.Framwork;
 using ASample.NetCore.Services.Apis.Messages.Commands.Products;
 using ASample.NetCore.Services.Apis.Queries;

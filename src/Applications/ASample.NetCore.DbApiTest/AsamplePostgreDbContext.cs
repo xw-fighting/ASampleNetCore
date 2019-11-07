@@ -1,7 +1,7 @@
 ﻿using ASample.NetCore.DbApiTest.EntityMap;
+using ASample.NetCore.RelationalDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using ASample.NetCore.RelationalDb.Options;
 
 namespace ASample.NetCore.DbApiTest
 {
@@ -19,7 +19,7 @@ namespace ASample.NetCore.DbApiTest
             {
                 return;
             }
-            //optionsBuilder.UseNpgsql(_postgreOptions.Value.ConnectionString);
+            optionsBuilder.UseNpgsql(_postgreOptions.Value.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

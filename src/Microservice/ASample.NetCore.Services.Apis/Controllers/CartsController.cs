@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ASample.NetCore.Mvc;
-using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Services.Apis.Messages.Commands.Customers;
 using ASample.NetCore.Services.Apis.Services;
 using Microsoft.AspNetCore.Mvc;

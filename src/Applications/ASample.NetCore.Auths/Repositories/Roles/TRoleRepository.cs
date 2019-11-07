@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using ASample.NetCore.Auths.DbConexts;
 using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.SqlServerDb.Repository;
+using ASample.NetCore.RelationalDb;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public class TRoleRepository : SqlServerRepository<ASampleIdentityDbContext,TRole>,ITRoleRepository
+    public class TRoleRepository : Repository<ASampleIdentityDbContext,TRole>,ITRoleRepository
     {
         public TRoleRepository(IUnitOfWork<ASampleIdentityDbContext> unitOfWork ):base( unitOfWork)
         {

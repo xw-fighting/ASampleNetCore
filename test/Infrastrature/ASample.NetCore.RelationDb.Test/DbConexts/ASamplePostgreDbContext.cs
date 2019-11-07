@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.RelationalDb.Options; 
+﻿using ASample.NetCore.RelationalDb;
 using ASample.NetCore.RelationDb.Test.Maps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

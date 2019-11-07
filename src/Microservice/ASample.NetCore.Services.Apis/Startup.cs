@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using ASample.NetCore.Authentications;
 using ASample.NetCore.Consul;
 using ASample.NetCore.Dispatchers;
@@ -17,12 +14,8 @@ using Autofac.Extensions.DependencyInjection;
 using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ASample.NetCore.Services.Apis
 {
@@ -45,7 +38,7 @@ namespace ASample.NetCore.Services.Apis
             services.AddJwt();
             services.AddJaeger();
             services.AddOpenTracing();
-            services.AddRedis();
+            //services.AddRedis();
             services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
             services.AddCors(options =>
             {
@@ -70,7 +63,7 @@ namespace ASample.NetCore.Services.Apis
             builder.Populate(services);
             builder.AddRabbitMq();
             builder.AddDispatchers();
-            //builder.AddCustomerRedis();
+            builder.AddCustomerRedis();
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);

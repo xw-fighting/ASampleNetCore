@@ -1,7 +1,6 @@
 ﻿using ASample.NetCore.Auths.DbConexts;
 using ASample.NetCore.Auths.Domains;
-using ASample.NetCore.SqlServerDb;
-using ASample.NetCore.SqlServerDb.Options;
+using ASample.NetCore.RelationalDb;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -44,9 +43,9 @@ namespace ASample.NetCore.Auths
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddDbContext<ASampleIdentityDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.Configure<SqlServerOptions>(Configuration.GetSection("sql"));
+            services.Configure<DbOptions>(Configuration.GetSection("sql"));
             services.AddEntityFrameworkSqlServer()
-               .AddSqlServer<ASampleIdentityDbContext>();
+               .AddRelationalDb<ASampleIdentityDbContext>();
             // AddIdentity adds cookie based authentication
             // Adds scoped classes for things like UserManager, SignInManager, PasswordHashers etc..
             // NOTE: Automatically adds the validated user from a cookie to the HttpContext.User

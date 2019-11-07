@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace ASample.NetCore.RelationalDb.Repositories
+namespace ASample.NetCore.RelationalDb
 {
     public class Repository<TDbContext, TEntity> : ASampleRepository<TEntity>, IRepository<TEntity>
-        where TEntity : AggregateRoot
+        where TEntity : class,IAggregateRoot
         where TDbContext : DbContext
     {
         private DbSet<TEntity> _dbSet;

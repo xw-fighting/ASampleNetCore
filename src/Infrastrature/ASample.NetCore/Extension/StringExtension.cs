@@ -24,7 +24,7 @@ namespace ASample.NetCore.Extension
 
         public static bool PhoneRegex(this string value)
         {
-            var phoneRegex = new Regex(@"(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)([0-9]{9}|[0-9\-\s]{9,18})",
+            var phoneRegex = new Regex(@"^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$",
             RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
             return phoneRegex.IsMatch(value);
         }

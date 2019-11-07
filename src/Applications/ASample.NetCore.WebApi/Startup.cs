@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using ASample.NetCore.Authentications;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.Jaeger;
-using ASample.NetCore.MongoDb;
+using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;
-using ASample.NetCore.WebApi.Domain;
-using ASample.NetCore.WebApi.Messages.Command;
-using ASample.NetCore.WebApi.Messages.Events;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -38,14 +34,13 @@ namespace ASample.NetCore.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddJaeger();
             services.AddSignalR();
+            //services.AddRedis();
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                     .AsImplementedInterfaces();
 
             builder.Populate(services);
-            builder.AddMongo();
             builder.AddDispatchers();
-            builder.AddMongoRepository<UserInfo>("User");
             builder.AddRabbitMq();
             builder.AddCustomerRedis();
            
@@ -73,8 +68,8 @@ namespace ASample.NetCore.WebApi
             }
             app.UseCors("CorsPolicy");
             //app.UseAllForwardedHeaders();
-            app.UseAuthentication();
-            app.UseAccessTokenValidator();
+            //app.UseAuthentication();
+            //app.UseAccessTokenValidator();
             //app.UseRabbitMq()
             //    .SubscribeCommand<UserInfoCreateCommand>(onError: (cmd, ex)
             //        => new CreateUserInfoRejected(cmd.Id, ex.Message, "customer_not_found"))

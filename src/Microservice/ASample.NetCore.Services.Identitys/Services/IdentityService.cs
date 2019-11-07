@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using ASample.NetCore.Services.Identitys.Domain;
 using ASample.NetCore.Services.Identitys.Repositories;
 using Microsoft.AspNetCore.Identity;
-using ASample.NetCore.RabbitMq.Publisher;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.Services.Identitys.Messages.Events;
 using ASample.NetCore.Authentications;
+using ASample.NetCore.RabbitMq;
 
 namespace ASample.NetCore.Services.Identitys.Services
 {

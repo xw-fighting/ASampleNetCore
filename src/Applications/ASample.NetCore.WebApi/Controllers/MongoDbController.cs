@@ -4,17 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.MongoDb;
-using ASample.NetCore.MongoDb.Options;
 using ASample.NetCore.MongoDb.Repository;
-using ASample.NetCore.Redis;
 using ASample.NetCore.WebApi.Domain;
 using ASample.NetCore.WebApi.Dto.Users;
 using ASample.NetCore.WebApi.Messages.Command;
 using ASample.NetCore.WebApi.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
 
 namespace ASample.NetCore.WebApi.Controllers
 {

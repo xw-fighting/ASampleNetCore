@@ -1,6 +1,5 @@
-﻿using ASample.NetCore.NonInertialDb.Repositories;
+﻿using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.Services.IdentityServers.Domain;
-using System.Threading.Tasks;
 
 namespace ASample.NetCore.Services.IdentityServers.Repositories
 {

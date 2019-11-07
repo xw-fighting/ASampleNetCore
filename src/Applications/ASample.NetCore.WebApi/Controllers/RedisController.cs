@@ -1,22 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ASample.NetCore.Dispatchers;
-using ASample.NetCore.MongoDb;
-using ASample.NetCore.MongoDb.Options;
-using ASample.NetCore.MongoDb.Repository;
 using ASample.NetCore.Redis;
-using ASample.NetCore.Redis.Dto;
 using ASample.NetCore.WebApi.Domain;
-using ASample.NetCore.WebApi.Dto.Users;
-using ASample.NetCore.WebApi.Messages.Command;
-using ASample.NetCore.WebApi.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-using StackExchange.Redis;
 
 namespace ASample.NetCore.WebApi.Controllers
 {
@@ -39,9 +28,10 @@ namespace ASample.NetCore.WebApi.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
-            var hash = await _cache.GetHashAsync("userInfo","1");
-            var userInfo = _cache.GetString("userInfo");
-            return hash + userInfo;
+            //var hash = await _cache.GetHashAsync("userInfo","1");
+            var userInfo = _cache.GetString("hashTest");
+            //return hash + userInfo;
+            return userInfo;
         }
 
         [HttpPut]
@@ -61,13 +51,28 @@ namespace ASample.NetCore.WebApi.Controllers
         [HttpPost]
         public async Task HashSetAsync()
         {
+            //var hash = new List<HashSetDto>
+            //{
+            //    new HashSetDto("1", "a"),
+            //    new HashSetDto("2", "b"),
+            //    new HashSetDto("3", "c")
+            //};
+            //await _cache.SetHashAsync("hashTest", hash);
+
+            //var result = await _dispatcher.QueryAsync(query);
+            //return result.ToList();
+        }
+
+        [HttpPost("setasync")]
+        public async Task SetAsync()
+        {
             var hash = new List<HashSetDto>
             {
                 new HashSetDto("1", "a"),
                 new HashSetDto("2", "b"),
                 new HashSetDto("3", "c")
             };
-            await _cache.SetHashAsync("hashTest", hash);
+            await _cache.SetStringAsync("hashTest", "123213");
 
             //var result = await _dispatcher.QueryAsync(query);
             //return result.ToList();

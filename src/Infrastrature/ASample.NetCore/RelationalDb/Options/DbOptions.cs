@@ -1,5 +1,5 @@
 ﻿
-namespace ASample.NetCore.RelationalDb.Options
+namespace ASample.NetCore.RelationalDb
 {
     public class DbOptions
     {

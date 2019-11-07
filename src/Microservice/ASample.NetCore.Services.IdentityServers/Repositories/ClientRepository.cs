@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.NonInertialDb.Repositories;
+﻿using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.Services.IdentityServers.Domain;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;

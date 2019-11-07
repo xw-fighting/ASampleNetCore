@@ -1,6 +1,6 @@
 ﻿using ASample.NetCore.EntityFramwork;
 using ASample.NetCore.MongoDb.Test.Model;
-using ASample.NetCore.NonInertialDb.Repositories;
+using ASample.NetCore.NonRelationalDb;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;

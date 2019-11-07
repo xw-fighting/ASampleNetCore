@@ -10,7 +10,7 @@ namespace ASample.NetCore.Extension
     public static class UpdateExtension
     {
         public static TEntity UpdateEntity<TEntity,TParam>(this TParam param,TEntity entity) 
-            where TEntity : AggregateRoot 
+            where TEntity : IAggregateRoot 
             where TParam : class,new()
         {
             if (param != null)

@@ -1,12 +1,9 @@
 ﻿using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.Handlers;
-using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Services.Customers.Messages.Commands;
 using ASample.NetCore.Services.Customers.Messages.Events;
 using ASample.NetCore.Services.Customers.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.Services.Customers.Handlers.Customers

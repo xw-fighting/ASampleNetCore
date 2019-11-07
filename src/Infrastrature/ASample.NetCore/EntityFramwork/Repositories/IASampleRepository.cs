@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.EntityFramwork
 {
-    public interface IASampleRepository<TEntity> : IASampleBaseRepository<TEntity, Guid> where TEntity : AggregateRoot
+    public interface IASampleRepository<TEntity> : IASampleBaseRepository<TEntity, Guid> where TEntity :class, IAggregateRoot
     {
 
     }
 
-    public interface IASampleBaseRepository<TEntity,TKey> where TEntity : AggregateRoot<TKey>
+    public interface IASampleBaseRepository<TEntity,TKey> where TEntity :class, IAggregateRoot<TKey>
     {
         Task<TEntity> GetAsync(TKey id);
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);

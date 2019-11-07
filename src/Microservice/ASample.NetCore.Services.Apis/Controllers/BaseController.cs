@@ -5,7 +5,7 @@ using ASample.NetCore.Authentications;
 using ASample.NetCore.Domain.Message;
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.EntityFramwork.Domain;
-using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.RabbitMq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenTracing;

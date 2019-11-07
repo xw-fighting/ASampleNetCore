@@ -2,7 +2,7 @@
 
 namespace ASample.NetCore.Domain
 {
-    public abstract  class AggregateRoot: AggregateRoot<Guid>, ISoftDelete, IPrimaryKey
+    public abstract  class AggregateRoot: AggregateRoot<Guid>,IAggregateRoot
     {
         /// <summary>
         /// 赋值
@@ -14,7 +14,7 @@ namespace ASample.NetCore.Domain
         }
     }
         
-    public abstract class AggregateRoot<TKey> : ISoftDelete, IPrimaryKey<TKey>
+    public abstract class AggregateRoot<TKey> : IPrimaryKey<TKey>, IAggregateRoot<TKey>
     {
         /// <summary>
         /// 主键

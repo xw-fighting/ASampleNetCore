@@ -1,11 +1,10 @@
 ﻿using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.Handlers;
-using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.RabbitMq;
 using ASample.NetCore.WebApi.Domain;
 using ASample.NetCore.WebApi.Messages.Command;
 using ASample.NetCore.WebApi.Messages.Events;
 using ASample.NetCore.WebApi.Repositories.User;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace ASample.NetCore.WebApi.Handlers.User

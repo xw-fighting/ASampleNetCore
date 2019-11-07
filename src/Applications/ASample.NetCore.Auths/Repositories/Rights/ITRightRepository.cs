@@ -1,9 +1,9 @@
 ﻿using ASample.NetCore.Auths.Domains;
-using ASample.NetCore.SqlServerDb.Repository;
+using ASample.NetCore.RelationalDb;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public interface ITRightRepository:ISqlServerRepository<TRight>
+    public interface ITRightRepository:IRepository<TRight>
     {
     }
 }

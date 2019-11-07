@@ -1,5 +1,4 @@
 ﻿using ASample.NetCore.Extension;
-using ASample.NetCore.Redis.Options;
 using Autofac;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
@@ -79,11 +78,11 @@ namespace ASample.NetCore.Redis
         }
 
 
-        public static async Task SetAsync<T>(this IDistributedCache redisCache,string key,T TEntity) where T :class
-        {
-            var jsonStr = JsonConvert.SerializeObject(TEntity);
-            var bytes = System.Text.Encoding.Default.GetBytes(jsonStr);
-            await redisCache.SetAsync(key, bytes);
-        }
+        //public static async Task SetAsync<T>(this IDistributedCache redisCache,string key,T TEntity) where T :class
+        //{
+        //    var jsonStr = JsonConvert.SerializeObject(TEntity);
+        //    var bytes = System.Text.Encoding.Default.GetBytes(jsonStr);
+        //    await redisCache.SetAsync(key, bytes);
+        //}
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ASample.NetCore.EntityFramwork.Domain;
-using ASample.NetCore.MongoDb.Repository;
+using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.Services.Customers.Domain;
 using ASample.NetCore.Services.Customers.Queries;
 
@@ -9,9 +9,9 @@ namespace ASample.NetCore.Services.Customers.Repositories
 {
     public class CustomersRepository : ICustomersRepository
     {
-        private readonly IMongoRepository<Customer> _repository;
+        private readonly IRepository<Customer> _repository;
 
-        public CustomersRepository(IMongoRepository<Customer> repository)
+        public CustomersRepository(IRepository<Customer> repository)
         {
             _repository = repository;
         }

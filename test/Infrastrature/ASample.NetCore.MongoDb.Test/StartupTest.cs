@@ -1,7 +1,5 @@
 ﻿using ASample.NetCore.MongoDb.Test.Model;
-using ASample.NetCore.NonInertialDb;
-using ASample.NetCore.NonInertialDb.Options;
-using ASample.NetCore.NonInertialDb.Repositories;
+using ASample.NetCore.NonRelationalDb;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;

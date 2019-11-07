@@ -180,10 +180,10 @@ namespace ASample.NetCore.Auths.Api
                 OrgId = param.OrgId,
                 LoginName = param.LoginName,
             };
-            await _iTUserRepository.AddAsync(user);
             var result = await _userManager.CreateAsync(asampleUser, param.Password);
             if (result.Succeeded)
             {
+                await _iTUserRepository.AddAsync(user);
                 return ApiRequestResult.Success("添加成功");
             }
             return ApiRequestResult.Error(result.Errors.FirstOrDefault().Description);

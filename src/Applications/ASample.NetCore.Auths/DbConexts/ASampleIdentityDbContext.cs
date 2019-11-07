@@ -1,6 +1,6 @@
 ﻿using ASample.NetCore.Auths.DbConexts.Maps;
 using ASample.NetCore.Auths.Domains;
-using ASample.NetCore.SqlServerDb.Options;
+using ASample.NetCore.RelationalDb;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -9,9 +9,9 @@ namespace ASample.NetCore.Auths.DbConexts
 {
     public class ASampleIdentityDbContext: IdentityDbContext<ASampleUser>
     {
-        private readonly IOptions<SqlServerOptions> _sqlOptions;
+        private readonly IOptions<DbOptions> _sqlOptions;
 
-        public ASampleIdentityDbContext(IOptions<SqlServerOptions> sqlOptions) : base()
+        public ASampleIdentityDbContext(IOptions<DbOptions> sqlOptions) : base()
         {
             _sqlOptions = sqlOptions;
         }

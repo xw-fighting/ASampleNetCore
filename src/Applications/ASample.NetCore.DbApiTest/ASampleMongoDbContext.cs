@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.NonInertialDb.Options;
+﻿using ASample.NetCore.NonRelationalDb;
 using MongoDB.Driver;
 
 namespace ASample.NetCore.DbApiTest

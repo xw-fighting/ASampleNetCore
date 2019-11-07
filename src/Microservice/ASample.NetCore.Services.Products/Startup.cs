@@ -44,7 +44,7 @@ namespace ASample.NetCore.Services.Products
             services.AddConsul();
             services.AddJaeger();
             services.AddOpenTracing();
-            //services.AddRedis();
+            services.AddRedis();
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                    .AsImplementedInterfaces();
@@ -54,7 +54,7 @@ namespace ASample.NetCore.Services.Products
             builder.AddMongoRepository<Product>("Products");
             builder.AddRabbitMq();
             builder.AddDispatchers();
-            builder.AddCustomerRedis();
+            //builder.AddCustomerRedis();
             Container = builder.Build();
             return new AutofacServiceProvider(Container);
         }

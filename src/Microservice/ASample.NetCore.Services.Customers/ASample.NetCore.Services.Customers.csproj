@@ -19,8 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
-    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj" />
-    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Redis\ASample.NetCore.Redis.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 

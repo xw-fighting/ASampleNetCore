@@ -21,13 +21,11 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.MongoDb\ASample.NetCore.MongoDb.csproj" />
-    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.RabbitMq\ASample.NetCore.RabbitMq.csproj" />
-    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.Redis\ASample.NetCore.Redis.csproj" />
-    <ProjectReference Include="..\..\Infrastrature\ASample.NetCore.SqlServer\ASample.NetCore.SqlServerDb.csproj" />
     <ProjectReference Include="..\..\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
     <ProjectReference Include="..\..\Thirdparty\ASample.NetCore.WeChat\ASample.NetCore.WeChat.csproj" />
   </ItemGroup>

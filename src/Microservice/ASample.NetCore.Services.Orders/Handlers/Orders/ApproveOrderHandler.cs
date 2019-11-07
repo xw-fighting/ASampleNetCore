@@ -1,6 +1,6 @@
 ﻿using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.Handlers;
-using ASample.NetCore.RabbitMq.Publisher;
+using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Services.Orders.Messages.Commands;
 using ASample.NetCore.Services.Orders.Messages.Events;
 using ASample.NetCore.Services.Orders.Repositories;

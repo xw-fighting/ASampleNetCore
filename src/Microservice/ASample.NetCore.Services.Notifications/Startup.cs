@@ -4,7 +4,6 @@ using ASample.NetCore.Consul;
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.Jaeger;
 using ASample.NetCore.MailKit;
-using ASample.NetCore.MongoDb;
 using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;
@@ -42,14 +41,12 @@ namespace ASample.NetCore.Services.Notifications
             services.AddRedis();
             services.RegisterServiceForwarder<ICustomersService>("customers-service");
 
-
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                     .AsImplementedInterfaces();
             builder.Populate(services);
             builder.AddDispatchers();
             builder.AddRabbitMq();
-            builder.AddMongo();
             builder.AddCustomerRedis();
             builder.AddMailKit();
 

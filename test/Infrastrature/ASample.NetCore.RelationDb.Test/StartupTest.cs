@@ -1,8 +1,6 @@
 using ASample.NetCore.Dispatchers;
 using ASample.NetCore.EntityFramwork;
 using ASample.NetCore.RelationalDb;
-using ASample.NetCore.RelationalDb.Options;
-using ASample.NetCore.RelationalDb.Repositories;
 using ASample.NetCore.RelationalDb.Test.Model;
 using Autofac;
 using Autofac.Core;

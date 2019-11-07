@@ -1,6 +1,6 @@
 ﻿using ASample.NetCore.DbApiTest.Domain;
 using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.RelationalDb.Repositories;
+using ASample.NetCore.RelationalDb;
 
 namespace ASample.NetCore.DbApiTest.Repositories
 {

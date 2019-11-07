@@ -1,4 +1,4 @@
-﻿using ASample.NetCore.MongoDb.Repository;
+﻿using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.Services.Customers.Domain;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ namespace ASample.NetCore.Services.Customers.Repositories
 {
     public class CartsRepository: ICartsRepository
     {
-        private readonly IMongoRepository<Cart> _repository;
+        private readonly IRepository<Cart> _repository;
 
-        public CartsRepository(IMongoRepository<Cart> repository)
+        public CartsRepository(IRepository<Cart> repository)
         {
             _repository = repository;
         }

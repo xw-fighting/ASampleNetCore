@@ -1,7 +1,7 @@
 ﻿using ASample.NetCore.Auths.DbConexts;
 using ASample.NetCore.Auths.Domains;
 using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.SqlServerDb.Repository;
+using ASample.NetCore.RelationalDb;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.Auths.Repositories
 {
-    public class TUserRepository : SqlServerRepository<ASampleIdentityDbContext,TUser>,ITUserRepository
+    public class TUserRepository : Repository<ASampleIdentityDbContext,TUser>,ITUserRepository
     {
         public TUserRepository(
             IUnitOfWork<ASampleIdentityDbContext> unitOfWork

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ASample.NetCore.EntityFramwork
 {
-    public abstract class ASampleRepository<TEntity>: ASampleBaseRepository<TEntity,Guid>,IASampleRepository<TEntity> where TEntity:AggregateRoot
+    public abstract class ASampleRepository<TEntity>: ASampleBaseRepository<TEntity,Guid>,IASampleRepository<TEntity> where TEntity:class,IAggregateRoot
     {
 
     }
 
-    public abstract class ASampleBaseRepository<TEntity, TKey> : IASampleBaseRepository<TEntity, TKey> where TEntity : AggregateRoot<TKey>
+    public abstract class ASampleBaseRepository<TEntity, TKey> : IASampleBaseRepository<TEntity, TKey> where TEntity : class ,IAggregateRoot<TKey>
     {
         public abstract IQueryable<TEntity> GetAll();
 

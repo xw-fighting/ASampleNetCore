@@ -1,9 +1,9 @@
 ﻿using ASample.NetCore.DbApiTest.EntityMap;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using ASample.NetCore.RelationalDb.Options;
 using System;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using ASample.NetCore.RelationalDb;
 
 namespace ASample.NetCore.DbApiTest
 {

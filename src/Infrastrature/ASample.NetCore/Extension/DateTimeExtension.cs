@@ -6,10 +6,10 @@ namespace ASample.NetCore.Extension
     {
         public static long ToTimestamp(this DateTime dateTime)
         {
-            var centuryBegin = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var expectedDate = dateTime.Subtract(new TimeSpan(centuryBegin.Ticks));
-
-            return expectedDate.Ticks / 10000;
+            var epochTicks = new TimeSpan(new DateTime(1970, 1, 1).Ticks);
+            var unixTicks = new TimeSpan(dateTime.Ticks) - epochTicks;
+            var unixTime = (long)unixTicks.TotalSeconds;
+            return unixTime;
         }
 
         public static string ToString(this DateTime dateTime,bool onlyDate = false)

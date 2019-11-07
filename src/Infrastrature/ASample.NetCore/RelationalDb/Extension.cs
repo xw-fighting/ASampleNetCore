@@ -1,7 +1,5 @@
 ﻿using ASample.NetCore.EntityFramwork;
-using ASample.NetCore.RelationalDb.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ASample.NetCore.RelationalDb

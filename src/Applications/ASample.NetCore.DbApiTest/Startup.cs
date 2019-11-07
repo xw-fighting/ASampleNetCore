@@ -7,13 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Autofac;
 using ASample.NetCore.Dispatchers;
 using Autofac.Extensions.DependencyInjection;
-using ASample.NetCore.DbApiTest.Domain;
 using Swashbuckle.AspNetCore.Swagger;
-using ASample.NetCore.RelationalDb.Options;
-using ASample.NetCore.NonInertialDb;
 using ASample.NetCore.RelationalDb;
-using System.Reflection;
-using ASample.NetCore.DbApiTest.Repositories;
 
 namespace ASample.NetCore.DbApiTest
 {
@@ -58,7 +53,7 @@ namespace ASample.NetCore.DbApiTest
             builder.Populate(services);
             builder.AddDispatchers();
 
-            builder.AddMongo<ASampleMongoDbContext>();
+            //builder.AddMongo<ASampleMongoDbContext>();
 
 
             //builder.AddMongo();

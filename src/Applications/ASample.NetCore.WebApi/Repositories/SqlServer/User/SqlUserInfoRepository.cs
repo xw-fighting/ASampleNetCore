@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ASample.NetCore.SqlServerDb.Repository;
+using ASample.NetCore.RelationalDb;
 using ASample.NetCore.WebApi.Domain;
 
 namespace ASample.NetCore.WebApi.Repositories.User
@@ -8,8 +8,8 @@ namespace ASample.NetCore.WebApi.Repositories.User
 
     public class SqlUserInfoRepository : ISqlUserInfoRepository
     {
-        private readonly  ISqlServerRepository<UserInfo> _sqlRepository;
-        public SqlUserInfoRepository(ISqlServerRepository<UserInfo> sqlRepository)
+        private readonly  IRepository<UserInfo> _sqlRepository;
+        public SqlUserInfoRepository(IRepository<UserInfo> sqlRepository)
         {
             _sqlRepository = sqlRepository;
         }
