@@ -9,14 +9,14 @@ namespace ASample.NetCore
         public bool IsError { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
-        public string StatusCode { get; set; }
+        public int Code { get; set; }
         public static ApiRequestResult Success(object list, string message)
         {
             return new ApiRequestResult()
             {
                 IsError = false,
                 Data = list,
-                StatusCode = HttpStatusCode.OK.ToString(),
+                Code = (int)HttpStatusCode.OK,
                 Message = message
             };
         }
@@ -26,7 +26,7 @@ namespace ASample.NetCore
             return new ApiRequestResult()
             {
                 IsError = false,
-                StatusCode = HttpStatusCode.OK.ToString(),
+                Code = (int)HttpStatusCode.OK,
                 Message = message
             };
         }
@@ -38,7 +38,7 @@ namespace ASample.NetCore
                 IsError = true,
                 Data = null,
                 Message = message,
-                StatusCode = HttpStatusCode.OK.ToString()
+                Code = (int)HttpStatusCode.OK
             };
         }
 
