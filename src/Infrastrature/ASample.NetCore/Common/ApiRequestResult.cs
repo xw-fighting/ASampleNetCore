@@ -31,14 +31,14 @@ namespace ASample.NetCore
             };
         }
 
-        public static ApiRequestResult Error(string message)
+        public static ApiRequestResult Error(string message,HttpStatusCode code = HttpStatusCode.BadRequest)
         {
             return new ApiRequestResult()
             {
                 IsError = true,
                 Data = null,
                 Message = message,
-                Code = (int)HttpStatusCode.OK
+                Code = (int)code
             };
         }
 

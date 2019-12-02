@@ -30,31 +30,38 @@ namespace ASample.NetCore.EntityFramwork
             return GetAll().Where(predicate).PaginateAsync();
         }
 
-        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync(int page, int limit
+        public virtual async Task<PagedResult<TEntity>> QueryPagedAsync(int pageNum, int pageSize
             , Func<TEntity, dynamic> sortLamda = null
             , Func<IQueryable<TEntity>,IQueryable<TEntity>> whereLamda = null
             , bool isAsc = true)
         {
             IQueryable<TEntity> result;
 
-            var queryable = whereLamda(GetAll());
-            if (queryable.Count() <= 0)
+            try
             {
-                return new PagedResult<TEntity> { Items = new List<TEntity>() };
+                var queryable = whereLamda(GetAll());
+                if (queryable.Count() <= 0)
+                {
+                    return new PagedResult<TEntity> { Items = new List<TEntity>() };
+                }
+                if (sortLamda == null)
+                {
+                    sortLamda = o => o.CreateTime;
+                }
+                if (isAsc)
+                {
+                    result = queryable.OrderBy(sortLamda).Take(pageSize).Skip((pageNum - 1) * pageSize).AsQueryable();
+                }
+                else
+                {
+                    result = queryable.OrderByDescending(sortLamda).Take(pageSize).Skip((pageNum - 1) * pageSize).AsQueryable();
+                }
+                return await result.PaginateAsync(pageNum, pageSize);
             }
-            if (sortLamda == null)
+            catch (Exception ex)
             {
-                sortLamda = o => o.CreateTime;
+                throw ex;
             }
-            if (isAsc)
-            {
-                result = queryable.OrderBy(sortLamda).Take(limit).Skip((page - 1) * limit).AsQueryable();
-            }
-            else
-            {
-                result = queryable.OrderByDescending(sortLamda).Take(limit).Skip((page - 1) * limit).AsQueryable();
-            }
-            return await result.PaginateAsync(page, limit);
         }
 
         public virtual Task<PagedResult<TEntity>> BrowseAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase

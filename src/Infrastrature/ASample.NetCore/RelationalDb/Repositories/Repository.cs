@@ -28,7 +28,7 @@ namespace ASample.NetCore.RelationalDb
 
         public override IQueryable<TEntity> GetAll()
         {
-            var result = _dbSet.AsQueryable();
+            var result = _dbSet.AsQueryable().Where(c => !c.IsDeleted);
             return result;
         }
 

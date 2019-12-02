@@ -20,6 +20,8 @@ namespace ASample.NetCore.Extension
                         var value = hasValueDic[item.Key];
                         if (!string.IsNullOrEmpty(value))
                         {
+                            if (item.Key == "PageSize" || item.Key == "PageNum")
+                                continue;
                             Func<T, bool> expression = GetExpression<T, TParam>(item.Key, hasValueDic[item.Key]);
                             q = q.Where(expression).AsQueryable();
                         }

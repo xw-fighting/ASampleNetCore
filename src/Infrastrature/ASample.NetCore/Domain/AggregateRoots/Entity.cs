@@ -2,7 +2,7 @@
 
 namespace ASample.NetCore.Domain
 {
-    public abstract class Entity : Entity<Guid>,IPrimaryKey//--->为什么要继承IPrimaryKey
+    public abstract class Entity : Entity<Guid>,IEntity<Guid>//--->为什么要继承IPrimaryKey
     {
         public Entity()
         {
@@ -10,8 +10,10 @@ namespace ASample.NetCore.Domain
         }
     }
 
-    public abstract class Entity<TKey> : IPrimaryKey<TKey>
+    public abstract class Entity<TKey> : IEntity<TKey>
     {
         public TKey Id { get; set ; }
+
+        public DateTime CreateTime { get; set; }
     }
 }
