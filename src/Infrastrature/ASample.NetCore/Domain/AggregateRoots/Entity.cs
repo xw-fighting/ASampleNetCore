@@ -14,6 +14,6 @@ namespace ASample.NetCore.Domain
     {
         public TKey Id { get; set ; }
 
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
     }
 }

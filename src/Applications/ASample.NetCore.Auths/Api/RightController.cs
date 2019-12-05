@@ -84,7 +84,7 @@ namespace ASample.NetCore.Auths.Api
             try
             {
                 var tRight = await _iTRightRepository.GetAsync(c => c.Id == param.Id);
-                tRight = param.UpdateEntity<TRight,RightParam>(tRight);
+                tRight = param.EntityMap<TRight,RightParam>(tRight);
                 await _iTRightRepository.UpdateAsync(tRight);
                 return ApiRequestResult.Success("修改成功");
             }

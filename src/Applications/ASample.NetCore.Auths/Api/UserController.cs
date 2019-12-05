@@ -193,7 +193,7 @@ namespace ASample.NetCore.Auths.Api
         public async Task<ApiRequestResult> UpdateAsync([FromBody]UserParam param)
         {
             var user = await _iTUserRepository.GetAsync(c => c.Id == param.Id);
-            user = param.UpdateEntity<TUser, UserParam>(user);
+            user = param.EntityMap<TUser, UserParam>(user);
             await _iTUserRepository.UpdateAsync(user);
 
             var identityUser = await _userManager.FindByNameAsync(param.UserName);

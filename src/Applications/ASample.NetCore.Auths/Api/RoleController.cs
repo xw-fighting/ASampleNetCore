@@ -84,7 +84,7 @@ namespace ASample.NetCore.Auths.Api
             try
             {
                 var tRole = await _iTRoleRepository.GetAsync(c => c.Id == param.Id);
-                tRole = param.UpdateEntity<TRole, RoleParam>(tRole);
+                tRole = param.EntityMap<TRole, RoleParam>(tRole);
                 await _iTRoleRepository.UpdateAsync(tRole);
                 return ApiRequestResult.Success("修改成功");
             }

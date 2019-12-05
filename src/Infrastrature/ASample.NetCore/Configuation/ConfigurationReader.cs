@@ -1,29 +1,47 @@
-﻿using ASample.NetCore.Serialize;
+﻿using ASample.NetCore.Extension;
+using ASample.NetCore.Serialize;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
-namespace ASample.NetCore.Configuration
+namespace ASample.NetCore
 {
     public class ConfigurationReader
     {
         public static IConfiguration Configuration {get;set; }
-        
+        public static string JsonFileNameAndExtension { get; set; }
+
+
         static ConfigurationReader()
         {
-            Configuration =  GetConfigBuilder();
+            Configuration =  GetConfigBuilder(JsonFileNameAndExtension);
 
             //Look(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config"));
         }
 
-        private static IConfigurationRoot GetConfigBuilder()
+
+        private static IConfigurationRoot GetConfigBuilder(string jsonFileNameAndExtension = null)
         {
+            if (jsonFileNameAndExtension.IsNullOrEmpty())
+            {
+                jsonFileNameAndExtension = "appsettings.json";
+            }
             var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile("wechatconfig.json");
+            var directory = AppContext.BaseDirectory;
+            directory = directory.Replace("\\", "/");
+
+            //在当前目录或者根目录中寻找appsettings.json文件
+            var filePath = $"{directory}/{jsonFileNameAndExtension}";
+            if (!File.Exists(filePath))
+            {
+                var length = directory.IndexOf("/bin");
+                filePath = $"{directory.Substring(0, length)}/{jsonFileNameAndExtension}";
+            }
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile(filePath, false, true);
             var configuration = configBuilder.Build();
             return configuration;
         }
