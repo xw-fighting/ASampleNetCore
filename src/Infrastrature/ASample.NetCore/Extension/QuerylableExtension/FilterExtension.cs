@@ -97,14 +97,32 @@ namespace ASample.NetCore.Extension
                     var express = Expression.AndAlso(Expression.GreaterThanOrEqual(left, right),Expression.LessThan(left, right2));
                     lambda = Expression.Lambda<Func<TSource, bool>>(express, parameter);
                 }
+                else if (property.PropertyType == typeof(Nullable<Int32>))
+                {
+                    var value = 0;
+                    if (propertyValue != null)
+                        value = int.Parse(propertyValue);
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Nullable<Int32>)));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+                }
+                else if (property.PropertyType == typeof(Int32))
+                {
+                    var  value = int.Parse(propertyValue);
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Int32)));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+                }
                 else if(property.PropertyType == typeof(Nullable<Guid>))
                 {
-                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, typeof(Nullable<Guid>)));
+                    var value = Guid.Empty;
+                    if (propertyValue != null)
+                        value = Guid.Parse(propertyValue);
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Nullable<Guid>)));
                     lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
                 }
                 else if(property.PropertyType == typeof(Guid))
                 {
-                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, typeof(Guid)));
+                    var value = Guid.Parse(propertyValue);
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Guid)));
                     lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
                 }
                 else
