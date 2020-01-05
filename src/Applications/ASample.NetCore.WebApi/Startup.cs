@@ -34,7 +34,7 @@ namespace ASample.NetCore.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddJaeger();
             services.AddSignalR();
-            //services.AddRedis();
+            services.AddRedis();
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                     .AsImplementedInterfaces();

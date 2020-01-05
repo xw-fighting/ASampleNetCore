@@ -19,10 +19,13 @@ namespace ASample.NetCore
 
         public IServiceProvider CreateServiceProvider(ContainerBuilder containerBuilder)
         {
+            //containerBuilder.RegisterAssemblyTypes(typeof(Startup).Assembly)
+            //        .AsImplementedInterfaces();
             var applicationContainer = containerBuilder.Build();
 
             // creating the IServiceProvider out of the Autofac container
             return new AutofacServiceProvider(applicationContainer);
         }
+        
     }
 }

@@ -2,6 +2,7 @@
 using ASample.NetCore.Domain;
 using ASample.NetCore.EntityFramwork.Domain;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -33,8 +34,12 @@ namespace ASample.NetCore.EntityFramwork
 
 
         Task AddAsync(TEntity entity);
+        Task MultiAddAsync(List<TEntity> entitys);
         Task UpdateAsync(TEntity entity);
+        Task MultiUpdateAsync(List<TEntity> entitys);
         Task DeleteAsync(TKey id);
+        Task MultiDeleteAsync(List<TEntity> entitys);
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
+        Task DeleteAsync(Expression<Func<TEntity, bool>> predicate,bool isLogicDel = true);
     }
 }

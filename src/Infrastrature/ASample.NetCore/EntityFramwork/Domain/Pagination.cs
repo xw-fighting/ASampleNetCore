@@ -7,7 +7,10 @@ namespace ASample.NetCore.EntityFramwork.Domain
     public static class Pagination
     {
         public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable, PagedQueryBase query)
-            => await queryable.PaginateAsync(query.Page, query.Results);
+            => await queryable.PaginateAsync(query.Page);
+
+        public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable)
+            => await queryable.PaginateAsync();
 
         public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable,
             int page = 1, int resultsPerPage = 10)

@@ -27,7 +27,8 @@ namespace ASample.NetCore.EntityFramwork
 
         public virtual Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
         {
-            return GetAll().Where(predicate).PaginateAsync();
+            var result = GetAll().Where(predicate);
+            return result.PaginateAsync();
         }
 
         public virtual async Task<PagedResult<TEntity>> QueryPagedAsync(int pageNum, int pageSize
@@ -50,11 +51,11 @@ namespace ASample.NetCore.EntityFramwork
                 }
                 if (isAsc)
                 {
-                    result = queryable.OrderBy(sortLamda).Take(pageSize).Skip((pageNum - 1) * pageSize).AsQueryable();
+                    result = queryable.OrderBy(sortLamda).AsQueryable();
                 }
                 else
                 {
-                    result = queryable.OrderByDescending(sortLamda).Take(pageSize).Skip((pageNum - 1) * pageSize).AsQueryable();
+                    result = queryable.OrderByDescending(sortLamda).AsQueryable();
                 }
                 return await result.PaginateAsync(pageNum, pageSize);
             }
@@ -103,11 +104,21 @@ namespace ASample.NetCore.EntityFramwork
         }
 
         public abstract TEntity Insert(TEntity entity);
+        public abstract Task MultipleInsert(List<TEntity> entity);
 
         public virtual Task AddAsync(TEntity entity)
         {
             entity.CreateTime = DateTime.Now;
             return Task.FromResult(Insert(entity));
+        }
+
+        public virtual Task MultiAddAsync(List<TEntity> entitys)
+        {
+            entitys.ForEach(c =>
+            {
+                c.CreateTime = DateTime.Now;
+            });
+            return Task.FromResult(MultipleInsert(entitys));
         }
 
         public virtual TKey AddAndGetId(TEntity entity)
@@ -123,11 +134,22 @@ namespace ASample.NetCore.EntityFramwork
         }
 
         public abstract TEntity Update(TEntity entity);
+        public abstract Task MultipleUpdate(List<TEntity> entity);
 
         public virtual Task UpdateAsync(TEntity entity)
         {
             entity.ModifyTime = DateTime.Now;
             return Task.FromResult(Update(entity));
+        }
+
+        public virtual Task MultiUpdateAsync(List<TEntity> entitys)
+        {
+            entitys.ForEach(c =>
+            {
+                c.ModifyTime = DateTime.Now;
+            });
+            return Task.FromResult(MultipleUpdate(entitys));
+            
         }
 
         public virtual TEntity Update(TKey id, Action<TEntity> updateAction)
@@ -138,7 +160,7 @@ namespace ASample.NetCore.EntityFramwork
         }
 
         public abstract void Delete(TEntity entity);
-
+        public abstract Task PhysicalDelete(TEntity entity);
         public abstract void Delete(TKey id);
 
         public virtual Task DeleteAsync(TKey id)
@@ -163,13 +185,16 @@ namespace ASample.NetCore.EntityFramwork
         /// 逻辑删除数据
         /// </summary>
         /// <param name="predicate"></param>
-        public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
+        public virtual void Delete(Expression<Func<TEntity, bool>> predicate,bool isLogicDel = true)
         {
             foreach (var entity in GetAll().Where(predicate).ToList())
             {
                 entity.IsDeleted = true;
                 entity.DeleteTime = DateTime.Now;
-                Update(entity);
+                if (isLogicDel)
+                    Update(entity);
+                else
+                    PhysicalDelete(entity);
             }
         }
 
@@ -178,9 +203,9 @@ namespace ASample.NetCore.EntityFramwork
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate,bool isLogicDel = true)
         {
-            Delete(predicate);
+            Delete(predicate,isLogicDel);
             return Task.FromResult(0);
         }
 
@@ -198,6 +223,16 @@ namespace ASample.NetCore.EntityFramwork
                 Expression.Constant(id, typeof(TKey))
                 );
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
+
+        public virtual Task MultiDeleteAsync(List<TEntity> entitys)
+        {
+            entitys.ForEach(item =>
+            {
+                item.DeleteTime = DateTime.Now;
+                item.IsDeleted = true;
+            });
+            return Task.FromResult(MultiUpdateAsync(entitys));
         }
     }
 }

@@ -2,7 +2,9 @@
 using ASample.NetCore.EntityFramwork;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ASample.NetCore.RelationalDb
 {
@@ -38,10 +40,28 @@ namespace ASample.NetCore.RelationalDb
             return result.Entity;
         }
 
+        public override Task MultipleInsert(List<TEntity> entity)
+        {
+             _dbSet.AddRange(entity);
+            return Task.FromResult(0);
+        }
+
         public override TEntity Update(TEntity entity)
         {
             var result = _dbSet.Update(entity);
             return result.Entity;
+        }
+
+        public override Task MultipleUpdate(List<TEntity> entity)
+        {
+            _dbSet.UpdateRange(entity);
+            return Task.FromResult(0);
+        }
+
+        public override Task PhysicalDelete(TEntity entity)
+        {
+            var result = _dbSet.Remove(entity);
+            return Task.FromResult(0);
         }
     }
 }

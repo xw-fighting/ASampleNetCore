@@ -4,7 +4,9 @@ using ASample.NetCore.Extension;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ASample.NetCore.NonRelationalDb
 {
@@ -33,11 +35,26 @@ namespace ASample.NetCore.NonRelationalDb
             return entity;
         }
 
+        public override Task MultipleInsert(List<TEntity> entitys)
+        {
+            Collection.InsertMany(entitys);
+            return Task.FromResult(0);
+        }
+
         public override TEntity Update(TEntity entity)
         {
             entity.ModifyTime = BsonDateTime.Create(DateTime.Now).ToLocalTime();
             Collection.ReplaceOne(e => e.Id == entity.Id, entity);
             return entity;
+        }
+
+        public override Task MultipleUpdate(List<TEntity> entitys)
+        {
+            entitys.ForEach(c =>{
+                c.ModifyTime = BsonDateTime.Create(DateTime.Now).ToLocalTime();
+                Collection.ReplaceOne(e => e.Id == c.Id, c);
+            });
+            return Task.FromResult(0);
         }
 
         public override void Delete(TEntity entity)
@@ -48,6 +65,12 @@ namespace ASample.NetCore.NonRelationalDb
         public override void Delete(Guid id)
         {
             Collection.DeleteOne(e => e.Id == id);
+        }
+
+        public override Task PhysicalDelete(TEntity entity)
+        {
+            Collection.DeleteOne(e => e.Id == entity.Id);
+            return Task.FromResult(0);
         }
     }
 }

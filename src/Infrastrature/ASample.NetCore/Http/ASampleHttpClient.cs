@@ -1,8 +1,12 @@
-﻿using ASample.NetCore.Serialize;
+﻿using ASample.NetCore.Extension;
+using ASample.NetCore.Serialize;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
@@ -71,6 +75,42 @@ namespace ASample.NetCore.Http
             return resultStr;
         }
 
+        public async Task<string> PostAsync(string url, IFormFile file)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var httpContent = new MultipartFormDataContent();
+
+            var byteArr = await file.GetBytesAsync();
+            var imageContent = new ByteArrayContent(byteArr);
+            imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
+
+            httpContent.Add(imageContent, "image", "image.jpg");
+            var response = await client.PostAsync(url, httpContent);
+            if (response.StatusCode != HttpStatusCode.OK)
+                return null;
+            var resultStr = await response.Content.ReadAsStringAsync();
+            return resultStr;
+        }
+
+        //public async Task<string> PostAsync(string url, List<IFormFile> files)
+        //{
+        //    var client = _httpClientFactory.CreateClient();
+        //    var httpContent = new MultipartFormDataContent();
+        //    if (files != null && files.Count > 0)
+                
+        //    foreach (var file in files)
+        //    {
+        //        var byteArr = await file.GetBytesAsync();
+        //        var imageContent = new ByteArrayContent(byteArr);
+        //        imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
+        //    }
+        //    var response = await client.PostAsync(url, httpContent);
+        //    if (response.StatusCode != HttpStatusCode.OK)
+        //        return null;
+        //    var resultStr = await response.Content.ReadAsStringAsync();
+        //    return resultStr;
+        //}
+
         public async Task<TOutResult> GetAsync<TOutResult>(string url, DeserializeType deserializeType = DeserializeType.JsonDeserialize) where TOutResult:class,new()
         {
             var client = _httpClientFactory.CreateClient();
@@ -100,6 +140,17 @@ namespace ASample.NetCore.Http
             var response = await client.GetAsync(url);
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
+            var resultStr = await response.Content.ReadAsStringAsync();
+            return resultStr;
+        }
+
+        public async Task<string> DeleteAsync(string url,string content)
+        {
+            var client = _httpClientFactory.CreateClient();
+
+            var response = await client.DeleteAsync(url+"/"+ content);
+            if (response.StatusCode != HttpStatusCode.OK)
+                return string.Empty;
             var resultStr = await response.Content.ReadAsStringAsync();
             return resultStr;
         }
