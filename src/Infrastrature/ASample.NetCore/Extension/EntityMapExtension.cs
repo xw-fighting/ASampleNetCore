@@ -68,12 +68,18 @@ namespace ASample.NetCore.Extension
                         {
                             itemValue = DateTime.Parse(item.Value);
                         }
-
                         if (updateFiled.PropertyType == typeof(Int32) || updateFiled.PropertyType == typeof(Nullable<Int32>))
                         {
                             itemValue = Convert.ToInt32(item.Value);
                         }
-
+                        if (updateFiled.PropertyType == typeof(double) || updateFiled.PropertyType == typeof(Nullable<double>))
+                        {
+                            itemValue = Convert.ToDouble(item.Value);
+                        }
+                        if (updateFiled.PropertyType == typeof(decimal) || updateFiled.PropertyType == typeof(Nullable<decimal>))
+                        {
+                            itemValue = Convert.ToDecimal(item.Value);
+                        }
                         if (updateFiled.PropertyType == typeof(Boolean) || updateFiled.PropertyType == typeof(Nullable<Boolean>))
                         {
                             itemValue = Convert.ToBoolean(item.Value);
