@@ -28,7 +28,7 @@ namespace ASample.NetCore.EntityFramwork
         public virtual Task<PagedResult<TEntity>> QueryPagedAsync<TQuery>(Expression<Func<TEntity, bool>> predicate, TQuery query) where TQuery : PagedQueryBase
         {
             var result = GetAll().Where(predicate);
-            return result.PaginateAsync();
+            return result.PaginateAsync(query);
         }
 
         public virtual async Task<PagedResult<TEntity>> QueryPagedAsync(int pageNum, int pageSize

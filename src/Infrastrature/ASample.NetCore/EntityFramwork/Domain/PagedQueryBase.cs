@@ -3,8 +3,8 @@ namespace ASample.NetCore.EntityFramwork.Domain
 {
     public abstract class PagedQueryBase : IPagedQuery
     {
-        public int Page { get; set; }
-        public int Results { get; set; }
+        public int PageSize { get; set; } 
+        public int PageNum { get; set; }
         public string OrderBy { get; set; }
         public string SortOrder { get; set; }
     }

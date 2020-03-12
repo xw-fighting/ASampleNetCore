@@ -125,6 +125,18 @@ namespace ASample.NetCore.Extension
                     var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Guid)));
                     lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
                 }
+                else if (property.PropertyType.BaseType == typeof(Enum))
+                {
+                    var value = Enum.Parse(property.PropertyType,propertyValue);
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Enum)));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+                }
+                else if (property.PropertyType == typeof(Boolean) || property.PropertyType == typeof(Nullable<Boolean>))
+                {
+                    var value = Boolean.Parse(propertyValue);
+                    var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(value, typeof(Boolean)));
+                    lambda = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+                }
                 else
                 {
                     var body = Expression.Call(source, methodName, Type.EmptyTypes, Expression.Constant(propertyValue, type));

@@ -22,7 +22,7 @@ namespace ASample.NetCore.Common
         public int PageSize { get; set; } = 10;
 
         [JsonProperty("totalPage")]
-        public long TotalPage => (Total / PageSize);
+        public long TotalPage => (Total / (PageSize == 0?10: PageSize));
 
         public override string ToString()
         {

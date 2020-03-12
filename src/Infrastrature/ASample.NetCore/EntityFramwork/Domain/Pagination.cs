@@ -7,10 +7,10 @@ namespace ASample.NetCore.EntityFramwork.Domain
     public static class Pagination
     {
         public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable, PagedQueryBase query)
-            => await queryable.PaginateAsync(query.Page);
+            => await queryable.PaginateAsync(query.PageNum, query.PageSize);
 
-        public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable)
-            => await queryable.PaginateAsync();
+        //public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable)
+        //    => await queryable.PaginateAsync();
 
         public static async Task<PagedResult<T>> PaginateAsync<T>(this IQueryable<T> queryable,
             int page = 1, int resultsPerPage = 10)
@@ -36,7 +36,7 @@ namespace ASample.NetCore.EntityFramwork.Domain
         }
 
         public static IQueryable<T> Limit<T>(this IQueryable<T> collection, PagedQueryBase query)
-            => collection.Limit(query.Page, query.Results);
+            => collection.Limit(query.PageSize, query.PageNum);
 
         public static IQueryable<T> Limit<T>(this IQueryable<T> collection,
             int page = 1, int resultsPerPage = 10)
