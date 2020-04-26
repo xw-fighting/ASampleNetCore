@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 
 namespace ASample.NetCore.Pinyin4Net.Test
@@ -26,7 +27,7 @@ namespace ASample.NetCore.Pinyin4Net.Test
             foreach (var item in hanzi)
             {
                 var t = chineseToPinyinConverter.GetHanyuPinyinStringArray(item);
-                Console.WriteLine(t);
+                Console.WriteLine(JsonConvert.SerializeObject(t));
             }
         }
 
