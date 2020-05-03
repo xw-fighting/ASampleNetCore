@@ -5,6 +5,8 @@ using System;
 using System.Linq;
 using MongoDB.Driver.Linq;
 using MongoDB.Bson;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ASample.NetCore.MongoDb.Repository
 {
@@ -74,6 +76,21 @@ namespace ASample.NetCore.MongoDb.Repository
         public override void Delete(Guid id)
         {
             Collection.DeleteOne(e => e.Id == id);
+        }
+
+        public override Task MultipleInsert(List<TEntity> entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task MultipleUpdate(List<TEntity> entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task PhysicalDelete(TEntity entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

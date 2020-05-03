@@ -1,6 +1,4 @@
-﻿using ASample.NetCore.Configuration;
-using ASample.NetCore.Http;
-using ASample.NetCore.Serialize;
+﻿using ASample.NetCore.Http;
 using ASample.NetCore.WeChat.WeChatPay;
 using Microsoft.Extensions.Options;
 using System;

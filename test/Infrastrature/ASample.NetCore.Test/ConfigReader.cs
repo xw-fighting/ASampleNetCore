@@ -1,4 +1,3 @@
-using ASample.NetCore.Configuration;
 using ASample.NetCore.Test.Model.ConfigReaders;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

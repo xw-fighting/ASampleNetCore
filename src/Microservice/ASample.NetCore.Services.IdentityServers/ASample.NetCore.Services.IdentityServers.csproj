@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="IdentityModel" Version="3.10.10" />
     <PackageReference Include="IdentityServer4" Version="2.5.2" />
     <PackageReference Include="IdentityServer4.Contrib.MongoDB" Version="2.3.3" />
