@@ -3,7 +3,7 @@ using System.Reflection;
 using ASample.NetCore.Authentications;
 using ASample.NetCore.Consul;
 using ASample.NetCore.Dispatchers;
-using ASample.NetCore.Jaggers;
+using ASample.NetCore.Jaeger;
 using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;

@@ -52,7 +52,7 @@ namespace ASample.NetCore.FileStorage
             //    //Log.Error(ex, "Saving failed: FileSaverService -> SaveFile");
             //    return ApiRequestResult.Error(ex.Message);
             //}
-            return null;
+            return await Task.FromResult<ApiRequestResult>(null);
         }
 
         public async Task<ApiRequestResult> DeleteFile(string filePath)
