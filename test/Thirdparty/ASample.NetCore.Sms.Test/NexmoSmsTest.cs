@@ -11,16 +11,31 @@ namespace ASample.NetCore.Sms.Test
     public class NexmoSmsTest
     {
         [TestMethod]
-        public void NexmoSmsSendTest()
+        public void NexmoSmsSendMsgTest()
         {
             var smsParam = new SmsParam
             {
-                FromUser = "18079605966",
-                ToUser = "18079652704",
-                Message = "hello"
+                FromUser = "Vonage APIs",
+                ToUser = "8618079652704",//8618879628727
+                Message = "你好,玩游戏吗？上云顶棋牌，优惠等着你",
             };
 
             var result =  NexmoServices.SendMsgAsync(smsParam).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(result));
+        }
+
+
+        [TestMethod]
+        public void NexmoSmsSendUnicodeMsgTest()
+        {
+            var smsParam = new SmsParam
+            {
+                FromUser = "Vonage APIs",
+                ToUser = "8618770642594",//8618879628727
+                Message = "你好，欢迎来到云顶qi pai",
+            };
+
+            var result = NexmoServices.SendUnicodeMsgAsync(smsParam).GetAwaiter().GetResult();
             Console.WriteLine(JsonConvert.SerializeObject(result));
         }
     }
