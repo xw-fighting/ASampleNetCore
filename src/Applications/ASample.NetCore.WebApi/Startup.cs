@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using ASample.NetCore.Dispatchers;
-using ASample.NetCore.Jaeger;
+using ASample.NetCore.Jaggers;
 using ASample.NetCore.NonRelationalDb;
 using ASample.NetCore.RabbitMq;
 using ASample.NetCore.Redis;

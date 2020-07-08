@@ -2,10 +2,6 @@
 using ASample.NetCore.Domain.RabbitMq;
 using ASample.NetCore.Extension;
 using ASample.NetCore.Handlers;
-using ASample.NetCore.Jaeger;
-using ASample.NetCore.RabbitMq.Options;
-using ASample.NetCore.RabbitMq.Publisher;
-using ASample.NetCore.RabbitMq.Subscriber;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +17,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using ASample.NetCore.Jaeger;
 
 namespace ASample.NetCore.RabbitMq
 {
@@ -94,16 +91,25 @@ namespace ASample.NetCore.RabbitMq
             builder.Register(context => context.Resolve<IInstanceFactory>().Create());
         }
 
-        private class CustomNamingConventions : NamingConventions
+        private sealed class CustomNamingConventions : NamingConventions
         {
             public CustomNamingConventions(string defaultNamespace)
             {
-                var assemblyName = Assembly.GetEntryAssembly().GetName().Name;
-                ExchangeNamingConvention = type => GetNamespace(type, defaultNamespace).ToLowerInvariant();
+                var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name;
+                ExchangeNamingConvention = type =>
+                {
+                    return GetNamespace(type, defaultNamespace).ToLowerInvariant();
+                };
                 RoutingKeyConvention = type =>
-                    $"{GetRoutingKeyNamespace(type, defaultNamespace)}{type.Name.Underscore()}".ToLowerInvariant();
+                {
+                    return $"{GetRoutingKeyNamespace(type, defaultNamespace)}{type.Name.Underscore()}"
+                            .ToLowerInvariant();
+                };
                 QueueNamingConvention = type => GetQueueName(assemblyName, type, defaultNamespace);
-                ErrorExchangeNamingConvention = () => $"{defaultNamespace}.error";
+                ErrorExchangeNamingConvention = () =>
+                {
+                    return $"{defaultNamespace}.error";
+                };
                 RetryLaterExchangeConvention = span => $"{defaultNamespace}.retry";
                 RetryLaterQueueNameConvetion = (exchange, span) =>
                     $"{defaultNamespace}.retry_for_{exchange.Replace(".", "_")}_in_{span.TotalMilliseconds}_ms".ToLowerInvariant();
@@ -148,6 +154,7 @@ namespace ASample.NetCore.RabbitMq
                 await Next.InvokeAsync(context, token);
             }
         }
+
 
         private static IClientBuilder UpdateRetryInfo(this IClientBuilder clientBuilder)
         {

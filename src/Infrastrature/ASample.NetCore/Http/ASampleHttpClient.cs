@@ -3,7 +3,6 @@ using ASample.NetCore.Serialize;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -45,7 +44,7 @@ namespace ASample.NetCore.Http
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
             var resultStr = await response.Content.ReadAsStringAsync();
-            TOutResult result = new TOutResult();
+            var result = new TOutResult();
             switch (deserializeType)
             {
                 case DeserializeType.JsonDeserialize:
@@ -55,8 +54,10 @@ namespace ASample.NetCore.Http
                     var xmlSerialize = new XmlSerialize();
                     result = xmlSerialize.Deserialize<TOutResult>(resultStr);
                     break;
-                default:
+                case DeserializeType.Default:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(deserializeType), deserializeType, null);
             }
             return result;
         }
@@ -118,7 +119,7 @@ namespace ASample.NetCore.Http
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
             var resultStr = await response.Content.ReadAsStringAsync();
-            TOutResult result = new TOutResult();
+            var result = new TOutResult();
             switch (deserializeType)
             {
                 case DeserializeType.JsonDeserialize:
@@ -128,8 +129,10 @@ namespace ASample.NetCore.Http
                     var xmlSerialize = new XmlSerialize();
                     result = xmlSerialize.Deserialize<TOutResult>(resultStr);
                     break;
-                default:
+                case DeserializeType.Default:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(deserializeType), deserializeType, null);
             }
             return result;
         }
