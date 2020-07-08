@@ -29,5 +29,11 @@ namespace ASample.NetCore.Excel.Test
             var list = ExcelServices.ExcelToList<ImportTestModel>(dic, fileUrl, out errorMsg);
             Console.WriteLine(JsonConvert.SerializeObject(list));
         }
+
+        [Test]
+        public void ExportData()
+        {
+
+        }
     }
 }
