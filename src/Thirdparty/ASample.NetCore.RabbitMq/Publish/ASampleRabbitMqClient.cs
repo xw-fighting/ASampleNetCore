@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ASample.NetCore.Extension;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -13,11 +15,11 @@ namespace ASample.NetCore.RabbitMq.Publish
         public IOptions<RabbitMqOption> _Options { get; }
         public RabbitMqOption Options { get; }
 
-        public ASampleRabbitMqClient(IConnection connection,IOptions<RabbitMqOption> options)
+        public ASampleRabbitMqClient(IConnection connection,IConfiguration configuration)// 
         {
             this.Connection = connection;
-            this._Options = options;
-            Options = options.Value;
+            //this._Options = configuration.GetSection("rabbitma").Bind(new RabbitMqOption());
+            Options = configuration.GetOptions<RabbitMqOption>("rabbitmq");
         }
         public void Publish()
         {
@@ -43,14 +45,14 @@ namespace ASample.NetCore.RabbitMq.Publish
             var body = Encoding.UTF8.GetBytes(message);
 
             channel.BasicPublish(exchange: Options.Exchange,
-                routingKey: Options.RoutingKey,
-                basicProperties: Options.BasicProperties,
+                routingKey: "",
+                basicProperties: null,
                 body: body);
         }
 
         public void Receive(Action<string> action)
         {
-            var channel = Connection.CreateModel();
+            using var channel = Connection.CreateModel();
             channel.QueueDeclare(Options.QueueName,
                 durable: Options.Durable,
                 exclusive: Options.Exclusive,

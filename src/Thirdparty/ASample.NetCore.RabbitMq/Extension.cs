@@ -7,6 +7,7 @@ using ASample.NetCore.Extension;
 using ASample.NetCore.RabbitMq.Publish;
 using RabbitMQ.Client;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ASample.NetCore.RabbitMq
 {
@@ -40,15 +41,14 @@ namespace ASample.NetCore.RabbitMq
 
             }).SingleInstance();
 
-            builder.RegisterType<ASampleRabbitMqClient>()
-                .As<IASampleRabbitMqClient>()
-                .InstancePerLifetimeScope();
+            //builder.RegisterType<ASampleRabbitMqClient>()
+            //    .As<IASampleRabbitMqClient>()
+            //    .InstancePerLifetimeScope();
 
         }
 
-        public static IServiceCollection AddASampleHttpClient(this IServiceCollection services)
+        public static IServiceCollection AddARabbitMqClient(this IServiceCollection services)
         {
-            services.AddHttpClient();
             services.AddSingleton<IASampleRabbitMqClient, ASampleRabbitMqClient>();
             return services;
         }
