@@ -2,7 +2,7 @@
 using System.Reflection;
 using ASample.NetCore.Consul;
 using ASample.NetCore.Dispatchers;
-using ASample.NetCore.Jaggers;
+using ASample.NetCore.Jaeger;
 using ASample.NetCore.MailKit;
 using ASample.NetCore.Mvc;
 using ASample.NetCore.RabbitMq;
@@ -15,7 +15,6 @@ using Autofac.Extensions.DependencyInjection;
 using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

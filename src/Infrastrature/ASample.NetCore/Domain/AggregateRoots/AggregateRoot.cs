@@ -2,16 +2,15 @@
 
 namespace ASample.NetCore.Domain
 {
-    public abstract  class AggregateRoot: AggregateRoot<Guid>,IAggregateRoot
+    public abstract class AggregateRoot: AggregateRoot<Guid>,IAggregateRoot
     {
-        /// <summary>
-        /// 赋值
-        /// </summary>
-        public AggregateRoot()
-        {
-            Id = Guid.NewGuid();
-            CreateTime = DateTime.Now;
-        }
+        public AggregateRoot() => Id = Guid.NewGuid();
+
+        protected virtual void SetUpdatedDate()
+            => ModifyTime = DateTime.Now;
+
+        protected virtual void SetDeleteDate()
+            => DeleteTime = DateTime.Now;
     }
         
     public abstract class AggregateRoot<TKey> : IPrimaryKey<TKey>, IAggregateRoot<TKey>
@@ -42,5 +41,4 @@ namespace ASample.NetCore.Domain
         /// </summary>
         public virtual DateTime? ModifyTime { get; set; }
     }
-
 }
