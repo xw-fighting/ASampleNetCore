@@ -48,6 +48,7 @@ namespace ASample.NetCore.RabbitMq.Publish
                 routingKey: "",
                 basicProperties: null,
                 body: body);
+            
         }
 
         public void Receive(Action<string> action)
