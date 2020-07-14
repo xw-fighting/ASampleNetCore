@@ -17,7 +17,7 @@ namespace ASample.NetCore.RabbitMq
         /// </summary>
         public string QueueName { get; set; }
 
-        public string VirtualHost { get; set; }
+        public string VirtualHost { get; set; } = "/";
 
         public string UserName { get; set; }
 

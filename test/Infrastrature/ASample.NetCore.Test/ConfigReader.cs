@@ -30,5 +30,7 @@ namespace ASample.NetCore.Test
             var result = ConfigurationReader.GetValue("test:name");
             Assert.IsNotNull(result);
         }
+
+        
     }
 }
