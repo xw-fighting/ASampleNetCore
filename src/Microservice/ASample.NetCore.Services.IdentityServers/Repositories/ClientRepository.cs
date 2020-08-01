@@ -1,23 +1,27 @@
-﻿using ASample.NetCore.NonRelationalDb;
+﻿using ASample.NetCore.EntityFramwork;
+using ASample.NetCore.RelationalDb;
 using ASample.NetCore.Services.IdentityServers.Domain;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ASample.NetCore.Services.IdentityServers.Repositories
 {
-    public class ClientRepository :Repository<ASampleMongoDbContext,Clients>, IClientRepository ,IClientStore
+    public class ClientRepository :Repository<ASampleSqlServerDbContext, ClientsEntity>, IClientRepository ,IClientStore
     {
-        public ClientRepository(ASampleMongoDbContext aSampleMongoDbContext):base(aSampleMongoDbContext)
+        public ClientRepository(IUnitOfWork<ASampleSqlServerDbContext> unitOfWork) : base(unitOfWork)
         {
-
+            ClientSet = unitOfWork.GetDbContext().Set<ClientsEntity>();
         }
-        public Task<Client> FindClientByIdAsync(string clientId)
+
+        public DbSet<ClientsEntity> ClientSet { get; set; }
+        public async Task<Client> FindClientByIdAsync(string clientId)
         {
-            throw new NotImplementedException();
+            var client = await ClientSet.FirstOrDefaultAsync(c => c.ClientId == clientId);
+            var result = JsonConvert.DeserializeObject<Client>(client.ClientData);
+            return result;
         }
     }
 }

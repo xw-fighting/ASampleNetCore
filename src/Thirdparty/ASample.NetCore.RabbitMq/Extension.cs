@@ -41,9 +41,9 @@ namespace ASample.NetCore.RabbitMq
 
             }).SingleInstance();
 
-            //builder.RegisterType<ASampleRabbitMqClient>()
-            //    .As<IASampleRabbitMqClient>()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<ASampleRabbitMqClient>()
+                .As<IASampleRabbitMqClient>()
+                .InstancePerLifetimeScope();
 
         }
 

@@ -1,16 +1,14 @@
-﻿using System.Threading.Tasks;
-using ASample.NetCore.NonRelationalDb;
+﻿using ASample.NetCore.EntityFramwork;
+using ASample.NetCore.RelationalDb;
 using ASample.NetCore.Services.IdentityServers.Domain;
 
 namespace ASample.NetCore.Services.IdentityServers.Repositories
 {
-    public class UserRepository : Repository<ASampleMongoDbContext,User>, IUserRepository
+    public class UserRepository : Repository<ASampleSqlServerDbContext, User>, IUserRepository
     {
-        private readonly ASampleMongoDbContext _aSampleMongoDbContext;
-
-        public UserRepository(ASampleMongoDbContext aSampleMongoDbContext):base(aSampleMongoDbContext)
+        public UserRepository(IUnitOfWork<ASampleSqlServerDbContext> unitOfWork) :base(unitOfWork)
         {
-            _aSampleMongoDbContext = aSampleMongoDbContext;
+            
         }
     }
 }

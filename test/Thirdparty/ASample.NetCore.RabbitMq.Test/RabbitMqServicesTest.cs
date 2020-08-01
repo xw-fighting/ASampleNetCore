@@ -14,6 +14,8 @@ namespace ASample.NetCore.RabbitMq.Test
         public RabbitMqServicesTest()
         {
             StartupTest.InitStartup("rabbitmq");
+            var client = StartupTest.Container.Resolve<IASampleRabbitMqClient>();
+            client.Subscribe(ReceiveMessage);
         }
 
         [TestMethod]
@@ -34,6 +36,20 @@ namespace ASample.NetCore.RabbitMq.Test
         {
             Console.WriteLine(msg);
             Trace.WriteLine(msg);
+        }
+
+        [TestMethod]
+        public void Publish()
+        {
+            var client = StartupTest.Container.Resolve<IASampleRabbitMqClient>();
+            client.Publish("你好");
+        }
+
+        [TestMethod]
+        public void Subscrible(string msg)
+        {
+            var client = StartupTest.Container.Resolve<IASampleRabbitMqClient>();
+            client.Subscribe(ReceiveMessage);
         }
     }
 }

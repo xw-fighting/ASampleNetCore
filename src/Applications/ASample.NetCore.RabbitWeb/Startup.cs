@@ -33,7 +33,7 @@ namespace ASample.NetCore.RabbitWeb
         {
             services.AddControllers();
             services.AddOptions();
-            services.AddARabbitMqClient();
+            //services.AddARabbitMqClient();
 
         }
 
