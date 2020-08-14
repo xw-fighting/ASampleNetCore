@@ -93,5 +93,43 @@ namespace ASample.NetCore.xUnitTest
             
             var result = dp[n];
         }
+
+        [Fact]
+        public bool IsValid()
+        {
+            string s = "([])";
+            var sLength = s.Length;
+            if (sLength == 1)
+                return false;
+            for (var i = 0; i < sLength; i++)
+            {
+                if (s[i] == '}' || s[i] == ']' || s[i] == ')')
+                    return false;
+
+                for (var j = i; j < sLength; j++)
+                {
+                    if (s[i] == '(' && s[j] == ')')
+                    {
+                        i = j;
+                        break;
+                    }
+
+                    else if (s[i] == '{' && s[j] == '}')
+                    {
+                        i = j;
+                        break;
+                    }
+                    else if (s[i] == '[' && s[j] == ']')
+                    {
+                        i = j;
+                        break;
+                    }
+                    else if(j == sLength-1)
+                        return false;
+                    continue;
+                }
+            }
+            return true;
+        }
     }
 }
