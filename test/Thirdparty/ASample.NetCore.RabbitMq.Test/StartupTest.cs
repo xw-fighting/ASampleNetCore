@@ -27,10 +27,10 @@ namespace ASample.NetCore.RabbitMq.Test
             
             var configuration = config.Build();
             var services = new ServiceCollection();
-            services.AddOptions<RabbitMqOption>();  //注入IOptions<T>，这样就可以在DI容器中获取IOptions<T>了
+            //services.AddOptions<RabbitMqOption>();  //注入IOptions<T>，这样就可以在DI容器中获取IOptions<T>了
 
             //services.Configure<RabbitMqOption>(configuration.GetSection(rabbitMq)); //注入配置数据
-            services.Configure<RabbitMqOption>(configuration.GetSection(rabbitMq));
+            //services.Configure<RabbitMqOption>(configuration.GetSection(rabbitMq));
             services.AddSingleton<IConfiguration>(configuration);
             //services.AddSingleton<IUnitOfWork<ASampleSqlServerDbContext>, UnitOfWork<ASampleSqlServerDbContext>>();
             services.BuildServiceProvider();

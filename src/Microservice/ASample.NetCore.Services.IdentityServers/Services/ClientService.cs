@@ -1,24 +1,21 @@
 ﻿using IdentityServer4.Models;
-using IdentityServer4.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using ASample.NetCore.Services.IdentityServers.Repositories;
 
 namespace ASample.NetCore.Services.IdentityServers.Services
 {
     public class ClientService:IClientService
     {
-        private readonly IClientStore _clientStore;
+        private readonly IClientRepository _clientRepository;
 
-        public ClientService(IClientStore clientStore)
+        public ClientService(IClientRepository clientRepository)
         {
-            _clientStore = clientStore;
+            _clientRepository = clientRepository;
         }
 
         public async Task<Client> GetClientAsync(string clientId)
         {
-            var client = await _clientStore.FindClientByIdAsync(clientId);
+            var client = await _clientRepository.FindClientByIdAsync(clientId);
             return client;
         }
     }
