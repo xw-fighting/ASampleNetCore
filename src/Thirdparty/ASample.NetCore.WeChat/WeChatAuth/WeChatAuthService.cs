@@ -1,31 +1,31 @@
 ﻿using ASample.NetCore.Http;
 using ASample.NetCore.WeChat.WeChatAuth;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Runtime.Caching;
 using System.Threading.Tasks;
+using ASample.NetCore.Redis;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace ASample.NetCore.WeChat
 {
     public class WeChatAuthService: IWeChatAuthService
     {
-        private readonly MemoryCache _cache;
         private readonly string _wechatKey = "wechat_accesstoken";
         private readonly WechatOptions _wechatOption;
-        private readonly IASampleHttpClient _aSampleHttpClient;
+        private readonly IASampleHttpClient _aSampleHttpClient; 
+        private readonly IASampleRedisCache _aSampleRedisCache;
 
-        public WeChatAuthService(IOptions<WechatOptions> options,IASampleHttpClient aSampleHttpClient)
+        public WeChatAuthService(IOptions<WechatOptions> options,IASampleHttpClient aSampleHttpClient, IASampleRedisCache aSampleRedisCache)
         {
             _wechatOption = options.Value;
             _aSampleHttpClient = aSampleHttpClient;
-            _cache = MemoryCache.Default;
+            _aSampleRedisCache = aSampleRedisCache;
+            //_cache = MemoryCache.Default;
         }
 
         /// <summary>
         /// 获取用户基本信息
         /// </summary>
-        /// <param name="accessToken"></param>
         /// <returns></returns>
         public async Task<HttpRequestResult> GetBasicInfoAsync(string openId)
         {
@@ -44,18 +44,14 @@ namespace ASample.NetCore.WeChat
         /// <returns></returns>
         public async Task<HttpRequestResult> GetAccessTokenAsync()
         {
-            var accessToken = _cache.Get(_wechatKey) as string;
+            var accessToken = await _aSampleRedisCache.GetStringAsync(_wechatKey);
             if (!string.IsNullOrWhiteSpace(accessToken))
                 return HttpRequestResult.Success(accessToken, "");
             var result = await RequestAccessTokenAsync();
-            _cache.Remove(_wechatKey);
             if (string.IsNullOrWhiteSpace(result.AccessToken))
                 return HttpRequestResult.Error("AccessToken is null");
-            _cache.Add(new CacheItem(_wechatKey, result.AccessToken),
-                new CacheItemPolicy()
-                {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(result.ExpireTime - 10)
-                }); //在过期时间(秒) 减去10秒，冗余
+            await _aSampleRedisCache.SetStringAsync(_wechatKey, result.AccessToken,120);
+                
             return HttpRequestResult.Success(result.AccessToken, "");
         }
         
@@ -123,11 +119,6 @@ namespace ASample.NetCore.WeChat
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={wxAppId}&secret={wxSecert}";
             var result = await _aSampleHttpClient.PostAsync<AccessTokenResult>(url, null,DeserializeType.JsonDeserialize);
             return result;
-        }
-
-        public void Dispose()
-        {
-            _cache?.Dispose();
         }
     }
 }

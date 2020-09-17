@@ -10,8 +10,9 @@ namespace ASample.NetCore.Pinyin4Net.Test
         [TestMethod]
         public void ToHanyuPinyinStringArrayTest()
         {
-            var hanzi = "测试";
-            var str = PinyinHelper.ToHanyuPinyinString(hanzi);
+            var hanzi = "缪可欣";
+            var str = PinyinServices.ToHanyuPinyinString(hanzi);
+
             Console.WriteLine(str);
         }
 
@@ -19,7 +20,7 @@ namespace ASample.NetCore.Pinyin4Net.Test
         public void HanyuToRomanizationStringTest()
         {
             var hanzi = "测试";
-            var str = PinyinHelper.HanyuToRomanizationString(hanzi,PinyinRomanizationType.TONGYONG_PINYIN);
+            var str = PinyinServices.HanyuToRomanizationString(hanzi,PinyinRomanizationType.TONGYONG_PINYIN);
             Console.WriteLine(str);
         }
 
@@ -27,7 +28,7 @@ namespace ASample.NetCore.Pinyin4Net.Test
         public void HanyuToGwoyeuRomatzyhStringTest()
         {
             var hanzi = "测试";
-            var str = PinyinHelper.HanyuToGwoyeuRomatzyhString(hanzi);
+            var str = PinyinServices.HanyuToGwoyeuRomatzyhString(hanzi);
             Console.WriteLine(str);
         }
     }

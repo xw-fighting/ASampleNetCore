@@ -1,18 +1,16 @@
 ﻿using ASample.NetCore.Log.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace ASample.NetCore.Log
 {
     public class FileLogServices
     {
-        private static readonly string filebasepath = AppDomain.CurrentDomain.BaseDirectory + "Logs\\";
+        private static readonly string Filebasepath = AppDomain.CurrentDomain.BaseDirectory + "Logs\\";
 
         public static void WriteFileLog(LogParam logParam)
         {
-            if (logParam is object)
+            if (logParam != null)
             {
                 if (string.IsNullOrEmpty(logParam.LogFileName))
                 {
@@ -30,7 +28,7 @@ namespace ASample.NetCore.Log
             try
             {
                 var todayRecordPath = GetTodayRecordPath();
-                var path = string.Empty;
+                string path;
                 info = "\r\n \r\n " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss :") + info;
                 if (string.IsNullOrEmpty(filefix))
                 {
@@ -56,6 +54,7 @@ namespace ASample.NetCore.Log
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -64,7 +63,7 @@ namespace ASample.NetCore.Log
             try
             {
                 var todayRecordPath = GetTodayRecordPath();
-                var path = string.Empty;
+                string path;
                 info = "\r\n \r\n " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss :") + info;
                 path = todayRecordPath + "\\" + "log" + ".txt";
                 if (!Directory.Exists(todayRecordPath))
@@ -83,25 +82,23 @@ namespace ASample.NetCore.Log
             }
             catch
             {
+                // ignored
             }
         }
 
         private static string GetCurrentMonthRecordPath()
         {
-            string text;
-            if (!Directory.Exists(filebasepath + DateTime.Now.Year.ToString()))
+            if (!Directory.Exists(Filebasepath + DateTime.Now.Year))
             {
-                Directory.CreateDirectory(FileLogServices.filebasepath + DateTime.Now.Year.ToString());
-                text = DateTime.Now.Year.ToString() + "\\";
+                Directory.CreateDirectory(Filebasepath + DateTime.Now.Year);
             }
-            if (!Directory.Exists(filebasepath + DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month.ToString()))
+            if (!Directory.Exists(Filebasepath + DateTime.Now.Year + "/" + DateTime.Now.Month))
             {
-                Directory.CreateDirectory(filebasepath + DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month.ToString());
-                text = DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString() + "\\";
+                Directory.CreateDirectory(Filebasepath + DateTime.Now.Year + "/" + DateTime.Now.Month);
             }
             if (!Directory.Exists(string.Concat(new string[]
             {
-                filebasepath,
+                Filebasepath,
                 DateTime.Now.Year.ToString(),
                 "/",
                 DateTime.Now.Month.ToString(),
@@ -111,26 +108,17 @@ namespace ASample.NetCore.Log
             {
                 Directory.CreateDirectory(string.Concat(new string[]
                 {
-                    filebasepath,
+                    Filebasepath,
                     DateTime.Now.Year.ToString(),
                     "/",
                     DateTime.Now.Month.ToString(),
                     "/",
                     DateTime.Now.ToString("dd")
                 }));
-                text = string.Concat(new string[]
-                {
-                    DateTime.Now.Year.ToString(),
-                    "\\",
-                    DateTime.Now.Month.ToString(),
-                    "\\",
-                    DateTime.Now.ToString("dd"),
-                    "/"
-                });
             }
             return string.Concat(new string[]
             {
-                filebasepath,
+                Filebasepath,
                 DateTime.Now.Year.ToString(),
                 "\\",
                 DateTime.Now.Month.ToString(),
@@ -140,20 +128,18 @@ namespace ASample.NetCore.Log
 
         private static string GetTodayRecordPath()
         {
-            if (!Directory.Exists(FileLogServices.filebasepath + DateTime.Now.Year.ToString()))
+            if (!Directory.Exists(Filebasepath + DateTime.Now.Year.ToString()))
             {
-                Directory.CreateDirectory(FileLogServices.filebasepath + DateTime.Now.Year.ToString());
-                _ = DateTime.Now.Year.ToString() + "\\";
+                Directory.CreateDirectory(Filebasepath + DateTime.Now.Year.ToString());
             }
-            string text;
-            if (!Directory.Exists(filebasepath + DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month.ToString()))
+
+            if (!Directory.Exists(Filebasepath + DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month.ToString()))
             {
-                Directory.CreateDirectory(FileLogServices.filebasepath + DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month.ToString());
-                text = DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString() + "\\";
+                Directory.CreateDirectory(Filebasepath + DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month.ToString());
             }
             if (!Directory.Exists(string.Concat(new string[]
             {
-                filebasepath,
+                Filebasepath,
                 DateTime.Now.Year.ToString(),
                 "/",
                 DateTime.Now.Month.ToString(),
@@ -163,26 +149,17 @@ namespace ASample.NetCore.Log
             {
                 Directory.CreateDirectory(string.Concat(new string[]
                 {
-                    filebasepath,
+                    Filebasepath,
                     DateTime.Now.Year.ToString(),
                     "/",
                     DateTime.Now.Month.ToString(),
                     "/",
                     DateTime.Now.ToString("dd")
                 }));
-                text = string.Concat(new string[]
-                {
-                    DateTime.Now.Year.ToString(),
-                    "\\",
-                    DateTime.Now.Month.ToString(),
-                    "\\",
-                    DateTime.Now.ToString("dd"),
-                    "/"
-                });
             }
             return string.Concat(new string[]
             {
-                filebasepath,
+                Filebasepath,
                 DateTime.Now.Year.ToString(),
                 "\\",
                 DateTime.Now.Month.ToString(),

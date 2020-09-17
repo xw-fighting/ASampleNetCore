@@ -1,10 +1,4 @@
-using ASample.NetCore.Startup;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net.Http;
 
 namespace ASample.NetCore.WeChat.Test
 {

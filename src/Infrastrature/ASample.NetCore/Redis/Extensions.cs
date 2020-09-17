@@ -1,21 +1,16 @@
 ﻿using ASample.NetCore.Extension;
 using Autofac;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using StackExchange.Redis;
-using System.Threading.Tasks;
 
 namespace ASample.NetCore.Redis
 {
     public static class Extensions
     {
         private static readonly string SectionName = "redis";
-
-        private static IDistributedCache _cache;
 
         public static IServiceCollection AddRedis(this IServiceCollection services)
         {
@@ -39,7 +34,7 @@ namespace ASample.NetCore.Redis
 
         public static void AddCustomerRedis(this ContainerBuilder builder)
         {
-            IOptions<RedisCacheOptions> redisCacheOption = null;
+            IOptions<RedisCacheOptions> redisCacheOption;
             builder.Register(context =>
             {
                 var configuration = context.Resolve<IConfiguration>();

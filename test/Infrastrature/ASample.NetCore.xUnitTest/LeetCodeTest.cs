@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Elasticsearch.Net;
 using Xunit;
 
 namespace ASample.NetCore.xUnitTest

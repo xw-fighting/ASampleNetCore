@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -24,6 +20,10 @@
 
   <ItemGroup>
     <Folder Include="Model\WeChatEvents\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Infrastrature\ASample.NetCore\ASample.NetCore.csproj" />
   </ItemGroup>
 
 </Project>

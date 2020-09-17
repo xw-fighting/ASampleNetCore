@@ -10,6 +10,7 @@ namespace ASample.NetCore.Redis
         Task SetHashAsync(string key, string name, string value);
         Task<string> GetHashAsync(string key, string value);
         Task<List<HashSetDto>> GetHashAllAsync(string key);
+        Task<bool> SetStringAsync(string key, string name, int expiration);
 
     }
 }
