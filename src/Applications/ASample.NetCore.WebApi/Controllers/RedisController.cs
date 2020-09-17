@@ -78,5 +78,13 @@ namespace ASample.NetCore.WebApi.Controllers
             //return result.ToList();
         }
 
+        [HttpPost("setstring")]
+        public async Task SetStringAsync()
+        {
+            await _cache.SetStringAsync("key", "123213",1);
+            //var result = await _dispatcher.QueryAsync(query);
+            //return result.ToList();
+        }
+
     }
 }
