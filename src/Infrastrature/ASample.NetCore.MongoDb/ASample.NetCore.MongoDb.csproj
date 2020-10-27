@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="mongocsharpdriver" Version="2.9.0-beta1" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -61,5 +61,8 @@ namespace ASample.NetCore.Logging
                 loggerConfiguration.WriteTo.Console();
             }
         }
+
+
+
     }
 }
