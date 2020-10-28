@@ -60,17 +60,15 @@ namespace ASample.NetCore.MongoDb
             => model.Bind<T, object>(expression, value);
 
         public static T BindId<T>(this T model, Expression<Func<T, Guid>> expression)
-            => model.Bind<T, Guid>(expression, Guid.NewGuid());
+            => model.Bind(expression, Guid.NewGuid());
 
         private static TModel Bind<TModel, TProperty>(this TModel model, Expression<Func<TModel, TProperty>> expression,
             object value)
         {
-            var memberExpression = expression.Body as MemberExpression;
-            if (memberExpression == null)
-            {
-                memberExpression = ((UnaryExpression)expression.Body).Operand as MemberExpression;
-            }
+            var memberExpression = expression.Body as MemberExpression ?? ((UnaryExpression)expression.Body).Operand as MemberExpression;
 
+            if (memberExpression == null) 
+                return model;
             var propertyName = memberExpression.Member.Name.ToLowerInvariant();
             var modelType = model.GetType();
             var field = modelType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)
@@ -86,7 +84,7 @@ namespace ASample.NetCore.MongoDb
         }
 
 
-        public static Guid ToCSUUid(this Guid guid)
+        public static Guid ToCsuUid(this Guid guid)
         {
             BsonDefaults.GuidRepresentation = GuidRepresentation.PythonLegacy;
             var luuid = new Guid(guid.ToString());

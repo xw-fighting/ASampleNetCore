@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ASample.NetCore.Ftps.Options;
@@ -68,7 +67,7 @@ namespace ASample.NetCore.Ftps
                 }
                 catch (Exception er)
                 {
-                    Console.WriteLine("An exception has been caught " + er.ToString());
+                    Console.WriteLine("An exception has been caught " + er);
                 }
             }
         }

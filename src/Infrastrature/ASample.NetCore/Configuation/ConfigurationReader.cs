@@ -33,16 +33,16 @@ namespace ASample.NetCore
             directory = directory.Replace("\\", "/");
 
             //在当前目录或者根目录中寻找appsettings.json文件
-            var filePath = $"{directory}/{jsonFileNameAndExtension}";
+            var filePath = $"{directory}{jsonFileNameAndExtension}";
             if (!File.Exists(filePath))
             {
-                var length = directory.IndexOf("/bin");
+                var length = directory.IndexOf("/bin", StringComparison.Ordinal);
                 filePath = $"{directory.Substring(0, length)}/{jsonFileNameAndExtension}";
             }
 
             var builder = new ConfigurationBuilder()
                 .AddJsonFile(filePath, false, true);
-            var configuration = configBuilder.Build();
+            var configuration = builder.Build();
             return configuration;
         }
 
@@ -81,18 +81,8 @@ namespace ASample.NetCore
 
         public static string GetValue(string key)
         {
-            try
-            {
-                var config = Configuration.GetSection(key);
-                if (config != null)
-                    return config.Value;
-                else
-                    return string.Empty;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var config = Configuration.GetSection(key);
+            return config != null ? config.Value : string.Empty;
         }
 
 
@@ -116,8 +106,7 @@ namespace ASample.NetCore
         {
             return list.GetOrAdd(typeof(T), key =>
             {
-                string filePath;
-                var content = ReadFileText(typeof(T).Name, out filePath);
+                var content = ReadFileText(typeof(T).Name, out _);
                 var result = deserializer.Deserialize<T>(content);
                 //StartMonitor<T>(filePath);
                 return result;
@@ -126,8 +115,7 @@ namespace ASample.NetCore
 
         public static string Read<T>()
         {
-            var filePath = string.Empty;
-            var content = ReadFileText(typeof(T).Name, out filePath);
+            var content = ReadFileText(typeof(T).Name, out _);
             return content;
         }
 
@@ -138,8 +126,7 @@ namespace ASample.NetCore
         /// <returns></returns>
         public static string Read(string fileName)
         {
-            var filePath = string.Empty;
-            var content = ReadFileText(fileName, out filePath);
+            var content = ReadFileText(fileName, out _);
             return content;
         }
 

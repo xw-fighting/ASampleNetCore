@@ -1,13 +1,9 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ASample.NetCore.Extension;
 using ASample.NetCore.RabbitMq.Publish;
 using RabbitMQ.Client;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace ASample.NetCore.RabbitMq
 {
@@ -44,7 +40,6 @@ namespace ASample.NetCore.RabbitMq
             builder.RegisterType<ASampleRabbitMqClient>()
                 .As<IASampleRabbitMqClient>()
                 .InstancePerLifetimeScope();
-
         }
 
         public static IServiceCollection AddARabbitMqClient(this IServiceCollection services)

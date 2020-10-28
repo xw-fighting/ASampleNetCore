@@ -105,7 +105,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.NuGetSite",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Ftps", "src\Thirdparty\ASample.NetCore.Ftps\ASample.NetCore.Ftps\ASample.NetCore.Ftps.csproj", "{FF941FC8-588E-4E31-ACEA-6646202D858B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.Serilogs", "src\Infrastrature\ASample.NetCore.Serilogs\ASample.NetCore.Serilogs.csproj", "{86E009C6-A0BF-44D7-A697-B0438DEE145E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.NetCore.Serilogs", "src\Infrastrature\ASample.NetCore.Serilogs\ASample.NetCore.Serilogs.csproj", "{86E009C6-A0BF-44D7-A697-B0438DEE145E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.NetCore.SerialPortLib", "src\Applications\ASample.NetCore.SerialPortLib\ASample.NetCore.SerialPortLib.csproj", "{C81241AA-020F-4D6D-AB4F-B89A3D7D6120}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -285,6 +287,10 @@ Global
 		{86E009C6-A0BF-44D7-A697-B0438DEE145E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86E009C6-A0BF-44D7-A697-B0438DEE145E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E009C6-A0BF-44D7-A697-B0438DEE145E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81241AA-020F-4D6D-AB4F-B89A3D7D6120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81241AA-020F-4D6D-AB4F-B89A3D7D6120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81241AA-020F-4D6D-AB4F-B89A3D7D6120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81241AA-020F-4D6D-AB4F-B89A3D7D6120}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -339,6 +345,7 @@ Global
 		{28D8206F-566E-41F5-8CB3-050532EC2405} = {AD05BB09-3859-42CC-9B22-F3875FC1219F}
 		{FF941FC8-588E-4E31-ACEA-6646202D858B} = {28D78B61-F2FB-43ED-8955-961F5D2D2E78}
 		{86E009C6-A0BF-44D7-A697-B0438DEE145E} = {8E62343C-A66F-48EF-903E-E303E0C519B1}
+		{C81241AA-020F-4D6D-AB4F-B89A3D7D6120} = {AD05BB09-3859-42CC-9B22-F3875FC1219F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3C1D5E7-3D29-43DF-AEB9-6241110E2A0B}
