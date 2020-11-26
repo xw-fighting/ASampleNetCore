@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
+using Serilog;
 
 namespace ASample.NetCore.SerialPortLib
 {
@@ -14,11 +15,12 @@ namespace ASample.NetCore.SerialPortLib
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) 
         {
             var port = ConfigurationReader.GetValue("HangfirePort");
-            return WebHost.CreateDefaultBuilder(args).UseKestrel(opt => {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
+                .UseKestrel(opt => {
                     opt.ListenLocalhost(Convert.ToInt32(port));
                 })
                 .UseStartup<Startup>();
         }
-            
     }
 }
