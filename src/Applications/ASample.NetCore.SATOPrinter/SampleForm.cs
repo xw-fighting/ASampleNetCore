@@ -87,7 +87,6 @@ namespace SampleCode
                 else
                 {
                     SetInterface();
-                    //SATOPrinter.TestPrint();
                     SATOPrinter.Send(cmddata);
                 }
             }
@@ -452,7 +451,7 @@ namespace SampleCode
                         SATOPrinter.TCPIPPort = txtPort.Text;
                         break;
                     case 1: //COM
-                        SATOPrinter.Interface = Printer.InterfaceType.COM;;
+                        SATOPrinter.Interface = Printer.InterfaceType.COM;
                         if (cbUSBPorts.SelectedItem != null)
                             SATOPrinter.COMPort = ((KeyValuePair<string, string>)cbUSBPorts.SelectedItem).Key;
                         break;

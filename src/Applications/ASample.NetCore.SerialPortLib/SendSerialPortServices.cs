@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
+using SATOPrinterAPI;
 
 namespace ASample.NetCore.SerialPortLib
 {
     public class SendSerialPortServices
     {
         static SerialPort _serialPort;
-        string strEsc = ((char)27).ToString();
-        string stx = "0x02";
-        string etx = "0x03";
 
         public void Wirte(string content)
         {
@@ -47,22 +45,22 @@ namespace ASample.NetCore.SerialPortLib
                 Console.WriteLine(content);
                 //var byteContent = Encoding.UTF8.GetBytes(content);
 
-                var sb = new StringBuilder();
-                sb.AppendLine();
-                sb.AppendLine("<STX>");
-                sb.AppendLine(content);
-                sb.AppendLine("<ETX>");
-                var output = sb.ToString().Replace("<ESC>", "\x1B");
-                output = output.Replace("<STX>", "\u0002");
-                output = output.Replace("<ETX>", "\u0003");
+                
 
                 var buffer = new List<byte>();
                 //byte[] tmp = { 10 }; //这里的10是厂家说明书里的命令 16进制是0x0A,10进制是10，表示打印并换行
 
-                var data = StringToByteArray(output);
-                _serialPort.Write(data, 0, data.Length);
-                
-                _serialPort.Close();
+                var data = StringToByteArray('\u0002' + content + '\u0003');
+                Printer SATOPrinter = new Printer();
+                SATOPrinter.Interface = Printer.InterfaceType.COM;
+                SATOPrinter.COMPort = "COM1";
+                //_serialPort.Write(data, 0, data.Length);
+                SATOPrinter.Send(data);
+
+
+                //_serialPort.Close();
+                //Printer SATOPrinter = new Printer();
+                //SATOPrinter.Send(data);
             }
             catch (Exception ex)
             {
@@ -71,13 +69,15 @@ namespace ASample.NetCore.SerialPortLib
             }
         }
 
-        public static byte[] StringToByteArray(string Data, string encoding = "ansi")
+        public static byte[] StringToByteArray(string data, string encoding = "ansi")
         {
             if (encoding == null)
-                return Encoding.Default.GetBytes(Data);
-            string lower = encoding.ToLower();
-            return lower == "ascii" ? Encoding.ASCII.GetBytes(Data) : (lower == "utf7" ? Encoding.UTF7.GetBytes(Data) : (lower == "utf8" ? Encoding.UTF8.GetBytes(Data) : (lower == "ansi" ? Encoding.Default.GetBytes(Data) : (lower == "utf16" ? Encoding.Unicode.GetBytes(Data) : (lower == "utf32" ? Encoding.UTF32.GetBytes(Data) : Encoding.Default.GetBytes(Data))))));
+                return Encoding.Default.GetBytes(data);
+            var lower = encoding.ToLower();
+            return lower == "ascii" ? Encoding.ASCII.GetBytes(data) : (lower == "utf7" ? Encoding.UTF7.GetBytes(data) : (lower == "utf8" ? Encoding.UTF8.GetBytes(data) : (lower == "ansi" ? Encoding.Default.GetBytes(data) : (lower == "utf16" ? Encoding.Unicode.GetBytes(data) : (lower == "utf32" ? Encoding.UTF32.GetBytes(data) : Encoding.Default.GetBytes(data))))));
         }
+
+
         /// <summary>
         /// 字符串转16进制字节数组
         /// </summary>
