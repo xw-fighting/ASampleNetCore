@@ -74,9 +74,9 @@ namespace ASample.NetCore.TTS.XFTTS
                 memoryStream.Position = 0L;
                 memoryStream.Write(array2, 0, array2.Length);
                 memoryStream.Position = 0L;
-                var soundPlayer = new SoundPlayer(memoryStream);
-                soundPlayer.Stop();
-                soundPlayer.Play();
+                //var soundPlayer = new SoundPlayer(memoryStream);
+                //soundPlayer.Stop();
+                //soundPlayer.Play();
 
                 var fileStream = new FileStream(filename, FileMode.Create);
                 memoryStream.WriteTo(fileStream);

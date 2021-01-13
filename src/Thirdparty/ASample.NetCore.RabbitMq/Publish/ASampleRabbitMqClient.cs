@@ -35,7 +35,7 @@ namespace ASample.NetCore.RabbitMq.Publish
 
             using var channel = Connection.CreateModel();
 
-            channel.ExchangeDeclare(exchange: Options.Exchange, type: exchangeType);
+            channel.ExchangeDeclare(exchange: Options.Exchange, type: Options.ExchangeType ?? exchangeType);
 
             var body = Encoding.UTF8.GetBytes(message);
             channel.BasicPublish(exchange: Options.Exchange,
@@ -52,7 +52,7 @@ namespace ASample.NetCore.RabbitMq.Publish
         public void Subscribe(Action<string> handler, string exchangeType = ExchangeType.Fanout)
         {
             var channel = Connection.CreateModel();
-            channel.ExchangeDeclare(exchange: Options.Exchange, type: exchangeType);
+            channel.ExchangeDeclare(exchange: Options.Exchange, type: Options.ExchangeType ?? exchangeType);
 
             var queueName = channel.QueueDeclare(Options.QueueName).QueueName;
             channel.QueueBind(queue: queueName,
@@ -118,8 +118,5 @@ namespace ASample.NetCore.RabbitMq.Publish
                 autoAck: true,
                 consumer: consumer);
         }
-
-
-
     }
 }

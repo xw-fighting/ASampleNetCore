@@ -1,5 +1,4 @@
 using System;
-using ASample.NetCore.TTS.XFTTS;
 using Xunit;
 
 namespace ASample.NetCore.ThidParty.Test
@@ -9,9 +8,9 @@ namespace ASample.NetCore.ThidParty.Test
         [Fact]
         public void TextToSpeechTest()
         {
-            var txt = "";
-            var xfTtsServices = new XfTtsServices();
-            xfTtsServices.TextToSpeech(txt);
+            //var txt = "";
+            //var xfTtsServices = new XfTtsServices();
+            //xfTtsServices.TextToSpeech(txt);
         }
     }
 }

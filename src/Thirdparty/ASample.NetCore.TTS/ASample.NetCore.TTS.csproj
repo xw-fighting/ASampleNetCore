@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="msc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

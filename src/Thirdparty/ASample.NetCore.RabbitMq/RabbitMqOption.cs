@@ -47,6 +47,8 @@ namespace ASample.NetCore.RabbitMq
         /// </summary>
         public string Exchange { get; set; }
 
+        public string ExchangeType { get; set; }
+
         /// <summary>
         /// 路由键
         /// </summary>
