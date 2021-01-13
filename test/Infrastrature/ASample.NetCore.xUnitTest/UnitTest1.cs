@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -52,8 +54,10 @@ namespace ASample.NetCore.xUnitTest
             }
         }
 
-        public void NumIdenticalPairs(int[] nums)
+        [Fact]
+        public void NumIdenticalPairs()
         {
+            int[] nums = new int[5];
             var totalIdenticalPairs = 0;
             for (var  i = 0; i < nums.Length; i++)
             {
@@ -152,5 +156,62 @@ namespace ASample.NetCore.xUnitTest
                 }
             }
         }
+
+        [Fact]
+        public void AsyncTest()
+        {
+            Trace.WriteLine(ThreadID() + " =》主线程启动");//1
+            MethodAsync();//调用异步方法
+            Trace.WriteLine(ThreadID() + " =》主线程继续执行");//4
+            Trace.WriteLine(ThreadID() + " =》主线程结束 END");//5
+
+            Console.Read();
+        }
+
+        private async void MethodAsync()
+        {
+            Trace.WriteLine(ThreadID() + " =》MethodAsync方法开始执行");//2
+            string str = await DoSomething();//等待GetString执行完成 
+            Trace.WriteLine(ThreadID() + " =》MethodAsync方法执行结束");//7
+        }
+        private Task<string> DoSomething()
+        {
+            Trace.WriteLine(ThreadID() + " =》DoSomething方法开始执行");//3
+            return Task<string>.Run(() =>
+            {
+                Thread.Sleep(4000);//导步线程  处理耗时任务 
+                Trace.WriteLine(ThreadID() + " =》DoSomething方法结束执行");//6
+                return "GetString的返回值";
+            });
+        }
+        private string ThreadID()
+        {
+            return Thread.CurrentThread.ManagedThreadId.ToString();
+        }
+
+
+
+        [Fact]
+        public void Test()
+        {
+            Trace.WriteLine(ThreadID() + " =》主线程启动");//1
+            Method();//调用异步方法
+            Trace.WriteLine(ThreadID() + " =》主线程继续执行");//5
+            Trace.WriteLine(ThreadID() + " =》主线程结束 END");//6
+
+            Console.Read();
+        }
+
+        private  void Method()
+        {
+            Trace.WriteLine(ThreadID() + " =》MethodAsync方法开始执行");//2
+            DoSomething2();//等待GetString执行完成 
+            Trace.WriteLine(ThreadID() + " =》MethodAsync方法执行结束");//4
+        }
+        private void DoSomething2()
+        {
+            Trace.WriteLine(ThreadID() + " =》DoSomething方法结束执行");//3
+        }
+
     }
 }
