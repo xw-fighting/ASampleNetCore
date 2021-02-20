@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using ASample.NetCore.Dispatchers;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Redis;

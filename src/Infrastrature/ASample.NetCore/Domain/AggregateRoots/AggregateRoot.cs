@@ -4,7 +4,7 @@ namespace ASample.NetCore.Domain
 {
     public abstract class AggregateRoot: AggregateRoot<Guid>,IAggregateRoot
     {
-        public AggregateRoot() => Id = Guid.NewGuid();
+        public override Guid Id { get; set; } = Guid.NewGuid();
 
         protected virtual void SetUpdatedDate()
             => ModifyTime = DateTime.Now;
